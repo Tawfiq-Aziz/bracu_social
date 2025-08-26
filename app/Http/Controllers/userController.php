@@ -19,6 +19,22 @@ class userController extends Controller
         $incomingFields['password'] = bcrypt($incomingFields['password']);
         User::create($incomingFields);
 
-        return 'HELLO FROM OUR CONTROLLER';
+        return redirect('/login');
+    }
+
+    public function login(Request $request){
+        $incomingFields = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required']
+        ]);
+
+        if (auth()->attempt($incomingFields)) {
+            $request->session()->regenerate();
+            return redirect('/dashboard');
+        }
+
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ]);
     }
 }

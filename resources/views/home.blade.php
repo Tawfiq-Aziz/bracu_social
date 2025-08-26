@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="C:\Program Files\php\bracu_social\resources\css\app.css">
-    <title>Document</title>
+    <title>SIGN Up</title>
 </head>
 <style>
     body {
@@ -65,6 +65,25 @@ h1, h2 {
     background: #005bb5;
 }
 
+.login-link {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.login-link p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.login-link a {
+    color: #0073e6;
+    text-decoration: none;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
+
 </style>
 <body>
     <h1>BRACU SOCIAL</h1>
@@ -74,10 +93,15 @@ h1, h2 {
         <input type="text" name="name" placeholder="Name" required>
         <input type="email" name="email" placeholder="Email" required>
         <input type="text" name="department" placeholder="Department" required>
+        
         <input type="text" name="student_id" placeholder="Student ID" required>
         <input type="password" name="password" placeholder="Password" required>
 
         <button type="submit">Register</button>
     </form>
+    
+    <div class="login-link">
+        <p>Already have an account? <a href="/login">Login here</a></p>
+    </div>
 </body>
 </html>
