@@ -47,4 +47,8 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function userPosts() {
+        return $this->hasMany(Post::class, 'user_id'); 
+    // First argument is the class youre trying to build rltinship with
+    } //2nd argument is the one that spells out rltnship or what piece of data is powering this rltnship
 }

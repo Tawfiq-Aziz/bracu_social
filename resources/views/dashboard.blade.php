@@ -84,7 +84,6 @@
 
     <div class="dashboard-content">
         <h2>Dashboard</h2>
-        <p>You have successfully logged in to your BRACU Social account.</p>
         
         <div class="user-info">
             <p><strong>Name:</strong> {{ auth()->user()->name }}</p>
@@ -93,7 +92,7 @@
             <p><strong>Student ID:</strong> {{ auth()->user()->student_id }}</p>
         </div>
 
-        <div class="new_posts">
+        <div class="new_posts" style="border: 3px solid rgb(58, 51, 51)">
             <h2>Create a new post</h2>
             <form action="/create-post" method="post">
                 @csrf
@@ -102,8 +101,19 @@
                 <button>Save Post</button>
             </form>
         </div>
-        
-        <p>This is your personal dashboard where you can manage your profile and interact with other BRACU students.</p>
+
+        <div class="display_posts" style="border: 3px solid rgb(58, 51, 51)">
+            <h2>All Posts</h2>
+            @foreach ($posts as $post)
+            <div class="each-post" style= "background-color: #0073e6; padding: 10px; margin: 10px;">
+                <h3>{{$post['title']}}</h3>
+                {{$post['body']}}
+            </div>
+            @endforeach
+        </div>
+
     </div>
+
+    
 </body>
 </html>
