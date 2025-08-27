@@ -92,6 +92,16 @@
             <p><strong>Department:</strong> {{ auth()->user()->department }}</p>
             <p><strong>Student ID:</strong> {{ auth()->user()->student_id }}</p>
         </div>
+
+        <div class="new_posts">
+            <h2>Create a new post</h2>
+            <form action="/create-post" method="post">
+                @csrf
+                <input type="text" name="title" placeholder="Post Title" required>
+                <textarea name="body" placeholder="body content...."></textarea>
+                <button>Save Post</button>
+            </form>
+        </div>
         
         <p>This is your personal dashboard where you can manage your profile and interact with other BRACU students.</p>
     </div>
