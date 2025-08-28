@@ -80,11 +80,6 @@
         gap: 30px;
     }
 
-    .logo {
-        font-size: 18px;
-        font-weight: 700;
-        color: #2d3748;
-    }
 
     .nav-links {
         display: flex;
@@ -379,43 +374,7 @@
         color: #1a1a1a;
     }
 
-    /* Responsive Design */
-    @media (max-width: 1024px) {
-        .container {
-            grid-template-columns: 1fr;
-            gap: 20px;
-        }
-        
-        .sidebar {
-            position: static;
-            order: -1;
-        }
-    }
-
-    @media (max-width: 768px) {
-        .container {
-            padding: 15px;
-        }
-        
-        .header {
-            flex-direction: column;
-            gap: 15px;
-            text-align: center;
-            padding: 20px;
-        }
-        
-        .welcome {
-            font-size: 24px;
-        }
-        
-        .create-post-section, .user-card {
-            padding: 20px;
-        }
-        
-        .post-content {
-            padding: 20px;
-        }
-    }
+ 
 </style>
 <body>
     <div class="container">
@@ -440,7 +399,7 @@
                 <h2>Create a new post</h2>
                 <form action="/create-post" method="post" class="create-post-form">
                     @csrf
-                    <input type="text" name="title" placeholder="What's on your mind?" required>
+                    <input type="text" name="title" placeholder="Post Title" required>
                     <textarea name="body" placeholder="Share your thoughts..."></textarea>
                     <button type="submit">Post</button>
                 </form>
