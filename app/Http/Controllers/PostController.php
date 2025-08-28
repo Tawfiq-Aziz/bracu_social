@@ -7,6 +7,16 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
+
+    public function deletePost(Post $post) {
+        if (auth()->user()->id != $post['user_id']) {
+            return redirect('/dashboard');
+        }
+        $post->delete();
+        return redirect('/dashboard');
+    }
+
+
     public function updatePost(Post $post, Request $request) {
         //first argu gives us post we want to update, 2nd gives incoming form data
         if (auth()->user()->id != $post['user_id']) {
