@@ -15,7 +15,7 @@
 
     body {
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        background: #c2cfe4;
+        background: #b9d1ca;
         color: #1a1a1a;
         line-height: 1.6;
         min-height: 100vh;
@@ -180,8 +180,8 @@
     }
 
     .create-post-form button {
-        background: #0073e6;
-        color: #fff;
+        background: #1d1f20;
+        color: #ff6b35;
         border: none;
         padding: 16px 32px;
         border-radius: 12px;
@@ -194,7 +194,7 @@
     }
 
     .create-post-form button:hover {
-        background: #005bb5;
+        background: #276eb4;
         transform: translateY(-1px);
         box-shadow: 0 4px 12px rgba(0, 115, 230, 0.3);
     }
@@ -285,6 +285,53 @@
         overflow-wrap: break-word;
         white-space: pre-wrap;
         max-width: 100%;
+    }
+
+    /* Post Action Buttons */
+    .post-actions {
+        display: flex;
+        gap: 12px;
+        padding: 16px 24px;
+        border-top: 1px solid #f1f3f4;
+        background: #fafbfc;
+    }
+
+    .edit-btn a {
+        background: #202224;
+        color: #ff6b35;
+        text-decoration: none;
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        display: inline-block;
+    }
+
+    .edit-btn a:hover {
+        background: #005bb5;
+        transform: translateY(-1px);
+    }
+
+    .del-post {
+        margin: 0;
+    }
+
+    .del-post button {
+        background: #a16bc5;
+        color: #fff;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .del-post button:hover {
+        background: #721c88;
+        transform: translateY(-1px);
     }
 
     /* Sidebar User Info */
@@ -415,14 +462,16 @@
                         <h3 class="post-title">{{$post->title}}</h3>
                         <div class="post-body">{{$post->body}}</div>
                     </div>
-                    <div class="edit-btn">
-                        <p><a href="/edit-post/{{$post->id}}">Edit</a></p>
+                    <div class="post-actions">
+                        <div class="edit-btn">
+                            <a href="/edit-post/{{$post->id}}">Edit</a>
+                        </div>
+                        <form action="/delete-post/{{$post->id}}" method="post" class="del-post">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit">Delete</button>
+                        </form>
                     </div>
-                    <form action="/delete-post/{{$post->id}}" method="post" class="del-post">
-                        @csrf
-                        @method('DELETE')
-                        <button>Delete</button>
-                    </form>
                 </div>
                 @endforeach
             </div>
