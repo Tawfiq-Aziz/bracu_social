@@ -24,7 +24,8 @@ Route::post('/login', [userController::class, 'login']);
 
 Route::get('/dashboard', function () {
     if (auth()->check()) {
-        $posts = Post::all(); // to show all posts from the db
+        $posts = Post::with('user')->orderBy('created_at', 'desc')->get(); 
+        // to show all posts from the db with user info, sorted by date
         return view('dashboard',['posts' => $posts]);
     }
     return redirect('/login');
@@ -39,3 +40,5 @@ Route::get('/logout', function () {
 
 //Blog post route
 Route::post('/create-post',[PostController::class, 'creatPost']);
+Route::get('/edit-post/{post}', [PostController::class, 'showEditScreen']);
+Route::put('/edit-post/{post}', [PostController::class, 'updatePost']);
