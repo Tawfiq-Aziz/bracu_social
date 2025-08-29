@@ -175,6 +175,12 @@
         box-shadow: 0 0 0 3px rgba(0, 115, 230, 0.1);
     }
 
+    .post-buttons {
+        display: flex;
+        gap: 12px;
+        align-self: flex-start;
+    }
+
     .create-post-form button {
         background: #1d1f20;
         color: #ff6b35;
@@ -185,7 +191,6 @@
         font-weight: 600;
         cursor: pointer;
         transition: all 0.2s ease;
-        align-self: flex-start;
         box-shadow: 0 2px 8px rgba(0, 115, 230, 0.2);
     }
 
@@ -193,6 +198,17 @@
         background: #276eb4;
         transform: translateY(-1px);
         box-shadow: 0 4px 12px rgba(0, 115, 230, 0.3);
+    }
+
+    .anonymous-btn {
+        background: #6c757d !important;
+        color: white !important;
+    }
+
+    .anonymous-btn:hover {
+        background: #5a6268 !important;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3) !important;
     }
 
     /* Posts Feed */
@@ -515,6 +531,94 @@
         color: #1a1a1a;
     }
 
+    /* Image Upload Styles */
+    .image-upload-section {
+        margin: 16px 0;
+    }
+
+    .image-upload-label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 16px;
+        border: 2px dashed #e8ecf0;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        background: #fafbfc;
+        font-size: 14px;
+        font-weight: 500;
+        color: #4a5568;
+    }
+
+    .image-upload-label:hover {
+        border-color: #0073e6;
+        background: #f0f8ff;
+        color: #0073e6;
+    }
+
+    .upload-icon {
+        font-size: 18px;
+    }
+
+    .image-input {
+        display: none;
+    }
+
+    .image-preview {
+        margin-top: 12px;
+        position: relative;
+        display: inline-block;
+    }
+
+    .image-preview img {
+        max-width: 200px;
+        max-height: 200px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .remove-image-btn {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background: #dc3545;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+    }
+
+    .remove-image-btn:hover {
+        background: #c82333;
+        transform: scale(1.1);
+    }
+
+    /* Post Image Styles */
+    .post-image {
+        margin: 16px 0;
+        text-align: center;
+    }
+
+    .post-image-content {
+        max-width: 100%;
+        max-height: 400px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        transition: transform 0.2s ease;
+    }
+
+    .post-image-content:hover {
+        transform: scale(1.02);
+    }
+
  
 </style>
 <body>
@@ -539,11 +643,25 @@
             <!-- Create Post Section -->
             <div class="create-post-section">
                 <h2>Create a new post</h2>
-                <form action="/create-post" method="post" class="create-post-form">
+                <form action="/create-post" method="post" class="create-post-form" enctype="multipart/form-data">
                     @csrf
                     <input type="text" name="title" placeholder="Post Title" required>
                     <textarea name="body" placeholder="Share your thoughts..."></textarea>
-                    <button type="submit">Post</button>
+                    <div class="image-upload-section">
+                        <label for="image" class="image-upload-label">
+                            <span class="upload-icon">📷</span>
+                            <span class="upload-text">Upload Image (Optional)</span>
+                        </label>
+                        <input type="file" name="image" id="image" accept="image/*" class="image-input">
+                        <div class="image-preview" id="image-preview" style="display: none;">
+                            <img id="preview-img" src="" alt="Preview">
+                            <button type="button" class="remove-image-btn" onclick="removeImage()">Remove</button>
+                        </div>
+                    </div>
+                    <div class="post-buttons">
+                        <button type="submit">Post</button>
+                        <button type="submit" name="anonymous" value="1" class="anonymous-btn">Post Anonymously</button>
+                    </div>
                 </form>
             </div>
 
@@ -557,10 +675,15 @@
                 <div class="post-card" data-post-id="{{$post->id}}">
                     <div class="post-content">
                         <div class="post-header">
-                            <div class="post-author">{{$post->user->name}}</div>
+                            <div class="post-author">{{$post->author_name}}</div>
                             <div class="post-time">{{$post->created_at->format('M j, Y \a\t g:i A')}}</div>
                         </div>
                         <h3 class="post-title">{{$post->title}}</h3>
+                        @if($post->image)
+                        <div class="post-image">
+                            <img src="{{ asset($post->image) }}" alt="Post Image" class="post-image-content">
+                        </div>
+                        @endif
                         <div class="post-body">{{$post->body}}</div>
                     </div>
                     
@@ -657,6 +780,25 @@
             } else {
                 commentSection.style.display = 'none';
             }
+        }
+
+        // Image upload preview functionality
+        document.getElementById('image').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('preview-img').src = e.target.result;
+                    document.getElementById('image-preview').style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function removeImage() {
+            document.getElementById('image').value = '';
+            document.getElementById('image-preview').style.display = 'none';
+            document.getElementById('preview-img').src = '';
         }
     </script>
 </body>

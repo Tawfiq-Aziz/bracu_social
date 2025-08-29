@@ -46,10 +46,12 @@ Route::get('/edit-post/{post}', [PostController::class, 'showEditScreen']);
 Route::put('/edit-post/{post}', [PostController::class, 'updatePost']);
 Route::delete('/delete-post/{post}', [PostController::class, 'deletePost']);
 
+// User profile route
 Route::get('/profile', function (App\Models\User $user) {
     $posts = Post::where('user_id', auth()->id())->orderBy('created_at', 'desc')->get();
     return view('profile', ['user' => $user, 'posts' => $posts]);
 });
+
 
 // Interaction routes
 Route::post('/posts/{post}/like', [InteractionController::class, 'toggleLike']);

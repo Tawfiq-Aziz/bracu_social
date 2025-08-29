@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     use HasFactory;
-    protected $fillable = ['title','body','user_id'];
+    protected $fillable = ['title','body','user_id','image','anonymous'];
 
     public function user() {
         return $this->belongsTo(User::class, 'user_id');
@@ -47,5 +47,10 @@ class Post extends Model
     public function isDislikedBy($userId)
     {
         return $this->likes()->where('user_id', $userId)->where('type', 'dislike')->exists();
+    }
+
+    public function getAuthorNameAttribute()
+    {
+        return $this->anonymous ? 'Anonymous' : $this->user->name;
     }
 }
