@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Dashboard - BRACU Social</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
@@ -291,6 +292,146 @@
         background: #fafbfc;
     }
 
+    .interaction-buttons {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 12px;
+    }
+
+    .interaction-btn {
+        background: #f8f9fa;
+        border: 1px solid #e9ecef;
+        padding: 8px 12px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .interaction-btn:hover {
+        background: #e9ecef;
+        transform: translateY(-1px);
+    }
+
+    .interaction-btn.active {
+        background: #0073e6;
+        color: white;
+        border-color: #0073e6;
+    }
+
+    .interaction-btn.dislike.active {
+        background: #dc3545;
+        border-color: #dc3545;
+    }
+
+    .interaction-count {
+        font-size: 12px;
+        color: #6c757d;
+        margin-left: 4px;
+    }
+
+    .comment-section {
+        margin-top: 12px;
+        padding-top: 12px;
+        border-top: 1px solid #e9ecef;
+    }
+
+    .comment-form {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 12px;
+    }
+
+    .comment-input {
+        flex: 1;
+        padding: 8px 12px;
+        border: 1px solid #e9ecef;
+        border-radius: 8px;
+        font-size: 14px;
+        resize: none;
+        min-height: 36px;
+        max-height: 100px;
+    }
+
+    .comment-input:focus {
+        outline: none;
+        border-color: #0073e6;
+        box-shadow: 0 0 0 2px rgba(0, 115, 230, 0.1);
+    }
+
+    .comment-btn {
+        background: #0073e6;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+    }
+
+    .comment-btn:hover {
+        background: #0056b3;
+    }
+
+    .comments-list {
+        max-height: 200px;
+        overflow-y: auto;
+    }
+
+    .comment-item {
+        padding: 8px 0;
+        border-bottom: 1px solid #f1f3f4;
+    }
+
+    .comment-item:last-child {
+        border-bottom: none;
+    }
+
+    .comment-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 4px;
+    }
+
+    .comment-author {
+        font-size: 12px;
+        font-weight: 600;
+        color: #0073e6;
+    }
+
+    .comment-time {
+        font-size: 11px;
+        color: #6c757d;
+    }
+
+    .comment-text {
+        font-size: 14px;
+        color: #495057;
+        line-height: 1.4;
+    }
+
+    .show-comments-btn {
+        background: none;
+        border: none;
+        color: #0073e6;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        padding: 4px 0;
+        transition: color 0.2s ease;
+    }
+
+    .show-comments-btn:hover {
+        color: #0056b3;
+    }
+
     .edit-btn a {
         background: #202224;
         color: #ff6b35;
@@ -386,6 +527,7 @@
                 <div class="nav-bar">
                     <div class="nav-left">
                         <div class="nav-links">
+                            <a href="/profile" class="nav-link">Profile</a>
                             <a href="#" class="nav-link">Exchange</a>
                             <a href="#" class="nav-link">Lost&Found</a>
                         </div>
@@ -412,7 +554,7 @@
                 </div>
                 
                 @foreach ($posts as $post)
-                <div class="post-card">
+                <div class="post-card" data-post-id="{{$post->id}}">
                     <div class="post-content">
                         <div class="post-header">
                             <div class="post-author">{{$post->user->name}}</div>
@@ -421,15 +563,61 @@
                         <h3 class="post-title">{{$post->title}}</h3>
                         <div class="post-body">{{$post->body}}</div>
                     </div>
+                    
+                    <!-- Interaction Buttons -->
                     <div class="post-actions">
-                        <div class="edit-btn">
-                            <a href="/edit-post/{{$post->id}}">Edit</a>
+                        <div class="interaction-buttons">
+                            <form action="/posts/{{$post->id}}/like" method="POST" style="display: inline;">
+                                @csrf
+                                <button type="submit" class="interaction-btn like-btn {{$post->isLikedBy(auth()->id()) ? 'active' : ''}}">
+                                    👍 <span class="interaction-count">{{$post->likesCount()}}</span>
+                                </button>
+                            </form>
+                            <form action="/posts/{{$post->id}}/dislike" method="POST" style="display: inline;">
+                                @csrf
+                                <button type="submit" class="interaction-btn dislike-btn {{$post->isDislikedBy(auth()->id()) ? 'active' : ''}}">
+                                    👎 <span class="interaction-count">{{$post->dislikesCount()}}</span>
+                                </button>
+                            </form>
+                            <button class="interaction-btn comment-toggle-btn" onclick="toggleComments({{$post->id}})">
+                                💬 <span class="interaction-count">{{$post->commentsCount()}}</span>
+                            </button>
                         </div>
-                        <form action="/delete-post/{{$post->id}}" method="post" class="del-post">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit">Delete</button>
-                        </form>
+
+                        <!-- Comment Section -->
+                        <div class="comment-section" id="comment-section-{{$post->id}}" style="display: none;">
+                            <form action="/posts/{{$post->id}}/comment" method="POST" class="comment-form">
+                                @csrf
+                                <textarea name="comment" class="comment-input" placeholder="Write a comment..." required></textarea>
+                                <button type="submit" class="comment-btn">Comment</button>
+                            </form>
+                            <div class="comments-list" id="comments-list-{{$post->id}}">
+                                @foreach($post->comments->sortByDesc('created_at') as $comment)
+                                <div class="comment-item">
+                                    <div class="comment-header">
+                                        <span class="comment-author">{{$comment->user->name}}</span>
+                                        <span class="comment-time">{{$comment->created_at->format('M j, Y \a\t g:i A')}}</span>
+                                    </div>
+                                    <div class="comment-text">{{$comment->comment}}</div>
+                                </div>
+                                @endforeach
+                                @if($post->comments->count() == 0)
+                                <p style="color: #6c757d; font-size: 14px; text-align: center; padding: 20px;">No comments yet</p>
+                                @endif
+                            </div>
+                        </div>
+
+                        <!-- Edit/Delete Actions -->
+                        <div style="display: flex; gap: 12px; margin-top: 12px;">
+                            <div class="edit-btn">
+                                <a href="/edit-post/{{$post->id}}">Edit</a>
+                            </div>
+                            <form action="/delete-post/{{$post->id}}" method="post" class="del-post">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit">Delete</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
                 @endforeach
@@ -459,5 +647,17 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function toggleComments(postId) {
+            const commentSection = document.getElementById(`comment-section-${postId}`);
+            
+            if (commentSection.style.display === 'none') {
+                commentSection.style.display = 'block';
+            } else {
+                commentSection.style.display = 'none';
+            }
+        }
+    </script>
 </body>
 </html>
