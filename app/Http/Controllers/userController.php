@@ -37,4 +37,27 @@ class userController extends Controller
             'email' => 'The provided credentials do not match our records.',
         ]);
     }
+
+    public function searchUsers(Request $request){
+        $query = $request->get('query');
+        
+        if (empty($query)) {
+            return response()->json([]);
+        }
+
+        $users = User::where('name', 'LIKE', "%{$query}%")
+                    ->where('id', '!=', auth()->id()) // Exclude current user
+                    ->select('id', 'name', 'department', 'student_id')
+                    ->limit(10)
+                    ->get();
+
+        return response()->json($users);
+    }
+
+    public function showUserProfile($userId){
+        $user = User::findOrFail($userId);
+        $posts = $user->userPosts()->orderBy('created_at', 'desc')->get();
+        
+        return view('user-profile', ['user' => $user, 'posts' => $posts]);
+    }
 }

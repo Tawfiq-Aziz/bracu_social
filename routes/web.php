@@ -52,6 +52,10 @@ Route::get('/profile', function (App\Models\User $user) {
     return view('profile', ['user' => $user, 'posts' => $posts]);
 });
 
+// Search and user profile routes
+Route::get('/search-users', [userController::class, 'searchUsers']);
+Route::get('/user/{userId}', [userController::class, 'showUserProfile']);
+
 
 // Interaction routes
 Route::post('/posts/{post}/like', [InteractionController::class, 'toggleLike']);
