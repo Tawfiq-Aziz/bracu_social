@@ -56,7 +56,7 @@ class userController extends Controller
 
     public function showUserProfile($userId){
         $user = User::findOrFail($userId);
-        $posts = $user->userPosts()->orderBy('created_at', 'desc')->get();
+        $posts = $user->userPosts()->with(['user', 'likes', 'comments.user', 'poll.options'])->orderBy('created_at', 'desc')->get();
         
         return view('user-profile', ['user' => $user, 'posts' => $posts]);
     }

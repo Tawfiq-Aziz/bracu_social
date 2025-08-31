@@ -191,12 +191,12 @@
             
             <div class="form-group">
                 <label for="title">Post Title</label>
-                <input type="text" name="title" id="title" value="{{$post->title}}" required>
+                <input type="text" name="title" id="title" value="{{$post->title}}" {{ $post->poll && !$post->title ? '' : 'required' }}>
             </div>
             
             <div class="form-group">
                 <label for="body">Post Content</label>
-                <textarea name="body" id="body" required>{{$post->body}}</textarea>
+                <textarea name="body" id="body" {{ $post->poll && !$post->body ? '' : 'required' }}>{{$post->body}}</textarea>
             </div>
             
             <div class="image-upload-section">

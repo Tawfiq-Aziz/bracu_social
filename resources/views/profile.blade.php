@@ -446,6 +446,185 @@
             padding: 15px;
         }
     }
+
+    /* Poll Display Styles */
+    .poll-section {
+        margin-top: 20px;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 12px;
+        border: 1px solid #e8ecf0;
+    }
+
+    .poll-question {
+        margin-bottom: 16px;
+    }
+
+    .poll-question h4 {
+        font-size: 16px;
+        font-weight: 600;
+        color: #1a1a1a;
+        margin-bottom: 8px;
+    }
+
+    .poll-type-badge {
+        background: #0073e6;
+        color: white;
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 11px;
+        font-weight: 500;
+    }
+
+    .poll-voting-form {
+        margin-top: 16px;
+    }
+
+    .poll-options {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 16px;
+    }
+
+    .poll-option-label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 16px;
+        background: white;
+        border: 2px solid #e8ecf0;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .poll-option-label:hover {
+        border-color: #0073e6;
+        background: #f0f8ff;
+    }
+
+    .poll-option-label input[type="radio"],
+    .poll-option-label input[type="checkbox"] {
+        margin: 0;
+        width: 18px;
+        height: 18px;
+        accent-color: #0073e6;
+    }
+
+    .vote-btn {
+        background: #0073e6;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .vote-btn:hover {
+        background: #0056b3;
+        transform: translateY(-1px);
+    }
+
+    .poll-results {
+        margin-top: 16px;
+    }
+
+    .poll-option-result {
+        margin-bottom: 16px;
+        padding: 16px;
+        background: white;
+        border-radius: 8px;
+        border: 1px solid #e8ecf0;
+    }
+
+    .poll-option-header {
+        margin-bottom: 8px;
+    }
+
+    .poll-option-stats {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+    }
+
+    .poll-option-text {
+        font-weight: 500;
+        color: #1a1a1a;
+    }
+
+    .poll-option-votes {
+        font-size: 14px;
+        color: #6b7280;
+    }
+
+    .poll-progress-bar {
+        width: 100%;
+        height: 8px;
+        background: #e8ecf0;
+        border-radius: 4px;
+        overflow: hidden;
+    }
+
+    .poll-progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #0073e6, #0056b3);
+        border-radius: 4px;
+        transition: width 0.3s ease;
+    }
+
+    .your-vote-indicator {
+        color: #10b981;
+        font-size: 14px;
+        font-weight: 600;
+        margin-top: 8px;
+    }
+
+    .poll-stats {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 16px;
+        padding-top: 16px;
+        border-top: 1px solid #e8ecf0;
+        font-size: 14px;
+        color: #6b7280;
+    }
+
+    .remove-vote-btn {
+        background: #6c757d;
+        color: white;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-size: 12px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .remove-vote-btn:hover {
+        background: #5a6268;
+    }
+
+    .delete-poll-btn {
+        background: #dc3545;
+        color: white;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-size: 12px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .delete-poll-btn:hover {
+        background: #c82333;
+        transform: scale(1.05);
+    }
 </style>
 <body>
     <div class="container">
@@ -508,17 +687,94 @@
                         </div>
                         @endif
                         <div class="post-content">
-                            <div class="post-header">
-                                <div class="post-author">{{ auth()->user()->name }}</div>
-                                <div class="post-time">{{ $post->created_at->format('M j, Y \a\t g:i A') }}</div>
+                                                    <div class="post-header">
+                            <div class="post-author">{{ auth()->user()->name }}</div>
+                            <div class="post-time">{{ $post->created_at->format('M j, Y \a\t g:i A') }}</div>
+                        </div>
+                        
+                        @if($post->title)
+                        <h3 class="post-title">{{ $post->title }}</h3>
+                        @endif
+                        
+                        @if($post->image)
+                        <div class="post-image">
+                            <img src="{{ asset($post->image) }}" alt="Post Image" class="post-image-content">
+                        </div>
+                        @endif
+                        
+                        @if($post->body)
+                        <div class="post-body">{{ $post->body }}</div>
+                        @endif
+                        
+                        @if($post->poll)
+                        <!-- Poll Section -->
+                        <div class="poll-section">
+                            <div class="poll-question">
+                                <h4>{{ $post->poll->question }}</h4>
+                                @if($post->poll->multiple_choice)
+                                <span class="poll-type-badge">Multiple Choice</span>
+                                @endif
                             </div>
-                            <h3 class="post-title">{{ $post->title }}</h3>
-                            @if($post->image)
-                            <div class="post-image">
-                                <img src="{{ asset($post->image) }}" alt="Post Image" class="post-image-content">
-                            </div>
+                            
+                            @if($post->poll->hasUserVoted(auth()->id()))
+                                <!-- Show Results -->
+                                <div class="poll-results">
+                                    @foreach($post->poll->options as $option)
+                                    <div class="poll-option-result">
+                                        <div class="poll-option-header">
+                                            <div class="poll-option-stats">
+                                                <span class="poll-option-text">{{ $option->option_text }}</span>
+                                                <span class="poll-option-votes">{{ $option->votes_count }} votes</span>
+                                            </div>
+                                            <div class="poll-progress-bar">
+                                                <div class="poll-progress-fill" style="width: {{ $option->percentage }}%"></div>
+                                            </div>
+                                        </div>
+                                        @if($post->poll->getUserVotedOptions(auth()->id())->contains($option->id))
+                                        <div class="your-vote-indicator">✓ Your choice</div>
+                                        @endif
+                                    </div>
+                                    @endforeach
+                                    <div class="poll-stats">
+                                        <span>Total votes: {{ $post->poll->total_votes }}</span>
+                                        <form action="/polls/{{ $post->poll->id }}/vote" method="post" style="display: inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="remove-vote-btn">Remove my vote</button>
+                                        </form>
+                                        <form action="/polls/{{ $post->poll->id }}/delete" method="post" style="display: inline; margin-left: 12px;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="delete-poll-btn" onclick="return confirm('Are you sure you want to delete this poll?')">🗑️ Delete Poll</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            @else
+                                <!-- Show Voting Interface -->
+                                <form action="/polls/{{ $post->poll->id }}/vote" method="post" class="poll-voting-form">
+                                    @csrf
+                                    <div class="poll-options">
+                                        @if($post->poll->multiple_choice)
+                                            @foreach($post->poll->options as $option)
+                                            <label class="poll-option-label">
+                                                <input type="checkbox" name="option_ids[]" value="{{ $option->id }}">
+                                                <span>{{ $option->option_text }}</span>
+                                            </label>
+                                            @endforeach
+                                        @else
+                                            @foreach($post->poll->options as $option)
+                                            <label class="poll-option-label">
+                                                <input type="radio" name="option_ids[]" value="{{ $option->id }}">
+                                                <span>{{ $option->option_text }}</span>
+                                            </label>
+                                            @endforeach
+                                        @endif
+                                    </div>
+                                    <button type="submit" class="vote-btn">Cast Vote</button>
+                                </form>
                             @endif
-                            <div class="post-body">{{ $post->body }}</div>
+                        </div>
+                        @endif
                         </div>
                     </div>
                     @endforeach

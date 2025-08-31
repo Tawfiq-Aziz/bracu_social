@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\userController;
 use App\Http\Controllers\InteractionController;
+use App\Http\Controllers\PollController;
 
 Route::get('/', function () {
     return view('home');
@@ -25,8 +26,8 @@ Route::post('/login', [userController::class, 'login']);
 
 Route::get('/dashboard', function () {
     if (auth()->check()) {
-        $posts = Post::with(['user', 'likes', 'comments.user'])->orderBy('created_at', 'desc')->get(); 
-        // to show all posts from the db with user info, sorted by date
+        $posts = Post::with(['user', 'likes', 'comments.user', 'poll.options'])->orderBy('created_at', 'desc')->get(); 
+        // to show all posts from the db with user info and polls, sorted by date
         return view('dashboard',['posts' => $posts]);
     }
     return redirect('/login');
@@ -62,3 +63,8 @@ Route::get('/user/{userId}', [userController::class, 'showUserProfile']);
 Route::post('/posts/{post}/like', [InteractionController::class, 'toggleLike']);
 Route::post('/posts/{post}/dislike', [InteractionController::class, 'toggleDislike']);
 Route::post('/posts/{post}/comment', [InteractionController::class, 'addComment']);
+
+// Poll routes
+Route::post('/polls/{poll}/vote', [PollController::class, 'vote']);
+Route::delete('/polls/{poll}/vote', [PollController::class, 'removeVote']);
+Route::delete('/polls/{poll}/delete', [PollController::class, 'deletePoll']);

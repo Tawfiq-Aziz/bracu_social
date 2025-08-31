@@ -643,6 +643,345 @@
         font-weight: bold;
     }
 
+    /* Poll Creation Styles */
+    .poll-creation-section {
+        margin: 16px 0;
+        padding: 20px;
+        background: #f0f8ff;
+        border-radius: 12px;
+        border: 2px solid #0073e6;
+        animation: slideDown 0.3s ease;
+    }
+
+    @keyframes slideDown {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .poll-question-section {
+        margin-bottom: 20px;
+    }
+
+    .poll-question-section label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #2d3748;
+    }
+
+    .poll-question-section input {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e8ecf0;
+        border-radius: 8px;
+        font-size: 16px;
+        transition: all 0.2s ease;
+    }
+
+    .poll-question-section input:focus {
+        outline: none;
+        border-color: #0073e6;
+        box-shadow: 0 0 0 3px rgba(0, 115, 230, 0.1);
+    }
+
+    .poll-options-section label {
+        display: block;
+        margin-bottom: 12px;
+        font-weight: 600;
+        color: #2d3748;
+    }
+
+    .poll-option-input {
+        display: flex;
+        align-items: center;
+        margin-bottom: 12px;
+        gap: 8px;
+    }
+
+    .poll-option-input input {
+        flex: 1;
+        padding: 10px 14px;
+        border: 2px solid #e8ecf0;
+        border-radius: 8px;
+        font-size: 14px;
+        transition: all 0.2s ease;
+    }
+
+    .poll-option-input input:focus {
+        outline: none;
+        border-color: #0073e6;
+        box-shadow: 0 0 0 3px rgba(0, 115, 230, 0.1);
+    }
+
+    .remove-option-btn {
+        background: #dc3545;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 28px;
+        height: 28px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .remove-option-btn:hover {
+        background: #c82333;
+        transform: scale(1.1);
+    }
+
+    .add-option-btn {
+        background: #28a745;
+        color: white;
+        border: none;
+        padding: 10px 16px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        margin-top: 8px;
+    }
+
+    .add-option-btn:hover {
+        background: #218838;
+        transform: translateY(-1px);
+    }
+
+    .poll-settings {
+        margin-top: 16px;
+        padding-top: 16px;
+        border-top: 1px solid #e8ecf0;
+    }
+
+    /* Poll Mode Styling */
+    .post-content-fields.poll-mode {
+        opacity: 0.7;
+        background: #f8f9fa;
+        padding: 16px;
+        border-radius: 8px;
+        border: 2px dashed #dee2e6;
+    }
+
+    .post-content-fields.poll-mode input,
+    .post-content-fields.poll-mode textarea {
+        background: #f8f9fa;
+        border-color: #dee2e6;
+    }
+
+    .post-content-fields.poll-mode::before {
+        content: "📊 Poll Mode - Post content is optional";
+        display: block;
+        font-size: 14px;
+        color: #6c757d;
+        font-weight: 500;
+        margin-bottom: 12px;
+        text-align: center;
+        font-style: italic;
+    }
+
+    /* Poll Display Styles */
+    .poll-section {
+        margin: 20px 0;
+        padding: 20px;
+        background: #f8fafc;
+        border-radius: 12px;
+        border: 2px solid #e2e8f0;
+    }
+
+    .poll-question {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .poll-question h4 {
+        font-size: 18px;
+        font-weight: 600;
+        color: #2d3748;
+        margin: 0;
+        flex: 1;
+    }
+
+    .poll-type-badge {
+        background: #0073e6;
+        color: white;
+        padding: 4px 12px;
+        border-radius: 16px;
+        font-size: 12px;
+        font-weight: 500;
+    }
+
+    /* Poll Voting Interface */
+    .poll-voting-form {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .poll-options {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .poll-option-label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 16px;
+        background: white;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .poll-option-label:hover {
+        border-color: #0073e6;
+        background: #f0f8ff;
+    }
+
+    .poll-option-label input[type="radio"],
+    .poll-option-label input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        margin: 0;
+    }
+
+    .poll-option-label .poll-option-text {
+        font-size: 16px;
+        color: #2d3748;
+        flex: 1;
+    }
+
+    .vote-btn {
+        background: #0073e6;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        align-self: flex-start;
+    }
+
+    .vote-btn:hover {
+        background: #005bb5;
+        transform: translateY(-1px);
+    }
+
+    /* Poll Results Display */
+    .poll-results {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .poll-option-result {
+        position: relative;
+    }
+
+    .poll-option-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .poll-option-result .poll-option-text {
+        font-size: 16px;
+        font-weight: 500;
+        color: #2d3748;
+    }
+
+    .poll-option-stats {
+        font-size: 14px;
+        color: #6b7280;
+        font-weight: 500;
+    }
+
+    .poll-progress-bar {
+        width: 100%;
+        height: 8px;
+        background: #e2e8f0;
+        border-radius: 4px;
+        overflow: hidden;
+        margin-bottom: 8px;
+    }
+
+    .poll-progress-fill {
+        height: 100%;
+        background: linear-gradient(135deg, #0073e6, #005bb5);
+        border-radius: 4px;
+        transition: width 0.6s ease;
+    }
+
+    .your-vote-indicator {
+        font-size: 12px;
+        color: #10b981;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .poll-stats {
+        margin-top: 16px;
+        padding-top: 16px;
+        border-top: 1px solid #e2e8f0;
+        font-size: 14px;
+        color: #6b7280;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .remove-vote-btn {
+        background: #dc3545;
+        color: white;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-size: 12px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .remove-vote-btn:hover {
+        background: #c82333;
+        transform: translateY(-1px);
+    }
+
+    .delete-poll-btn {
+        background: #dc3545;
+        color: white;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-size: 12px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .delete-poll-btn:hover {
+        background: #c82333;
+        transform: scale(1.05);
+    }
+
     /* Sidebar User Info */
     .user-card {
         background: #ffffff;
@@ -894,17 +1233,19 @@
                 <h2>Create a new post</h2>
                 <form action="/create-post" method="post" class="create-post-form" enctype="multipart/form-data">
                     @csrf
-                    <input type="text" name="title" placeholder="Post Title" required>
-                    <textarea name="body" placeholder="Share your thoughts..."></textarea>
-                    <div class="image-upload-section">
-                        <label for="image" class="image-upload-label">
-                            <span class="upload-icon">📷</span>
-                            <span class="upload-text">Upload Image (Optional)</span>
-                        </label>
-                        <input type="file" name="image" id="image" accept="image/*" class="image-input">
-                        <div class="image-preview" id="image-preview" style="display: none;">
-                            <img id="preview-img" src="" alt="Preview">
-                            <button type="button" class="remove-image-btn" onclick="removeImage()">Remove</button>
+                    <div class="post-content-fields" id="post_content_fields">
+                        <input type="text" name="title" id="post_title" placeholder="Post Title" required>
+                        <textarea name="body" id="post_body" placeholder="Share your thoughts..." required></textarea>
+                        <div class="image-upload-section">
+                            <label for="image" class="image-upload-label">
+                                <span class="upload-icon">📷</span>
+                                <span class="upload-text">Upload Image (Optional)</span>
+                            </label>
+                            <input type="file" name="image" id="image" accept="image/*" class="image-input">
+                            <div class="image-preview" id="image-preview" style="display: none;">
+                                <img id="preview-img" src="" alt="Preview">
+                                <button type="button" class="remove-image-btn" onclick="removeImage()">Remove</button>
+                            </div>
                         </div>
                     </div>
                     <div class="post-options">
@@ -913,6 +1254,43 @@
                             <span class="checkmark"></span>
                             Lost & Found Post
                         </label>
+                        
+                        <label class="checkbox-option" style="margin-top: 12px;">
+                            <input type="checkbox" name="has_poll" value="1" id="has_poll_checkbox" onchange="togglePollSection()">
+                            <span class="checkmark"></span>
+                            📊 Add Poll
+                        </label>
+                    </div>
+                    
+                    <!-- Poll Creation Section -->
+                    <div class="poll-creation-section" id="poll_creation_section" style="display: none;">
+                        <div class="poll-question-section">
+                            <label for="poll_question">Poll Question:</label>
+                            <input type="text" name="poll_question" id="poll_question" placeholder="What would you like to ask?">
+                        </div>
+                        
+                        <div class="poll-options-section">
+                            <label>Poll Options:</label>
+                            <div class="poll-options-container" id="poll_options_container">
+                                <div class="poll-option-input">
+                                    <input type="text" name="poll_options[]" placeholder="Option 1" required>
+                                    <button type="button" class="remove-option-btn" onclick="removePollOption(this)" style="display: none;">×</button>
+                                </div>
+                                <div class="poll-option-input">
+                                    <input type="text" name="poll_options[]" placeholder="Option 2" required>
+                                    <button type="button" class="remove-option-btn" onclick="removePollOption(this)" style="display: none;">×</button>
+                                </div>
+                            </div>
+                            <button type="button" class="add-option-btn" onclick="addPollOption()">+ Add Option</button>
+                        </div>
+                        
+                        <div class="poll-settings">
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="poll_multiple_choice" value="1">
+                                <span class="checkmark"></span>
+                                Allow multiple choices
+                            </label>
+                        </div>
                     </div>
                     <div class="post-buttons">
                         <button type="submit">Post</button>
@@ -946,13 +1324,87 @@
                             <div class="post-author">{{$post->author_name}}</div>
                             <div class="post-time">{{$post->created_at->format('M j, Y \a\t g:i A')}}</div>
                         </div>
+                        
+                        @if($post->title)
                         <h3 class="post-title">{{$post->title}}</h3>
+                        @endif
+                        
                         @if($post->image)
                         <div class="post-image">
                             <img src="{{ asset($post->image) }}" alt="Post Image" class="post-image-content">
                         </div>
                         @endif
+                        
+                        @if($post->body)
                         <div class="post-body">{{$post->body}}</div>
+                        @endif
+                        
+                        @if($post->poll)
+                        <!-- Poll Section -->
+                        <div class="poll-section">
+                            <div class="poll-question">
+                                <h4>📊 {{$post->poll->question}}</h4>
+                                @if($post->poll->multiple_choice)
+                                <span class="poll-type-badge">Multiple Choice</span>
+                                @endif
+                            </div>
+                            
+                            @if($post->poll->hasUserVoted(auth()->id()))
+                            <!-- Show Results -->
+                            <div class="poll-results">
+                                @foreach($post->poll->options as $option)
+                                <div class="poll-option-result">
+                                    <div class="poll-option-header">
+                                        <span class="poll-option-text">{{$option->option_text}}</span>
+                                        <span class="poll-option-stats">{{$option->votes_count}} votes ({{$option->percentage}}%)</span>
+                                    </div>
+                                    <div class="poll-progress-bar">
+                                        <div class="poll-progress-fill" style="width: {{$option->percentage}}%"></div>
+                                    </div>
+                                    @if($post->poll->getUserVotedOptions(auth()->id())->contains($option->id))
+                                    <span class="your-vote-indicator">✓ Your choice</span>
+                                    @endif
+                                </div>
+                                @endforeach
+                                <div class="poll-stats">
+                                    Total votes: {{$post->poll->total_votes}}
+                                    @if($post->poll->hasUserVoted(auth()->id()))
+                                    <form action="/polls/{{$post->poll->id}}/vote" method="POST" style="display: inline; margin-left: 12px;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="remove-vote-btn">Remove my vote</button>
+                                    </form>
+                                    @endif
+                                    @if(auth()->user()->id == $post->user_id)
+                                    <form action="/polls/{{$post->poll->id}}/delete" method="POST" style="display: inline; margin-left: 12px;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="delete-poll-btn" onclick="return confirm('Are you sure you want to delete this poll?')">🗑️ Delete Poll</button>
+                                    </form>
+                                    @endif
+                                </div>
+                            </div>
+                            @else
+                            <!-- Show Voting Interface -->
+                            <form action="/polls/{{$post->poll->id}}/vote" method="POST" class="poll-voting-form">
+                                @csrf
+                                <div class="poll-options">
+                                    @foreach($post->poll->options as $option)
+                                    <label class="poll-option-label">
+                                        @if($post->poll->multiple_choice)
+                                        <input type="checkbox" name="option_ids[]" value="{{$option->id}}">
+                                        @else
+                                        <input type="radio" name="option_ids[]" value="{{$option->id}}" required>
+                                        @endif
+                                        <span class="poll-option-text">{{$option->option_text}}</span>
+                                    </label>
+                                    @endforeach
+                                </div>
+                                <button type="submit" class="vote-btn">Cast Vote</button>
+                            </form>
+                            @endif
+                        </div>
+                        @endif
                     </div>
                     
                     <!-- Interaction Buttons -->
@@ -999,7 +1451,7 @@
                         </div>
 
                         <!-- Edit/Delete Actions -->
-                        @if(auth()->user()->id == $post->user_id)
+                        @if(auth()->user()->id == $post->user_id && !($post->poll && !$post->title && !$post->body))
                         <div class="post-actions-buttons">
                             @if($post->lost_and_found && !$post->resolved)
                             <form action="/mark-resolved/{{$post->id}}" method="post" class="mark-resolved-form">
@@ -1088,6 +1540,91 @@
             document.getElementById('image').value = '';
             document.getElementById('image-preview').style.display = 'none';
             document.getElementById('preview-img').src = '';
+        }
+
+        // Poll creation functionality
+        function togglePollSection() {
+            const checkbox = document.getElementById('has_poll_checkbox');
+            const pollSection = document.getElementById('poll_creation_section');
+            const postFields = document.getElementById('post_content_fields');
+            const postTitle = document.getElementById('post_title');
+            const postBody = document.getElementById('post_body');
+            
+            if (checkbox.checked) {
+                pollSection.style.display = 'block';
+                // Make poll question required
+                document.getElementById('poll_question').required = true;
+                
+                // Make post title and body optional for polls
+                postTitle.required = false;
+                postBody.required = false;
+                postTitle.placeholder = "Post Title (Optional for polls)";
+                postBody.placeholder = "Additional thoughts (Optional for polls)";
+                
+                // Add visual indication that these are optional
+                postFields.classList.add('poll-mode');
+            } else {
+                pollSection.style.display = 'none';
+                // Remove required attribute
+                document.getElementById('poll_question').required = false;
+                // Clear poll data
+                document.getElementById('poll_question').value = '';
+                const optionInputs = document.querySelectorAll('input[name="poll_options[]"]');
+                optionInputs.forEach(input => input.value = '');
+                
+                // Make post title and body required again for regular posts
+                postTitle.required = true;
+                postBody.required = true;
+                postTitle.placeholder = "Post Title";
+                postBody.placeholder = "Share your thoughts...";
+                
+                // Remove poll mode styling
+                postFields.classList.remove('poll-mode');
+            }
+            updateRemoveButtons();
+        }
+
+        function addPollOption() {
+            const container = document.getElementById('poll_options_container');
+            const optionCount = container.querySelectorAll('.poll-option-input').length;
+            
+            if (optionCount < 6) { // Limit to 6 options
+                const newOption = document.createElement('div');
+                newOption.className = 'poll-option-input';
+                newOption.innerHTML = `
+                    <input type="text" name="poll_options[]" placeholder="Option ${optionCount + 1}" required>
+                    <button type="button" class="remove-option-btn" onclick="removePollOption(this)">×</button>
+                `;
+                container.appendChild(newOption);
+                updateRemoveButtons();
+            }
+        }
+
+        function removePollOption(button) {
+            const container = document.getElementById('poll_options_container');
+            const optionCount = container.querySelectorAll('.poll-option-input').length;
+            
+            if (optionCount > 2) { // Keep at least 2 options
+                button.parentElement.remove();
+                updateRemoveButtons();
+                // Update placeholders
+                const options = container.querySelectorAll('.poll-option-input');
+                options.forEach((option, index) => {
+                    const input = option.querySelector('input');
+                    input.placeholder = `Option ${index + 1}`;
+                });
+            }
+        }
+
+        function updateRemoveButtons() {
+            const container = document.getElementById('poll_options_container');
+            const options = container.querySelectorAll('.poll-option-input');
+            const removeButtons = container.querySelectorAll('.remove-option-btn');
+            
+            // Show/hide remove buttons based on option count
+            removeButtons.forEach(button => {
+                button.style.display = options.length > 2 ? 'flex' : 'none';
+            });
         }
 
         // Search functionality

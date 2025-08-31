@@ -53,4 +53,14 @@ class Post extends Model
     {
         return $this->anonymous ? 'Anonymous' : $this->user->name;
     }
+
+    public function poll()
+    {
+        return $this->hasOne(Poll::class);
+    }
+
+    public function hasPoll()
+    {
+        return $this->poll !== null;
+    }
 }
