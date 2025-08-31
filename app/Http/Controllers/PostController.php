@@ -26,12 +26,14 @@ class PostController extends Controller
             'title' => 'required',
             'body' => 'required',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'anonymous' => 'nullable|boolean'
+            'anonymous' => 'nullable|boolean',
+            'lost_and_found' => 'nullable|boolean'
         ]);
 
         $incomingFields['title'] = strip_tags($incomingFields['title']);
         $incomingFields['body'] = strip_tags($incomingFields['body']);
         $incomingFields['anonymous'] = $request->has('anonymous') ? true : false;
+        $incomingFields['lost_and_found'] = $request->has('lost_and_found') ? true : false;
 
         // Handle image upload
         if ($request->hasFile('image')) {
@@ -64,13 +66,15 @@ class PostController extends Controller
             'title' => 'required',
             'body' => 'required',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'anonymous' => 'nullable|boolean'
+            'anonymous' => 'nullable|boolean',
+            'lost_and_found' => 'nullable|boolean'
         ]);
 
         $incomingFields['title'] = strip_tags($incomingFields['title']);
         $incomingFields['body'] = strip_tags($incomingFields['body']);
         $incomingFields['user_id'] = auth()->id();
         $incomingFields['anonymous'] = $request->has('anonymous') ? true : false;
+        $incomingFields['lost_and_found'] = $request->has('lost_and_found') ? true : false;
         
         // Handle image upload
         if ($request->hasFile('image')) {
@@ -81,6 +85,15 @@ class PostController extends Controller
         }
         
         Post::create($incomingFields);
+        return redirect('/dashboard');
+    }
+
+    public function markAsResolved(Post $post) {
+        if (auth()->user()->id != $post['user_id']) {
+            return redirect('/dashboard');
+        }
+        
+        $post->update(['resolved' => true]);
         return redirect('/dashboard');
     }
 }

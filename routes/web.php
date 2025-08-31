@@ -45,6 +45,7 @@ Route::post('/create-post',[PostController::class, 'creatPost']);
 Route::get('/edit-post/{post}', [PostController::class, 'showEditScreen']);
 Route::put('/edit-post/{post}', [PostController::class, 'updatePost']);
 Route::delete('/delete-post/{post}', [PostController::class, 'deletePost']);
+Route::patch('/mark-resolved/{post}', [PostController::class, 'markAsResolved']);
 
 // User profile route
 Route::get('/profile', function (App\Models\User $user) {

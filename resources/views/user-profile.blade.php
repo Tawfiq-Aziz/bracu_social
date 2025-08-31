@@ -213,6 +213,48 @@
         box-shadow: 0 8px 30px rgba(0,0,0,0.08);
     }
 
+    /* Lost & Found Badge Styles */
+    .lost-found-badge {
+        background: linear-gradient(135deg, #ff9500, #ff6b35);
+        color: white;
+        padding: 12px 20px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 600;
+        font-size: 14px;
+        position: relative;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .badge-icon {
+        font-size: 16px;
+    }
+
+    .resolved-badge {
+        background: #10b981;
+        color: white;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        animation: fadeIn 0.3s ease;
+    }
+
+    .resolved-icon {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: scale(0.8); }
+        to { opacity: 1; transform: scale(1); }
+    }
+
     .post-content {
         padding: 24px;
         width: 100%;
@@ -419,6 +461,18 @@
                 @if($posts->count() > 0)
                     @foreach ($posts as $post)
                     <div class="post-card">
+                        @if($post->lost_and_found)
+                        <div class="lost-found-badge">
+                            <span class="badge-icon">🔍</span>
+                            Lost & Found
+                            @if($post->resolved)
+                            <span class="resolved-badge">
+                                <span class="resolved-icon">✓</span>
+                                Resolved
+                            </span>
+                            @endif
+                        </div>
+                        @endif
                         <div class="post-content">
                             <div class="post-header">
                                 <div class="post-author">{{ $user->name }}</div>

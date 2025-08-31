@@ -175,6 +175,75 @@
         box-shadow: 0 0 0 3px rgba(0, 115, 230, 0.1);
     }
 
+    .post-options {
+        margin: 16px 0;
+        padding: 16px;
+        background: #f8f9fa;
+        border-radius: 12px;
+        border: 1px solid #e8ecf0;
+    }
+
+    .checkbox-option {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 500;
+        color: #2d3748;
+        position: relative;
+        padding-left: 35px;
+    }
+
+    .checkbox-option input[type="checkbox"] {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+    }
+
+    .checkmark {
+        position: absolute;
+        top: 2px;
+        left: 0;
+        height: 20px;
+        width: 20px;
+        background-color: #fff;
+        border: 2px solid #d1d5db;
+        border-radius: 4px;
+        transition: all 0.2s ease;
+    }
+
+    .checkbox-option:hover .checkmark {
+        border-color: #0073e6;
+        background-color: #f0f8ff;
+    }
+
+    .checkbox-option input:checked ~ .checkmark {
+        background-color: #0073e6;
+        border-color: #0073e6;
+    }
+
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    .checkbox-option input:checked ~ .checkmark:after {
+        display: block;
+    }
+
+    .checkbox-option .checkmark:after {
+        left: 6px;
+        top: 2px;
+        width: 6px;
+        height: 10px;
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+    }
+
     .post-buttons {
         display: flex;
         gap: 12px;
@@ -248,6 +317,48 @@
     .post-card:hover {
         transform: translateY(-2px);
         box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+    }
+
+    /* Lost & Found Badge Styles */
+    .lost-found-badge {
+        background: linear-gradient(135deg, #ff9500, #ff6b35);
+        color: white;
+        padding: 12px 20px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 600;
+        font-size: 14px;
+        position: relative;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .badge-icon {
+        font-size: 16px;
+    }
+
+    .resolved-badge {
+        background: #10b981;
+        color: white;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        animation: fadeIn 0.3s ease;
+    }
+
+    .resolved-icon {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: scale(0.8); }
+        to { opacity: 1; transform: scale(1); }
     }
 
     .post-content {
@@ -484,6 +595,52 @@
     .del-post button:hover {
         background: #721c88;
         transform: translateY(-1px);
+    }
+
+    /* Post Actions Buttons */
+    .post-actions-buttons {
+        display: flex;
+        gap: 12px;
+        margin-top: 12px;
+        flex-wrap: wrap;
+    }
+
+    .mark-resolved-form {
+        margin: 0;
+    }
+
+    .mark-resolved-btn {
+        background: #10b981;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .mark-resolved-btn:hover {
+        background: #059669;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    }
+
+    .mark-resolved-btn .resolved-icon {
+        background: white;
+        color: #10b981;
+        border-radius: 50%;
+        width: 18px;
+        height: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: bold;
     }
 
     /* Sidebar User Info */
@@ -725,8 +882,7 @@
                     <div class="nav-left">
                         <div class="nav-links">
                             <a href="/profile" class="nav-link">Profile</a>
-                            <a href="#" class="nav-link">Exchange</a>
-                            <a href="#" class="nav-link">Lost&Found</a>
+                            <a href="#" class="nav-link">Resources</a>
                         </div>
                     </div>
                     <a href="/logout" class="logout-btn">Logout</a>
@@ -751,6 +907,13 @@
                             <button type="button" class="remove-image-btn" onclick="removeImage()">Remove</button>
                         </div>
                     </div>
+                    <div class="post-options">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="lost_and_found" value="1">
+                            <span class="checkmark"></span>
+                            Lost & Found Post
+                        </label>
+                    </div>
                     <div class="post-buttons">
                         <button type="submit">Post</button>
                         <button type="submit" name="anonymous" value="1" class="anonymous-btn">Post Anonymously</button>
@@ -766,6 +929,18 @@
                 
                 @foreach ($posts as $post)
                 <div class="post-card" data-post-id="{{$post->id}}">
+                    @if($post->lost_and_found)
+                    <div class="lost-found-badge">
+                        <span class="badge-icon">🔍</span>
+                        Lost & Found
+                        @if($post->resolved)
+                        <span class="resolved-badge">
+                            <span class="resolved-icon">✓</span>
+                            Resolved
+                        </span>
+                        @endif
+                    </div>
+                    @endif
                     <div class="post-content">
                         <div class="post-header">
                             <div class="post-author">{{$post->author_name}}</div>
@@ -824,7 +999,18 @@
                         </div>
 
                         <!-- Edit/Delete Actions -->
-                        <div style="display: flex; gap: 12px; margin-top: 12px;">
+                        @if(auth()->user()->id == $post->user_id)
+                        <div class="post-actions-buttons">
+                            @if($post->lost_and_found && !$post->resolved)
+                            <form action="/mark-resolved/{{$post->id}}" method="post" class="mark-resolved-form">
+                                @csrf
+                                @method('PATCH')
+                                <button type="submit" class="mark-resolved-btn">
+                                    <span class="resolved-icon">✓</span>
+                                    Mark as Resolved
+                                </button>
+                            </form>
+                            @endif
                             <div class="edit-btn">
                                 <a href="/edit-post/{{$post->id}}">Edit</a>
                             </div>
@@ -834,6 +1020,7 @@
                                 <button type="submit">Delete</button>
                             </form>
                         </div>
+                        @endif
                     </div>
                 </div>
                 @endforeach
