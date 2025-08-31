@@ -651,6 +651,7 @@
         border-radius: 12px;
         border: 2px solid #0073e6;
         animation: slideDown 0.3s ease;
+        display: none; /* Hidden by default */
     }
 
     @keyframes slideDown {
@@ -1220,7 +1221,8 @@
                 <div class="nav-bar">
                     <div class="nav-left">
                         <div class="nav-links">
-                            <a href="/profile" class="nav-link">Your Profile</a>
+                            <a href="/profile" class="nav-link">Profile</a>
+                            <a href="#" class="nav-link">Resources</a>
                         </div>
                     </div>
                     <a href="/logout" class="logout-btn">Logout</a>
@@ -1262,21 +1264,21 @@
                     </div>
                     
                     <!-- Poll Creation Section -->
-                    <div class="poll-creation-section" id="poll_creation_section" style="display: none;">
+                    <div class="poll-creation-section">
                         <div class="poll-question-section">
-                            <label for="poll_question">Poll Question:</label>
+                            <label for="poll_question">Poll Question (Optional):</label>
                             <input type="text" name="poll_question" id="poll_question" placeholder="What would you like to ask?">
                         </div>
                         
                         <div class="poll-options-section">
-                            <label>Poll Options:</label>
-                            <div class="poll-options-container" id="poll_options_container">
+                            <label>Poll Options (Optional):</label>
+                            <div class="poll-options-container">
                                 <div class="poll-option-input">
-                                    <input type="text" name="poll_options[]" placeholder="Option 1" required>
+                                    <input type="text" name="poll_options[]" placeholder="Option 1">
                                     <button type="button" class="remove-option-btn" onclick="removePollOption(this)" style="display: none;">×</button>
                                 </div>
                                 <div class="poll-option-input">
-                                    <input type="text" name="poll_options[]" placeholder="Option 2" required>
+                                    <input type="text" name="poll_options[]" placeholder="Option 2">
                                     <button type="button" class="remove-option-btn" onclick="removePollOption(this)" style="display: none;">×</button>
                                 </div>
                             </div>
@@ -1541,57 +1543,46 @@
             document.getElementById('preview-img').src = '';
         }
 
-        // Poll creation functionality
+
+
+
+
+        // Poll management functions
         function togglePollSection() {
             const checkbox = document.getElementById('has_poll_checkbox');
-            const pollSection = document.getElementById('poll_creation_section');
-            const postFields = document.getElementById('post_content_fields');
-            const postTitle = document.getElementById('post_title');
-            const postBody = document.getElementById('post_body');
+            const pollSection = document.querySelector('.poll-creation-section');
             
             if (checkbox.checked) {
                 pollSection.style.display = 'block';
-                // Make poll question required
+                // Make poll fields required when checkbox is checked
                 document.getElementById('poll_question').required = true;
-                
-                // Make post title and body optional for polls
-                postTitle.required = false;
-                postBody.required = false;
-                postTitle.placeholder = "Post Title (Optional for polls)";
-                postBody.placeholder = "Additional thoughts (Optional for polls)";
-                
-                // Add visual indication that these are optional
-                postFields.classList.add('poll-mode');
+                document.querySelectorAll('input[name="poll_options[]"]').forEach((input, index) => {
+                    if (index < 2) input.required = true; // First 2 options required
+                });
             } else {
                 pollSection.style.display = 'none';
-                // Remove required attribute
+                // Remove required attributes when unchecked
                 document.getElementById('poll_question').required = false;
+                document.querySelectorAll('input[name="poll_options[]"]').forEach(input => {
+                    input.required = false;
+                });
                 // Clear poll data
                 document.getElementById('poll_question').value = '';
-                const optionInputs = document.querySelectorAll('input[name="poll_options[]"]');
-                optionInputs.forEach(input => input.value = '');
-                
-                // Make post title and body required again for regular posts
-                postTitle.required = true;
-                postBody.required = true;
-                postTitle.placeholder = "Post Title";
-                postBody.placeholder = "Share your thoughts...";
-                
-                // Remove poll mode styling
-                postFields.classList.remove('poll-mode');
+                document.querySelectorAll('input[name="poll_options[]"]').forEach(input => {
+                    input.value = '';
+                });
             }
-            updateRemoveButtons();
         }
 
         function addPollOption() {
-            const container = document.getElementById('poll_options_container');
+            const container = document.querySelector('.poll-options-container');
             const optionCount = container.querySelectorAll('.poll-option-input').length;
             
             if (optionCount < 6) { // Limit to 6 options
                 const newOption = document.createElement('div');
                 newOption.className = 'poll-option-input';
                 newOption.innerHTML = `
-                    <input type="text" name="poll_options[]" placeholder="Option ${optionCount + 1}" required>
+                    <input type="text" name="poll_options[]" placeholder="Option ${optionCount + 1}">
                     <button type="button" class="remove-option-btn" onclick="removePollOption(this)">×</button>
                 `;
                 container.appendChild(newOption);
@@ -1600,7 +1591,7 @@
         }
 
         function removePollOption(button) {
-            const container = document.getElementById('poll_options_container');
+            const container = document.querySelector('.poll-options-container');
             const optionCount = container.querySelectorAll('.poll-option-input').length;
             
             if (optionCount > 2) { // Keep at least 2 options
@@ -1616,7 +1607,7 @@
         }
 
         function updateRemoveButtons() {
-            const container = document.getElementById('poll_options_container');
+            const container = document.querySelector('.poll-options-container');
             const options = container.querySelectorAll('.poll-option-input');
             const removeButtons = container.querySelectorAll('.remove-option-btn');
             
@@ -1625,6 +1616,12 @@
                 button.style.display = options.length > 2 ? 'flex' : 'none';
             });
         }
+
+        // Initialize poll section state
+        document.addEventListener('DOMContentLoaded', function() {
+            togglePollSection(); // Set initial state
+            updateRemoveButtons(); // Set initial button states
+        });
 
         // Search functionality
         let searchTimeout;
