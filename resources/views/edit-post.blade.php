@@ -220,17 +220,7 @@
                 </div>
             </div>
             
-            <div class="form-group">
-                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; margin-bottom: 16px;">
-                    <input type="checkbox" name="anonymous" value="1" {{ $post->anonymous ? 'checked' : '' }} style="width: auto; margin: 0;">
-                    <span>Post as Anonymous</span>
-                </label>
-                
-                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                    <input type="checkbox" name="lost_and_found" value="1" {{ $post->lost_and_found ? 'checked' : '' }} style="width: auto; margin: 0;">
-                    <span>🔍 Lost & Found Post</span>
-                </label>
-            </div>
+
             
             <div class="buttons">
                 <button type="submit">Save Changes</button>

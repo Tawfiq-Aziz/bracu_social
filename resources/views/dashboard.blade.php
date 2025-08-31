@@ -1220,8 +1220,7 @@
                 <div class="nav-bar">
                     <div class="nav-left">
                         <div class="nav-links">
-                            <a href="/profile" class="nav-link">Profile</a>
-                            <a href="#" class="nav-link">Resources</a>
+                            <a href="/profile" class="nav-link">Your Profile</a>
                         </div>
                     </div>
                     <a href="/logout" class="logout-btn">Logout</a>
