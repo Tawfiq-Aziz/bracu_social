@@ -40,20 +40,18 @@ class userController extends Controller
 
     public function searchUsers(Request $request){
         $query = $request->get('query');
-        $users = collect();
         
-        if (!empty($query)) {
-            $users = User::where('name', 'LIKE', "%{$query}%")
-                        ->where('id', '!=', auth()->id()) // Exclude current user
-                        ->select('id', 'name', 'department', 'student_id')
-                        ->limit(50)
-                        ->get();
+        if (empty($query)) {
+            return response()->json([]);
         }
 
-        return view('search-results', [
-            'users' => $users,
-            'query' => $query
-        ]);
+        $users = User::where('name', 'LIKE', "%{$query}%")
+                    ->where('id', '!=', auth()->id()) // Exclude current user
+                    ->select('id', 'name', 'department', 'student_id')
+                    ->limit(10)
+                    ->get();
+
+        return response()->json($users);
     }
 
     public function showUserProfile($userId){

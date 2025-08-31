@@ -659,26 +659,58 @@
         box-shadow: 0 0 0 3px rgba(0, 115, 230, 0.1);
     }
 
-    .search-btn {
-        margin-top: 12px;
-        width: 100%;
-        background: #0073e6;
-        color: white;
-        border: none;
-        padding: 12px 16px;
+    .search-results {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #ffffff;
+        border: 1px solid #e8ecf0;
         border-radius: 12px;
-        font-size: 14px;
-        font-weight: 600;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        max-height: 300px;
+        overflow-y: auto;
+        z-index: 1000;
+        display: none;
+    }
+
+    .search-result-item {
+        padding: 12px 16px;
+        border-bottom: 1px solid #f1f3f4;
         cursor: pointer;
-        transition: all 0.2s ease;
+        transition: background-color 0.2s ease;
     }
 
-    .search-btn:hover {
-        background: #0056b3;
-        transform: translateY(-1px);
+    .search-result-item:last-child {
+        border-bottom: none;
     }
 
+    .search-result-item:hover {
+        background-color: #f8f9fa;
+    }
 
+    .search-result-name {
+        font-weight: 600;
+        color: #1a1a1a;
+        font-size: 14px;
+        margin-bottom: 4px;
+    }
+
+    .search-result-details {
+        font-size: 12px;
+        color: #6b7280;
+    }
+
+    .search-result-department {
+        margin-right: 8px;
+    }
+
+    .no-results {
+        padding: 16px;
+        text-align: center;
+        color: #6b7280;
+        font-size: 14px;
+    }
 
  
 </style>
@@ -813,10 +845,10 @@
             <!-- Search Section -->
             <div class="search-section">
                 <h3>Search Users</h3>
-                <form action="/search-users" method="GET" class="search-container">
-                    <input type="text" name="query" placeholder="Search by name..." class="search-input" value="{{ request('query') }}">
-                    <button type="submit" class="search-btn">Search</button>
-                </form>
+                <div class="search-container">
+                    <input type="text" id="user-search" placeholder="Search by name..." class="search-input">
+                    <div id="search-results" class="search-results"></div>
+                </div>
             </div>
 
             <div class="user-card">
@@ -871,7 +903,68 @@
             document.getElementById('preview-img').src = '';
         }
 
+        // Search functionality
+        let searchTimeout;
+        const searchInput = document.getElementById('user-search');
+        const searchResults = document.getElementById('search-results');
 
+        searchInput.addEventListener('input', function() {
+            const query = this.value.trim();
+            
+            // Clear previous timeout
+            clearTimeout(searchTimeout);
+            
+            if (query.length < 2) {
+                searchResults.style.display = 'none';
+                return;
+            }
+
+            // Debounce search requests
+            searchTimeout = setTimeout(() => {
+                searchUsers(query);
+            }, 300);
+        });
+
+        // Hide search results when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.search-container')) {
+                searchResults.style.display = 'none';
+            }
+        });
+
+        function searchUsers(query) {
+            fetch(`/search-users?query=${encodeURIComponent(query)}`)
+                .then(response => response.json())
+                .then(users => {
+                    displaySearchResults(users);
+                })
+                .catch(error => {
+                    console.error('Search error:', error);
+                    searchResults.innerHTML = '<div class="no-results">Error searching users</div>';
+                    searchResults.style.display = 'block';
+                });
+        }
+
+        function displaySearchResults(users) {
+            if (users.length === 0) {
+                searchResults.innerHTML = '<div class="no-results">No users found</div>';
+            } else {
+                searchResults.innerHTML = users.map(user => `
+                    <div class="search-result-item" onclick="viewUserProfile(${user.id})">
+                        <div class="search-result-name">${user.name}</div>
+                        <div class="search-result-details">
+                            <span class="search-result-department">${user.department}</span>
+                            <span>ID: ${user.student_id}</span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            searchResults.style.display = 'block';
+        }
+
+        function viewUserProfile(userId) {
+            window.location.href = `/user/${userId}`;
+        }
     </script>
 </body>
 </html>

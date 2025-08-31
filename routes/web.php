@@ -53,7 +53,7 @@ Route::get('/profile', function (App\Models\User $user) {
 });
 
 // Search and user profile routes
-Route::get('/search-users', [userController::class, 'searchUsers'])->name('search.users');
+Route::get('/search-users', [userController::class, 'searchUsers']);
 Route::get('/user/{userId}', [userController::class, 'showUserProfile']);
 
 
