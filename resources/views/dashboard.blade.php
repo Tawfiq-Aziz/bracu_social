@@ -45,6 +45,8 @@ body {
     line-height: 1.6;
     overflow-x: hidden;
     position: relative;
+    max-width: 100vw;
+    box-sizing: border-box;
 }
 
 /* Stunning Space Background */
@@ -103,9 +105,11 @@ body::after {
     margin: 0 auto;
     padding: 20px;
     display: grid;
-    grid-template-columns: 1fr 350px;
+    grid-template-columns: minmax(0, 1fr) 350px;
     gap: 30px;
     min-height: 100vh;
+    overflow-x: hidden;
+    box-sizing: border-box;
 }
 
 /* Main Content Area */
@@ -113,6 +117,9 @@ body::after {
     display: flex;
     flex-direction: column;
     gap: 30px;
+    max-width: 100%;
+    overflow-x: hidden;
+    min-width: 0;
 }
 
 /* Header Section */
@@ -711,6 +718,16 @@ body::after {
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Post Content */
+.post-content {
+    max-width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    overflow-x: hidden;
 }
 
 .post-card:hover {
@@ -775,17 +792,27 @@ body::after {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 15px;
+    max-width: 100%;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 .post-author {
     font-weight: 600;
     color: var(--primary-color);
     font-size: 1.1rem;
+    max-width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .post-time {
     color: var(--text-muted);
     font-size: 0.9rem;
+    max-width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: nowrap;
 }
 
 /* Post Content */
@@ -794,6 +821,11 @@ body::after {
     font-weight: 700;
     margin-bottom: 15px;
     color: var(--text-primary);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    max-width: 100%;
+    line-height: 1.4;
 }
 
 .post-image {
@@ -813,6 +845,10 @@ body::after {
     line-height: 1.7;
     color: var(--text-secondary);
     margin-bottom: 20px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    max-width: 100%;
 }
 
 /* Poll Section */
@@ -1378,6 +1414,8 @@ body::after {
     .container {
         grid-template-columns: 1fr;
         gap: 20px;
+        max-width: 100%;
+        overflow-x: hidden;
     }
     
     .sidebar {
