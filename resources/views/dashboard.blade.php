@@ -754,36 +754,75 @@ body::after {
 
 /* Lost & Found Badge */
 .lost-found-badge {
-    background: var(--gradient-secondary);
-    color: white;
+    background: linear-gradient(135deg, #1e3a8a, #3730a3);
+    color: #e0e7ff;
     padding: 8px 16px;
     border-radius: 20px;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 600;
     display: inline-flex;
     align-items: center;
     gap: 8px;
     margin-bottom: 20px;
-    box-shadow: var(--shadow-light);
+    box-shadow: 0 4px 15px rgba(30, 58, 138, 0.3);
+    border: 1px solid rgba(30, 58, 138, 0.4);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.lost-found-badge::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.lost-found-badge:hover::before {
+    left: 100%;
+}
+
+.lost-found-badge:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-heavy);
+    border-color: rgba(139, 92, 246, 0.5);
 }
 
 .badge-icon {
-    font-size: 1.1em;
+    font-size: 1.2em;
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
 }
 
 .resolved-badge {
-    background: var(--success-color);
-    padding: 4px 12px;
+    background: linear-gradient(135deg, #0f766e, #134e4a);
+    color: #a7f3d0;
+    padding: 4px 10px;
     border-radius: 12px;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     margin-left: 10px;
     display: inline-flex;
     align-items: center;
     gap: 4px;
+    border: 1px solid rgba(15, 118, 110, 0.4);
+    box-shadow: 0 2px 8px rgba(15, 118, 110, 0.3);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.resolved-badge:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(15, 118, 110, 0.4);
+    border-color: rgba(15, 118, 110, 0.6);
 }
 
 .resolved-icon {
-    font-size: 1em;
+    font-size: 1.1em;
+    filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.3));
 }
 
 /* Post Header */
@@ -1132,58 +1171,104 @@ body::after {
 /* Edit/Delete Actions */
 .post-actions-buttons {
     display: flex;
-    gap: 10px;
+    gap: 12px;
     flex-wrap: wrap;
-    margin-top: 15px;
-    padding-top: 15px;
+    margin-top: 20px;
+    padding-top: 20px;
     border-top: 1px solid var(--border-color);
+    position: relative;
+}
+
+.post-actions-buttons::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--gradient-primary);
+    opacity: 0.3;
 }
 
 .mark-resolved-btn,
 .edit-btn a,
 .del-post button {
-    padding: 6px 12px;
-    border-radius: 6px;
+    padding: 8px 16px;
+    border-radius: 10px;
     text-decoration: none;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     font-weight: 500;
     transition: all 0.3s ease;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 6px;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow-light);
+    border: 1px solid transparent;
+    min-width: 80px;
+    height: 36px;
+}
+
+.mark-resolved-btn::before,
+.edit-btn a::before,
+.del-post button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.mark-resolved-btn:hover::before,
+.edit-btn a:hover::before,
+.del-post button:hover::before {
+    left: 100%;
 }
 
 .mark-resolved-btn {
-    background: var(--success-color);
-    color: white;
-    border: none;
+    background: linear-gradient(135deg, #1e40af, #1d4ed8);
+    color: #dbeafe;
+    border: 1px solid rgba(30, 64, 175, 0.4);
 }
 
 .mark-resolved-btn:hover {
-    background: #059669;
+    background: linear-gradient(135deg, #1d4ed8, #2563eb);
     transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(30, 64, 175, 0.4);
+    border-color: rgba(30, 64, 175, 0.6);
 }
 
 .edit-btn a {
-    background: var(--warning-color);
-    color: white;
+    background: linear-gradient(135deg, #7c3aed, #8b5cf6);
+    color: #ede9fe;
+    border: 1px solid rgba(124, 58, 237, 0.4);
 }
 
 .edit-btn a:hover {
-    background: #d97706;
+    background: linear-gradient(135deg, #8b5cf6, #a78bfa);
     transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
+    border-color: rgba(124, 58, 237, 0.6);
 }
 
 .del-post button {
-    background: var(--danger-color);
-    color: white;
-    border: none;
+    background: linear-gradient(135deg, #dc2626, #ef4444);
+    color: #fecaca;
+    border: 1px solid rgba(220, 38, 38, 0.4);
 }
 
 .del-post button:hover {
-    background: #dc2626;
+    background: linear-gradient(135deg, #ef4444, #f87171);
     transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
+    border-color: rgba(220, 38, 38, 0.6);
 }
 
 /* Sidebar */
