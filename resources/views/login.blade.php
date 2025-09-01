@@ -3,95 +3,360 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Login - BRACU Social</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <style>
-    body {
-    font-family: Arial, sans-serif;
-    background: #f9f9f9;
-    color: #333;
+:root {
+    --primary-color: #6366f1;
+    --primary-dark: #4f46e5;
+    --secondary-color: #8b5cf6;
+    --accent-color: #06b6d4;
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
+    --danger-color: #ef4444;
+    --text-primary: #ffffff;
+    --text-secondary: #e2e8f0;
+    --text-muted: #94a3b8;
+    --bg-primary: rgba(15, 23, 42, 0.95);
+    --bg-secondary: rgba(30, 41, 59, 0.8);
+    --bg-card: rgba(51, 65, 85, 0.6);
+    --border-color: rgba(148, 163, 184, 0.2);
+    --shadow-light: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-medium: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    --shadow-heavy: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --gradient-space: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+}
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+    position: relative;
+    max-width: 100vw;
+    box-sizing: border-box;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 40px;
+    justify-content: center;
+    padding: 20px;
 }
 
-h1, h2 {
-    margin: 10px 0;
-    font-weight: 600;
-    text-align: center;
-}
-
-.login-form {
-    background: #fff;
-    padding: 20px 25px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+/* Stunning Space Background */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-    max-width: 350px;
+    height: 100%;
+    background: 
+        radial-gradient(2px 2px at 20px 30px, #eee, transparent),
+        radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+        radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.6), transparent),
+        radial-gradient(2px 2px at 160px 30px, #ddd, transparent),
+        linear-gradient(45deg, #0f172a 0%, #1e293b 25%, #334155 50%, #475569 75%, #64748b 100%);
+    background-size: 200px 200px, 300px 300px, 150px 150px, 250px 250px, 180px 180px, 100% 100%;
+    animation: space-float 20s ease-in-out infinite;
+    z-index: -1;
+}
+
+/* Floating Particles */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(1px 1px at 25% 25%, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 75% 75%, rgba(255,255,255,0.6), transparent),
+        radial-gradient(1px 1px at 50% 10%, rgba(255,255,255,0.4), transparent),
+        radial-gradient(1px 1px at 10% 50%, rgba(255,255,255,0.3), transparent),
+        radial-gradient(1px 1px at 90% 20%, rgba(255,255,255,0.5), transparent);
+    background-size: 400px 400px, 300px 300px, 500px 500px, 600px 600px, 350px 350px;
+    animation: particle-float 30s linear infinite;
+    z-index: -1;
+    opacity: 0.6;
+}
+
+@keyframes particle-float {
+    0% { transform: translateY(0px) rotate(0deg); }
+    100% { transform: translateY(-100px) rotate(360deg); }
+}
+
+@keyframes space-float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(1deg); }
+}
+
+/* Login Container */
+.login-container {
+    background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: var(--shadow-heavy);
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    max-width: 400px;
+    animation: slideUp 0.6s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.login-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--gradient-primary);
+}
+
+/* Title Styling */
+.main-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: var(--gradient-space);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 30px rgba(99, 102, 241, 0.5);
+    letter-spacing: -0.02em;
+    text-align: center;
+    margin-bottom: 10px;
+    position: relative;
+    animation: titleGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes titleGlow {
+    0% {
+        filter: drop-shadow(0 0 20px rgba(99, 102, 241, 0.3));
+    }
+    100% {
+        filter: drop-shadow(0 0 30px rgba(99, 102, 241, 0.6));
+    }
+}
+
+.login-subtitle {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-align: center;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.login-subtitle::before {
+    content: '🔐';
+    font-size: 1.1em;
+}
+
+/* Form Styling */
+.login-form {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
 .login-form input {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 14px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 15px 20px;
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
     width: 100%;
     box-sizing: border-box;
 }
 
+.login-form input::placeholder {
+    color: var(--text-muted);
+}
+
 .login-form input:focus {
-    border-color: #0073e6;
     outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-1px);
 }
 
 .login-form button {
-    background: #0073e6;
-    color: #fff;
+    background: var(--gradient-primary);
+    color: white;
     border: none;
-    padding: 10px;
-    border-radius: 6px;
+    padding: 15px 20px;
+    border-radius: 12px;
     cursor: pointer;
-    font-size: 14px;
-    transition: background 0.2s;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: var(--shadow-light);
+    position: relative;
+    overflow: hidden;
+}
+
+.login-form button::before {
+    content: '🚀';
+    font-size: 1.1em;
 }
 
 .login-form button:hover {
-    background: #005bb5;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-medium);
+}
+
+.login-form button:active {
+    transform: translateY(0);
 }
 
 .back-link {
-    margin-top: 15px;
+    margin-top: 25px;
     text-align: center;
 }
 
 .back-link a {
-    color: #0073e6;
+    color: var(--primary-color);
     text-decoration: none;
-    font-size: 14px;
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(99, 102, 241, 0.1);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+}
+
+.back-link a::before {
+    content: '←';
+    font-size: 1.1em;
 }
 
 .back-link a:hover {
-    text-decoration: underline;
+    background: rgba(99, 102, 241, 0.2);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-light);
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+    .login-container {
+        padding: 30px 20px;
+        margin: 10px;
+    }
+    
+    .main-title {
+        font-size: 2rem;
+    }
+    
+    .login-subtitle {
+        font-size: 1rem;
+    }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-dark);
+}
+
+/* Focus States for Accessibility */
+button:focus,
+input:focus,
+a:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* Selection Styling */
+::selection {
+    background: var(--primary-color);
+    color: white;
+}
+
+::-moz-selection {
+    background: var(--primary-color);
+    color: white;
 }
 </style>
 <body>
-    <h1>BRACU SOCIAL</h1>
-    <h2>Login</h2>
-    <form action="/login" method="POST" class="login-form">
-        @csrf
-        <input type="email" name="email" placeholder="Email" required>
-        <input type="password" name="password" placeholder="Password" required>
-
-        <button type="submit">Login</button>
-    </form>
-    
-    <div class="back-link">
-        <a href="/">Back to Registration</a>
+    <div class="login-container">
+        <h1 class="main-title">BRACU SOCIAL</h1>
+        <h2 class="login-subtitle">Login</h2>
+        
+        <form action="/login" method="POST" class="login-form">
+            @csrf
+            <div class="form-group">
+                <input type="email" name="email" placeholder="Email" required>
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" placeholder="Password" required>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+        
+        <div class="back-link">
+            <a href="/">Back to Registration</a>
+        </div>
     </div>
 </body>
 </html>
