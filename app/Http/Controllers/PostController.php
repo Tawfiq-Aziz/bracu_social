@@ -81,7 +81,7 @@ public function createPost(Request $request) {
     
     // Set validation rules based on post type
     $validationRules = [
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2704',
         'anonymous' => 'nullable|boolean',
         'lost_and_found' => 'nullable|boolean',
         'has_poll' => 'nullable|boolean',
