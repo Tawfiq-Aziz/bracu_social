@@ -1936,20 +1936,16 @@ a:focus {
             <div class="features-section">
                 <h3>Quick Actions</h3>
                 <div class="feature-item">
-                    <span class="feature-icon">📊</span>
-                    <span class="feature-text">Create Poll</span>
+                    <span class="feature-icon">💬</span>
+                    <span class="feature-text">Chat</span>
                 </div>
                 <div class="feature-item">
-                    <span class="feature-icon">🔍</span>
-                    <span class="feature-text">Lost & Found</span>
+                    <span class="feature-icon">🧑‍🤝‍🧑</span>
+                    <span class="feature-text">Groups</span>
                 </div>
                 <div class="feature-item">
                     <span class="feature-icon">👥</span>
-                    <span class="feature-text">Find Friends</span>
-                </div>
-                <div class="feature-item">
-                    <span class="feature-icon">📱</span>
-                    <span class="feature-text">Mobile App</span>
+                    <span class="feature-text">Add friends</span>
                 </div>
                 <div class="feature-item">
                     <span class="feature-icon">🎯</span>
