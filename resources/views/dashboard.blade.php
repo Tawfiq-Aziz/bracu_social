@@ -1643,7 +1643,7 @@ a:focus {
                     <div class="nav-left">
                         <div class="nav-links">
                             <a href="/profile" class="nav-link">Your Profile</a>
-                            <a href="#search-section" class="nav-link">Search for Users</a>
+                            
                         </div>
                     </div>
                     <a href="/logout" class="logout-btn">Logout</a>
