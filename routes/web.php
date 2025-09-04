@@ -6,6 +6,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\userController;
 use App\Http\Controllers\InteractionController;
 use App\Http\Controllers\PollController;
+use App\Http\Controllers\EventController;
 
 Route::get('/', function () {
     return view('home');
@@ -68,3 +69,8 @@ Route::post('/posts/{post}/comment', [InteractionController::class, 'addComment'
 Route::post('/polls/{poll}/vote', [PollController::class, 'vote']);
 Route::delete('/polls/{poll}/vote', [PollController::class, 'removeVote']);
 Route::delete('/polls/{poll}/delete', [PollController::class, 'deletePoll']);
+
+// Events (Event Board)
+Route::get('/events', [EventController::class, 'index']);
+Route::post('/events', [EventController::class, 'upsert']);
+Route::delete('/events', [EventController::class, 'delete']);
