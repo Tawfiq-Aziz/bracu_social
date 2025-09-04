@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="C:\Program Files\php\bracu_social\resources\css\app.css">
-    <title>SIGN Up - BRACU Social</title>
+    <title>SIGN Up - COSMO CONNECT</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <style>
@@ -333,7 +333,7 @@ input:focus {
 }
 </style>
 <body>
-    <h1>BRACU SOCIAL</h1>
+    <h1>COSMO CONNECT</h1>
     <h2>Register</h2>
     <form action="/register" method="POST" class="register-form">
         @csrf

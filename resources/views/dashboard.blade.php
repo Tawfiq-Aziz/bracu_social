@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Dashboard - BRACU Social</title>
+    <title>Dashboard - CosmoConnect</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <style>
@@ -1638,7 +1638,7 @@ a:focus {
         <div class="main-content">
             <!-- Header -->
             <div class="header">
-                <div class="main-title">BRACU SOCIAL</div>
+                <div class="main-title">COSMO CONNECT</div>
                 <div class="nav-bar">
                     <div class="nav-left">
                         <div class="nav-links">
@@ -1687,12 +1687,12 @@ a:focus {
                     <!-- Poll Creation Section -->
                     <div class="poll-creation-section">
                         <div class="poll-question-section">
-                            <label for="poll_question">Poll Question (Optional):</label>
+                            <label for="poll_question">Poll Question :</label>
                             <input type="text" name="poll_question" id="poll_question" placeholder="What would you like to ask?">
                         </div>
                         
                         <div class="poll-options-section">
-                            <label>Poll Options (Optional):</label>
+                            <label>Poll Options :</label>
                             <div class="poll-options-container">
                                 <div class="poll-option-input">
                                     <input type="text" name="poll_options[]" placeholder="Option 1">
@@ -1949,7 +1949,7 @@ a:focus {
                 </div>
                 <div class="feature-item">
                     <span class="feature-icon">🎯</span>
-                    <span class="feature-text">Trending Topics</span>
+                    <span class="feature-text">Event Board</span>
                 </div>
             </div>
         </div>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Edit Post - BRACU Social</title>
+    <title>Edit Post - COSMO CONNECT</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <style>
@@ -503,7 +503,7 @@ a:focus {
     <div class="container">
         <!-- Header -->
         <div class="header">
-            <div class="main-title">BRACU SOCIAL</div>
+            <div class="main-title">COSMO CONNECT</div>
             <div class="page-subtitle">Edit Your Post</div>
         </div>
 
