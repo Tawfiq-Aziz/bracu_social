@@ -6,6 +6,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\userController;
 use App\Http\Controllers\InteractionController;
 use App\Http\Controllers\PollController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\EventController;
 
 Route::get('/', function () {
@@ -74,3 +75,10 @@ Route::delete('/polls/{poll}/delete', [PollController::class, 'deletePoll']);
 Route::get('/events', [EventController::class, 'index']);
 Route::post('/events', [EventController::class, 'upsert']);
 Route::delete('/events', [EventController::class, 'delete']);
+
+// Chat routes
+Route::middleware('auth')->group(function () {
+    Route::get('/chat/users', [ChatController::class, 'users']);
+    Route::get('/chat/messages/{userId}', [ChatController::class, 'messages']);
+    Route::post('/chat/messages/{userId}', [ChatController::class, 'send']);
+});

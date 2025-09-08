@@ -1463,6 +1463,124 @@ body::after {
     font-size: 1.1em;
 }
 
+/* Chat Drawer */
+.chat-drawer {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    width: 420px;
+    height: 560px;
+    background: #0b1020;
+    border: 1px solid rgba(99,102,241,0.25);
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 2500;
+}
+
+/* Blackhole background */
+.chat-drawer::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(800px 800px at 70% 40%, rgba(99,102,241,0.12), transparent 60%),
+        radial-gradient(600px 600px at 30% 70%, rgba(139,92,246,0.10), transparent 55%),
+        conic-gradient(from 180deg at 70% 40%, rgba(0,0,0,0.0) 0deg, rgba(20, 24, 48, 0.6) 120deg, rgba(0,0,0,0.0) 240deg, rgba(20, 24, 48, 0.6) 360deg);
+    filter: blur(0.2px);
+    animation: swirl 12s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes swirl {
+    0% { transform: rotate(0deg) scale(1); }
+    100% { transform: rotate(360deg) scale(1); }
+}
+
+.chat-header {
+    padding: 10px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(99,102,241,0.25);
+    font-weight: 600;
+}
+
+.chat-body {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    min-height: 0;
+    flex: 1;
+}
+
+.chat-users {
+    border-right: 1px solid rgba(99,102,241,0.25);
+    overflow-y: auto;
+}
+
+.chat-user-item {
+    padding: 10px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(148,163,184,0.15);
+}
+
+.chat-user-item:hover { background: rgba(255,255,255,0.06); }
+.chat-user-item.active { background: rgba(99,102,241,0.15); }
+
+.chat-conversation {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+.chat-messages {
+    padding: 10px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.msg {
+    max-width: 80%;
+    margin: 6px 0 10px 0;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(148,163,184,0.18);
+    line-height: 1.35;
+}
+.msg.out { align-self: flex-end; background: rgba(99,102,241,0.25); }
+.msg.in { align-self: flex-start; background: rgba(255,255,255,0.08); }
+
+.chat-input {
+    display: flex;
+    gap: 10px;
+    padding: 12px;
+    border-top: 1px solid rgba(99,102,241,0.25);
+    background: linear-gradient(180deg, rgba(11,16,32,0.6), rgba(11,16,32,1));
+}
+
+.chat-input input {
+    flex: 1;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(148,163,184,0.15);
+    border-radius: 12px;
+    padding: 12px 14px;
+    color: var(--text-primary);
+    min-width: 0;
+}
+
+.chat-input button {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 16px;
+    cursor: pointer;
+    flex-shrink: 0;
+    min-width: 68px;
+}
+
 .feature-item {
     display: flex;
     align-items: center;
@@ -2087,7 +2205,7 @@ a:focus {
                 <h3>Quick Actions</h3>
                 <div class="feature-item">
                     <span class="feature-icon">💬</span>
-                    <span class="feature-text">Chat</span>
+                    <span class="feature-text" id="open-chat" style="cursor: pointer;">Chat</span>
                 </div>
                 <div class="feature-item">
                     <span class="feature-icon">🧑‍🤝‍🧑</span>
@@ -2120,6 +2238,24 @@ a:focus {
                 </div>
                 <div class="calendar-grid" id="calendar-grid"></div>
                 <div class="event-hint">Click a date to set/update the event name. Leave empty to clear.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Drawer -->
+    <div class="chat-drawer" id="chat-drawer">
+        <div class="chat-header">
+            <span>Chat</span>
+            <button class="calendar-btn" id="close-chat">✖</button>
+        </div>
+        <div class="chat-body">
+            <div class="chat-users" id="chat-users"></div>
+            <div class="chat-conversation">
+                <div class="chat-messages" id="chat-messages"></div>
+                <div class="chat-input">
+                    <input type="text" id="chat-input-text" placeholder="Type a message...">
+                    <button id="chat-send">Send</button>
+                </div>
             </div>
         </div>
     </div>
@@ -2434,6 +2570,113 @@ a:focus {
             if (currentMonth === 11) { currentMonth = 0; currentYear++; } else { currentMonth++; }
             renderCalendar();
         });
+
+        // Chat
+        const chatDrawer = document.getElementById('chat-drawer');
+        const openChatBtn = document.getElementById('open-chat');
+        const closeChatBtn = document.getElementById('close-chat');
+        const chatUsersDiv = document.getElementById('chat-users');
+        const chatMessagesDiv = document.getElementById('chat-messages');
+        const chatInput = document.getElementById('chat-input-text');
+        const chatSend = document.getElementById('chat-send');
+        let activeUserId = null;
+        let lastMessageId = 0;
+        let pollTimer = null;
+        let renderedMessageIds = new Set();
+
+        function openChat() {
+            chatDrawer.style.display = 'flex';
+            loadUsers();
+        }
+
+        function closeChat() {
+            chatDrawer.style.display = 'none';
+            activeUserId = null;
+            lastMessageId = 0;
+            if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
+        }
+
+        function loadUsers() {
+            fetch('/chat/users')
+                .then(r => r.json())
+                .then(users => {
+                    chatUsersDiv.innerHTML = users.map(u => `<div class="chat-user-item" data-id="${u.id}">${u.name}</div>`).join('');
+                });
+        }
+
+        function loadMessages(initial=false) {
+            if (!activeUserId) return Promise.resolve();
+            const qs = lastMessageId ? `?since_id=${lastMessageId}` : '';
+            return fetch(`/chat/messages/${activeUserId}${qs}`)
+                .then(r => r.json())
+                .then(msgs => {
+                    if (initial) {
+                        chatMessagesDiv.innerHTML = '';
+                        renderedMessageIds = new Set();
+                    }
+                    msgs.forEach(m => {
+                        if (renderedMessageIds.has(m.id)) return;
+                        const div = document.createElement('div');
+                        div.className = 'msg ' + (m.sender_id === {{ auth()->id() }} ? 'out' : 'in');
+                        div.textContent = m.body;
+                        chatMessagesDiv.appendChild(div);
+                        renderedMessageIds.add(m.id);
+                        lastMessageId = Math.max(lastMessageId, m.id);
+                    });
+                    chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight;
+                });
+        }
+
+        function startPolling() {
+            if (pollTimer) clearInterval(pollTimer);
+            pollTimer = setInterval(() => loadMessages(false), 2000);
+        }
+
+        chatUsersDiv.addEventListener('click', (e) => {
+            const item = e.target.closest('.chat-user-item');
+            if (!item) return;
+            [...chatUsersDiv.querySelectorAll('.chat-user-item')].forEach(it => it.classList.remove('active'));
+            item.classList.add('active');
+            activeUserId = parseInt(item.getAttribute('data-id'));
+            lastMessageId = 0;
+            loadMessages(true).then(startPolling);
+        });
+
+        chatSend.addEventListener('click', () => {
+            if (!activeUserId) return;
+            const body = chatInput.value.trim();
+            if (!body) return;
+            fetch(`/chat/messages/${activeUserId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({ body })
+            }).then(r => r.json()).then(m => {
+                chatInput.value = '';
+                // append immediately
+                if (!renderedMessageIds.has(m.id)) {
+                    const div = document.createElement('div');
+                    div.className = 'msg out';
+                    div.textContent = m.body;
+                    chatMessagesDiv.appendChild(div);
+                    renderedMessageIds.add(m.id);
+                }
+                lastMessageId = Math.max(lastMessageId, m.id);
+                chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight;
+            });
+        });
+
+        chatInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                chatSend.click();
+            }
+        });
+
+        openChatBtn.addEventListener('click', openChat);
+        closeChatBtn.addEventListener('click', closeChat);
     </script>
 </body>
 </html>
