@@ -64,7 +64,7 @@ class ChatController extends Controller
         $message = Message::create([
             'sender_id' => $currentUserId,
             'receiver_id' => $userId,
-            'body' => $request->string('body'),
+            'body' => (string) $request->input('body'),
         ]);
 
         return response()->json($message, 201);

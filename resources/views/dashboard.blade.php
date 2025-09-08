@@ -2601,6 +2601,17 @@ a:focus {
                 .then(r => r.json())
                 .then(users => {
                     chatUsersDiv.innerHTML = users.map(u => `<div class="chat-user-item" data-id="${u.id}">${u.name}</div>`).join('');
+                    // Auto-select first user and start polling
+                    if (users.length > 0) {
+                        const first = chatUsersDiv.querySelector('.chat-user-item');
+                        if (first) {
+                            [...chatUsersDiv.querySelectorAll('.chat-user-item')].forEach(it => it.classList.remove('active'));
+                            first.classList.add('active');
+                            activeUserId = parseInt(first.getAttribute('data-id'));
+                            lastMessageId = 0;
+                            loadMessages(true).then(startPolling);
+                        }
+                    }
                 });
         }
 
