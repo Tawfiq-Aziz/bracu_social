@@ -1996,7 +1996,7 @@ a:focus {
                 </div>
                 
                 @foreach ($posts as $post)
-                <div class="post-card" data-post-id="{{$post->id}}">
+                <div class="post-card" data-post-id="{{$post->id}}" data-author-id="{{$post->user_id}}" data-lost-and-found="{{$post->lost_and_found ? '1' : '0'}}">
                     @if($post->lost_and_found)
                     <div class="lost-found-badge">
                         <span class="badge-icon">🔍</span>
@@ -2207,13 +2207,13 @@ a:focus {
                     <span class="feature-icon">💬</span>
                     <span class="feature-text" id="open-chat" style="cursor: pointer;">Chat</span>
                 </div>
-                <div class="feature-item">
-                    <span class="feature-icon">🧑‍🤝‍🧑</span>
-                    <span class="feature-text">Groups</span>
+                <div class="feature-item" id="filter-my-posts" style="cursor: pointer;">
+                    <span class="feature-icon">📝</span>
+                    <span class="feature-text">My Posts</span>
                 </div>
-                <div class="feature-item">
-                    <span class="feature-icon">👥</span>
-                    <span class="feature-text">Add friends</span>
+                <div class="feature-item" id="filter-lost-found" style="cursor: pointer;">
+                    <span class="feature-icon">🔍</span>
+                    <span class="feature-text">Lost & Found</span>
                 </div>
                 <div class="feature-item">
                     <span class="feature-icon">🎯</span>
@@ -2688,6 +2688,35 @@ a:focus {
 
         openChatBtn.addEventListener('click', openChat);
         closeChatBtn.addEventListener('click', closeChat);
+
+        // Quick filter actions
+        const filterMyPosts = document.getElementById('filter-my-posts');
+        const filterLostFound = document.getElementById('filter-lost-found');
+        const currentUserId = {{ auth()->id() }};
+        let activeFilter = null; // 'mine' | 'lost' | null
+
+        function applyFilters() {
+            const cards = document.querySelectorAll('.post-card');
+            cards.forEach(card => {
+                const authorId = parseInt(card.getAttribute('data-author-id'));
+                const isLost = card.getAttribute('data-lost-and-found') === '1';
+                let visible = true;
+                if (activeFilter === 'mine') visible = authorId === currentUserId;
+                if (activeFilter === 'lost') visible = isLost;
+                card.style.display = visible ? '' : 'none';
+            });
+        }
+
+        function toggleFilter(type) {
+            activeFilter = (activeFilter === type) ? null : type;
+            // simple active state feedback
+            if (filterMyPosts) filterMyPosts.classList.toggle('active', activeFilter === 'mine');
+            if (filterLostFound) filterLostFound.classList.toggle('active', activeFilter === 'lost');
+            applyFilters();
+        }
+
+        if (filterMyPosts) filterMyPosts.addEventListener('click', () => toggleFilter('mine'));
+        if (filterLostFound) filterLostFound.addEventListener('click', () => toggleFilter('lost'));
     </script>
 </body>
 </html>
