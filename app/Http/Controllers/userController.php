@@ -12,8 +12,8 @@ class userController extends Controller
             'name' => ['required'],
             'email' => ['required', 'email', 'unique:users'],
             'department' => ['required' , 'min:3', 'max:50'],
-            'student_id' => ['required', 'min:8', 'max:9', 'unique:users'],
-            'password' => ['required', 'min:3', 'max:200']
+            'student_id' => ['required', 'min:8', 'max:50', 'unique:users'],
+            'password' => ['required', 'min:5', 'max:200']
         ]);
 
         $incomingFields['password'] = bcrypt($incomingFields['password']);
