@@ -923,7 +923,7 @@ html {
                         <div class="post-content">
                                                     <div class="post-header">
                             <div class="post-author">{{ auth()->user()->name }}</div>
-                            <div class="post-time">{{ $post->created_at->format('M j, Y \a\t g:i A') }}</div>
+                            <div class="post-time">{{ $post->created_at->format('M j, Y ') }}</div>
                         </div>
                         
                         @if($post->title)
