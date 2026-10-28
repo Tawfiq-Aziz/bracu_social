@@ -1,0 +1,4177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>BRACU Social</title>
+    <!-- Nunito Sans: one font family only across the entire site -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,400;0,6..12,600;0,6..12,700;1,6..12,400;1,6..12,600&display=swap" rel="stylesheet">
+    <style>
+        /* ==========================================================================
+           BRACU Social - Design System Variables & Reset
+           ========================================================================== */
+        :root {
+            --bg-page: #F5F3EA;
+            --surface-card: #FFFFFF;
+            --text-primary: #30352D;
+            --text-secondary: #646A60;
+            --border: #E5E5DA;
+            --bg-hover: #F5F3EA;
+            --header-bg: #91A77C;
+            --header-hover: #82996C;
+            --primary: #526747;
+            --primary-hover: #435639;
+            --moss: #737F53;
+            --active-tint: #E9EEE1;
+            --destructive: #8C3B32;
+            --destructive-tint: #F4E7E3;
+            --label-lost-text: #5E4A1F;
+            --label-lost-bg: #EFE8D3;
+            --label-found-text: #3F5236;
+            --label-found-bg: #E3EAD9;
+            --label-solved-text: #FFFFFF;
+            --label-solved-bg: #526747;
+            --radius-card: 10px;
+            --radius-ctrl: 8px;
+            --radius-pill: 999px;
+            --shadow-card: 0 1px 2px rgba(48,53,45,.06);
+            --header-height: 64px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-page: #1A1D17;
+                --surface-card: #23271F;
+                --text-primary: #E8E8DD;
+                --text-secondary: #A4A99A;
+                --border: #34382E;
+                --bg-hover: #2C3025;
+                --header-bg: #3A4A33;
+                --header-hover: #45573D;
+                --primary: #91A77C;
+                --primary-hover: #A0B68B;
+                --moss: #737F53;
+                --active-tint: #2F3A28;
+                --destructive: #E0A196;
+                --destructive-tint: #3B2624;
+                --label-lost-text: #EFE8D3;
+                --label-lost-bg: #4A3E20;
+                --label-found-text: #E3EAD9;
+                --label-found-bg: #2B3A24;
+                --label-solved-text: #1A2414;
+                --label-solved-bg: #91A77C;
+                --shadow-card: none;
+            }
+        }
+
+        /* Zero animations, zero transitions, solid colors only */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: none !important;
+            animation: none !important;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Nunito Sans', system-ui, Arial, sans-serif;
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--bg-page);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        input, textarea, button, select {
+            font-family: 'Nunito Sans', system-ui, Arial, sans-serif;
+            font-size: 15px;
+            color: var(--text-primary);
+        }
+
+        /* Focus Ring */
+        :focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 24px;
+            font-weight: 600;
+            line-height: 1.3;
+            color: var(--text-primary);
+        }
+
+        h2 {
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 1.4;
+            color: var(--text-primary);
+        }
+
+        .page-subtitle {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+            margin-bottom: 20px;
+        }
+
+        .text-muted {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        /* ==========================================================================
+           Sticky Header
+           ========================================================================== */
+        header.site-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            height: var(--header-height);
+            background-color: var(--header-bg);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            padding-top: env(safe-area-inset-top);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+
+        .logo-box {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background-color: var(--primary);
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            letter-spacing: -0.2px;
+        }
+
+        .header-search {
+            flex: 1;
+            max-width: 640px;
+            margin: 0 24px;
+            position: relative;
+        }
+
+        .search-field-wrap {
+            position: relative;
+            width: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-field-wrap svg {
+            position: absolute;
+            left: 14px;
+            color: var(--text-secondary);
+            pointer-events: none;
+        }
+
+        .search-field-wrap input {
+            width: 100%;
+            height: 40px;
+            background: var(--surface-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-pill);
+            padding: 0 16px 0 42px;
+            font-size: 14px;
+        }
+
+        .search-field-wrap input:focus {
+            border-color: var(--primary);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .icon-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-ctrl);
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-primary);
+            position: relative;
+        }
+
+        .icon-btn:hover {
+            background-color: var(--header-hover);
+        }
+
+        .badge-pill {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            min-width: 18px;
+            height: 18px;
+            padding: 0 5px;
+            background-color: var(--destructive);
+            color: #FFFFFF;
+            font-size: 11px;
+            font-weight: 700;
+            border-radius: var(--radius-pill);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 15px;
+            user-select: none;
+            flex-shrink: 0;
+        }
+
+        .avatar.sm {
+            width: 32px;
+            height: 32px;
+            font-size: 13px;
+        }
+
+        .avatar.lg {
+            width: 88px;
+            height: 88px;
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .avatar-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Popovers */
+        .popover-menu {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            background: var(--surface-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-card);
+            box-shadow: var(--shadow-card);
+            z-index: 150;
+            display: none;
+        }
+
+        .popover-menu.open {
+            display: block;
+        }
+
+        .notifications-popover {
+            width: 340px;
+            max-height: 440px;
+            overflow-y: auto;
+        }
+
+        .popover-header {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .popover-header h3 {
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .text-link {
+            font-size: 13px;
+            color: var(--primary);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .notification-item {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            gap: 12px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .notification-item.unread {
+            background-color: var(--active-tint);
+        }
+
+        .notification-item:hover {
+            background-color: var(--bg-hover);
+        }
+
+        .unread-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            position: absolute;
+            left: 6px;
+            top: 20px;
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-content strong {
+            font-weight: 600;
+        }
+
+        .account-popover {
+            width: 200px;
+            padding: 8px 0;
+        }
+
+        .account-menu-item {
+            width: 100%;
+            padding: 10px 16px;
+            border: none;
+            background: none;
+            text-align: left;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .account-menu-item:hover {
+            background-color: var(--bg-hover);
+        }
+
+        /* Search Dropdown */
+        .search-results-card {
+            position: absolute;
+            top: calc(100% + 6px);
+            left: 0;
+            right: 0;
+            background: var(--surface-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-card);
+            box-shadow: var(--shadow-card);
+            z-index: 120;
+            max-height: 360px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        .search-result-row {
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .search-result-row:last-child {
+            border-bottom: none;
+        }
+
+        .search-result-row:hover, .search-result-row.selected {
+            background-color: var(--bg-hover);
+        }
+
+        /* ==========================================================================
+           Layout Grid
+           ========================================================================== */
+        .main-layout {
+            display: grid;
+            grid-template-columns: clamp(224px, 20vw, 320px) minmax(0, 1fr) clamp(288px, 26vw, 400px);
+            gap: 24px;
+            padding: 24px;
+            width: 100%;
+            flex: 1;
+            align-items: start;
+        }
+
+        .sidebar-sticky {
+            position: sticky;
+            top: calc(var(--header-height) + 24px);
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .card {
+            background-color: var(--surface-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-card);
+            box-shadow: var(--shadow-card);
+            padding: 24px;
+        }
+
+        /* ==========================================================================
+           Left Navigation Sidebar
+           ========================================================================== */
+        .nav-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            list-style: none;
+        }
+
+        .nav-item-btn {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            border-radius: 10px;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: left;
+        }
+
+        .nav-item-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .nav-item-btn:hover {
+            background-color: var(--bg-hover);
+            color: var(--text-primary);
+        }
+
+        .nav-item-btn[aria-current="page"] {
+            background-color: var(--active-tint);
+            color: var(--primary);
+        }
+
+        .nav-badge {
+            background-color: var(--destructive);
+            color: #FFFFFF;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: var(--radius-pill);
+        }
+
+        /* ==========================================================================
+           Right Sidebar Cards
+           ========================================================================== */
+        .sidebar-heading-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .events-list-compact {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .event-row-compact {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 0;
+            cursor: pointer;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .event-row-compact:last-child {
+            border-bottom: none;
+        }
+
+        .event-row-compact:hover .event-compact-title {
+            color: var(--primary);
+        }
+
+        .date-block-48 {
+            width: 48px;
+            height: 48px;
+            background-color: var(--active-tint);
+            border-radius: var(--radius-ctrl);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .date-block-48 .day-num {
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 1;
+            color: var(--primary);
+        }
+
+        .date-block-48 .month-abbr {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--primary);
+            margin-top: 2px;
+        }
+
+        .event-compact-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .event-compact-title {
+            font-weight: 600;
+            font-size: 14px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Calendar Preview */
+        .calendar-preview-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        .cal-preview-day-header {
+            font-weight: 600;
+            color: var(--text-secondary);
+            padding: 4px 0;
+        }
+
+        .cal-preview-cell {
+            padding: 6px 0;
+            border-radius: 4px;
+            cursor: pointer;
+            color: var(--text-primary);
+        }
+
+        .cal-preview-cell.empty {
+            cursor: default;
+            color: transparent;
+        }
+
+        .cal-preview-cell.has-event {
+            background-color: var(--active-tint);
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .cal-preview-cell.today {
+            outline: 1px solid var(--primary);
+        }
+
+        /* Online Now */
+        .online-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .online-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            padding: 4px 0;
+        }
+
+        .online-row:hover .online-name {
+            color: var(--primary);
+        }
+
+        .online-row-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .online-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .online-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--moss);
+            flex-shrink: 0;
+        }
+
+        /* ==========================================================================
+           Center Content Feed & Common Elements
+           ========================================================================= */
+        .center-feed {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            min-width: 0;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: var(--radius-ctrl);
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid transparent;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: #FFFFFF;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-secondary {
+            background-color: var(--surface-card);
+            border-color: var(--border);
+            color: var(--text-primary);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--bg-hover);
+        }
+
+        .btn-destructive {
+            background-color: var(--destructive);
+            color: #FFFFFF;
+        }
+
+        .btn-destructive:hover {
+            opacity: 0.9;
+        }
+
+        .btn-sm {
+            padding: 4px 12px;
+            font-size: 13px;
+        }
+
+        /* Form Controls */
+        input[type="text"], input[type="date"], input[type="time"], textarea, select {
+            background-color: var(--surface-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-ctrl);
+            padding: 10px 14px;
+            width: 100%;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        /* Toggle Switch (40x24px pill) */
+        .switch-wrap {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            user-select: none;
+            font-size: 14px;
+        }
+
+        .toggle-switch {
+            width: 40px;
+            height: 24px;
+            border-radius: var(--radius-pill);
+            background-color: #8F9488;
+            position: relative;
+            flex-shrink: 0;
+            cursor: pointer;
+            border: none;
+            padding: 0;
+        }
+
+        .toggle-switch[aria-pressed="true"], .toggle-switch.active {
+            background-color: var(--primary);
+        }
+
+        .toggle-knob {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background-color: #FFFFFF;
+            position: absolute;
+            top: 3px;
+            left: 3px;
+        }
+
+        .toggle-switch[aria-pressed="true"] .toggle-knob, .toggle-switch.active .toggle-knob {
+            left: 19px;
+        }
+
+        /* Chips & Pills */
+        .chip-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            border-radius: var(--radius-pill);
+            font-size: 12px;
+            font-weight: 600;
+            border: 1px solid var(--border);
+            background: var(--surface-card);
+            cursor: pointer;
+        }
+
+        .chip-pill.active {
+            background-color: var(--active-tint);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Status Badges */
+        .status-badge {
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: var(--radius-pill);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            line-height: 1;
+        }
+
+        .status-badge.lost {
+            background-color: var(--label-lost-bg);
+            color: var(--label-lost-text);
+        }
+
+        .status-badge.found {
+            background-color: var(--label-found-bg);
+            color: var(--label-found-text);
+        }
+
+        .status-badge.solved {
+            background-color: var(--label-solved-bg);
+            color: var(--label-solved-text);
+        }
+
+        /* ==========================================================================
+           Composer Card
+           ========================================================================== */
+        .composer-collapsed {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+
+        .composer-fake-input {
+            flex: 1;
+            padding: 10px 16px;
+            background-color: var(--bg-hover);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-ctrl);
+            color: var(--text-secondary);
+            font-size: 15px;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .composer-expanded {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .composer-header-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .composer-user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .composer-inset-panel {
+            background-color: var(--bg-hover);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-ctrl);
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .segmented-controls {
+            display: inline-flex;
+            background: var(--surface-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-pill);
+            padding: 2px;
+            align-self: flex-start;
+        }
+
+        .segment-btn {
+            border: none;
+            background: transparent;
+            padding: 6px 16px;
+            border-radius: var(--radius-pill);
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+        }
+
+        .segment-btn.active {
+            background-color: var(--active-tint);
+            color: var(--primary);
+        }
+
+        .poll-options-builder {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .poll-option-input-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .composer-toggles-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .composer-footer-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
+        }
+
+        .composer-actions-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .composer-error {
+            color: var(--destructive);
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .image-preview-thumbnail-wrap {
+            position: relative;
+            display: inline-block;
+            margin-top: 8px;
+        }
+
+        .image-preview-thumbnail {
+            width: 100px;
+            height: 100px;
+            border-radius: var(--radius-ctrl);
+            object-fit: cover;
+            border: 1px solid var(--border);
+            display: block;
+        }
+
+        /* ==========================================================================
+           Post Card
+           ========================================================================== */
+        .post-card {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .post-header-row {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .post-author-wrap {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .author-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .author-name-btn {
+            background: none;
+            border: none;
+            padding: 0;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+            cursor: pointer;
+            text-align: left;
+        }
+
+        .author-name-btn:hover {
+            color: var(--primary);
+        }
+
+        .post-meta-line {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .post-title {
+            font-size: 18px;
+            font-weight: 600;
+            line-height: 1.4;
+            color: var(--text-primary);
+        }
+
+        .post-body {
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--text-primary);
+            white-space: pre-wrap;
+        }
+
+        .post-image-wrap {
+            width: 100%;
+            max-height: 420px;
+            overflow: hidden;
+            border-radius: var(--radius-ctrl);
+            border: 1px solid var(--border);
+        }
+
+        .post-image-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .post-lf-details {
+            display: flex;
+            gap: 16px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            align-items: center;
+        }
+
+        .post-lf-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Poll Block */
+        .poll-block {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-ctrl);
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background-color: var(--surface-card);
+        }
+
+        .poll-question-title {
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .poll-options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .poll-voting-option-btn {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: var(--radius-ctrl);
+            border: 1px solid var(--border);
+            background: var(--surface-card);
+            text-align: left;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .poll-voting-option-btn:hover {
+            border-color: var(--primary);
+            background-color: var(--bg-hover);
+        }
+
+        .poll-voting-option-btn.selected {
+            border-color: var(--primary);
+            background-color: var(--active-tint);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .poll-result-row {
+            position: relative;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-ctrl);
+            overflow: hidden;
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 14px;
+        }
+
+        .poll-result-row.chosen {
+            border-color: var(--primary);
+            font-weight: 600;
+        }
+
+        .poll-progress-bg {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            background-color: var(--active-tint);
+            z-index: 1;
+        }
+
+        .poll-result-text {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .poll-result-stats {
+            position: relative;
+            z-index: 2;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .poll-result-footer {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        /* Post Action Row */
+        .post-action-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 14px;
+            border-top: 1px solid var(--border);
+        }
+
+        .post-actions-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .post-action-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: var(--radius-ctrl);
+            border: 1px solid transparent;
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .post-action-btn:hover {
+            background-color: var(--bg-hover);
+            color: var(--text-primary);
+        }
+
+        .post-action-btn.active {
+            background-color: var(--active-tint);
+            color: var(--primary);
+        }
+
+        /* Post Comments Section */
+        .comments-section {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
+        }
+
+        .comment-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .comment-bubble {
+            flex: 1;
+            background-color: var(--bg-hover);
+            padding: 8px 12px;
+            border-radius: var(--radius-ctrl);
+            font-size: 14px;
+        }
+
+        .comment-author-line {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 2px;
+        }
+
+        .comment-author-name {
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .comment-time {
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .comment-input-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 4px;
+        }
+
+        /* Post 3-dot dropdown menu */
+        .post-menu-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--surface-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-ctrl);
+            box-shadow: var(--shadow-card);
+            z-index: 50;
+            width: 140px;
+            display: none;
+            overflow: hidden;
+        }
+
+        .post-menu-dropdown.open {
+            display: block;
+        }
+
+        .post-menu-item {
+            width: 100%;
+            padding: 8px 14px;
+            border: none;
+            background: transparent;
+            text-align: left;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .post-menu-item:hover {
+            background-color: var(--bg-hover);
+        }
+
+        .post-menu-item.danger {
+            color: var(--destructive);
+        }
+
+        /* Skeleton Cards */
+        .skeleton-card {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .skeleton-bar {
+            background-color: var(--border);
+            border-radius: 4px;
+        }
+
+        /* ==========================================================================
+           Empty States (Forest Trail SVG)
+           ========================================================================== */
+        .empty-state {
+            padding: 40px 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            color: var(--text-secondary);
+        }
+
+        .empty-state-text {
+            font-size: 14px;
+            max-width: 320px;
+        }
+
+        /* ==========================================================================
+           Messages / Chat Page (Two panes)
+           ========================================================================== */
+        .chat-container-card {
+            padding: 0 !important;
+            overflow: hidden;
+            display: flex;
+            height: calc(100vh - var(--header-height) - 48px);
+            min-height: 520px;
+        }
+
+        .chat-left-pane {
+            width: 300px;
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+            background: var(--surface-card);
+        }
+
+        .chat-left-header {
+            padding: 16px;
+            border-bottom: 1px solid var(--border);
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .conversation-list {
+            flex: 1;
+            overflow-y: auto;
+            list-style: none;
+        }
+
+        .conversation-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+        }
+
+        .conversation-row:hover {
+            background-color: var(--bg-hover);
+        }
+
+        .conversation-row.active {
+            background-color: var(--active-tint);
+        }
+
+        .conversation-details {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .conversation-name-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2px;
+        }
+
+        .conversation-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .conversation-time {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .conversation-preview {
+            font-size: 13px;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .chat-right-pane {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            background: var(--surface-card);
+        }
+
+        .chat-thread-header {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .thread-user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .thread-status {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .thread-status.online {
+            color: var(--moss);
+            font-weight: 600;
+        }
+
+        .chat-messages-area {
+            flex: 1;
+            padding: 16px;
+            overflow-y: auto;
+            background-color: var(--bg-page);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .message-bubble-row {
+            display: flex;
+            flex-direction: column;
+            max-width: 70%;
+        }
+
+        .message-bubble-row.sent {
+            align-self: flex-end;
+            align-items: flex-end;
+        }
+
+        .message-bubble-row.received {
+            align-self: flex-start;
+            align-items: flex-start;
+        }
+
+        .msg-bubble {
+            padding: 10px 14px;
+            border-radius: var(--radius-ctrl);
+            font-size: 14px;
+            line-height: 1.5;
+            word-break: break-word;
+        }
+
+        .message-bubble-row.received .msg-bubble {
+            background-color: var(--surface-card);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            border-bottom-left-radius: 2px;
+        }
+
+        .message-bubble-row.sent .msg-bubble {
+            background-color: var(--primary);
+            color: #FFFFFF;
+            border-bottom-right-radius: 2px;
+        }
+
+        .msg-time {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+
+        .chat-input-bar {
+            padding: 12px 16px;
+            border-top: 1px solid var(--border);
+            background: var(--surface-card);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* ==========================================================================
+           Events & Calendar Page
+           ========================================================================== */
+        .events-page-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+        }
+
+        .calendar-nav-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .cal-nav-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .cal-nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Month View Grid */
+        .calendar-month-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            border-top: 1px solid var(--border);
+            border-left: 1px solid var(--border);
+        }
+
+        .cal-header-cell {
+            padding: 10px 8px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            border-right: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            background-color: var(--bg-hover);
+        }
+
+        .cal-day-cell {
+            min-height: 104px;
+            padding: 8px;
+            border-right: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            background-color: var(--surface-card);
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            cursor: pointer;
+        }
+
+        .cal-day-cell.other-month {
+            background-color: var(--bg-hover);
+            cursor: default;
+        }
+
+        .cal-day-cell.selected {
+            background-color: var(--active-tint);
+        }
+
+        .cal-day-cell-top {
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .cal-day-number {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .cal-day-cell.today .cal-day-number {
+            background-color: var(--primary);
+            color: #FFFFFF;
+        }
+
+        .cal-event-chip {
+            background-color: var(--active-tint);
+            border-left: 3px solid var(--primary);
+            padding: 2px 6px;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--primary);
+            border-radius: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            cursor: pointer;
+        }
+
+        /* Week View Grid */
+        .calendar-week-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            border-top: 1px solid var(--border);
+            border-left: 1px solid var(--border);
+        }
+
+        .cal-week-col {
+            border-right: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            min-height: 240px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cal-week-col-header {
+            padding: 8px;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            background-color: var(--bg-hover);
+            font-size: 13px;
+        }
+
+        .cal-week-col-header .weekday-label {
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .cal-week-col-body {
+            flex: 1;
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        /* ==========================================================================
+           Profiles Page
+           ========================================================================== */
+        .profile-card-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 24px;
+        }
+
+        .profile-card-details {
+            flex: 1;
+        }
+
+        .profile-display-name {
+            font-size: 24px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .profile-meta-line {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin: 4px 0 12px 0;
+        }
+
+        .profile-bio {
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        /* ==========================================================================
+           Modals (<dialog>)
+           ========================================================================== */
+        dialog {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-card);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+            background-color: var(--surface-card);
+            padding: 0;
+            max-width: 520px;
+            width: calc(100% - 32px);
+            margin: auto;
+        }
+
+        dialog::backdrop {
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .dialog-inner {
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .dialog-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .dialog-header h3 {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .dialog-footer {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 12px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
+        }
+
+        /* ==========================================================================
+           Toast Notification
+           ========================================================================== */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #30352D;
+            color: #FFFFFF;
+            padding: 10px 20px;
+            border-radius: var(--radius-ctrl);
+            font-size: 14px;
+            font-weight: 600;
+            z-index: 999;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            display: none;
+            text-align: center;
+        }
+
+        /* ==========================================================================
+           Responsive Mobile Bottom Navigation (< 820px)
+           ========================================================================== */
+        .bottom-nav-bar {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background-color: var(--surface-card);
+            border-top: 1px solid var(--border);
+            z-index: 100;
+            justify-content: space-around;
+            align-items: center;
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        .bottom-nav-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+        }
+
+        .bottom-nav-btn[aria-current="page"], .bottom-nav-btn.active {
+            color: var(--primary);
+            background-color: var(--active-tint);
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 1100px) {
+            .main-layout {
+                grid-template-columns: clamp(208px, 26vw, 260px) minmax(0, 1fr);
+            }
+            .sidebar-right {
+                display: none;
+            }
+        }
+
+        @media (max-width: 820px) {
+            header.site-header {
+                padding: 0 16px;
+            }
+            .logo-title {
+                display: none;
+            }
+            .header-search {
+                margin: 0 12px;
+            }
+            .main-layout {
+                grid-template-columns: 1fr;
+                padding: 16px;
+                padding-bottom: 80px;
+            }
+            .sidebar-left, .sidebar-right {
+                display: none;
+            }
+            .bottom-nav-bar {
+                display: flex;
+            }
+            .card {
+                padding: 16px;
+            }
+            .post-action-btn .btn-text {
+                display: none;
+            }
+            .toast {
+                bottom: 74px;
+            }
+            .calendar-week-grid {
+                grid-template-columns: 1fr;
+            }
+            .chat-container-card {
+                height: calc(100vh - var(--header-height) - 100px);
+            }
+            .chat-left-pane.mobile-hidden {
+                display: none;
+            }
+            .chat-right-pane.mobile-hidden {
+                display: none;
+            }
+            .mobile-back-chat-btn {
+                display: inline-flex !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ========================================================================
+         Top Header
+         ======================================================================== -->
+    <header class="site-header" role="banner">
+        <div class="header-left" onclick="navigateTo('home')" aria-label="Go to Community Feed">
+            <div class="logo-box" aria-hidden="true">
+                <!-- 20px Chat Bubble SVG -->
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+            </div>
+            <div class="logo-title">BRACU Social</div>
+        </div>
+
+        <div class="header-search">
+            <div class="search-field-wrap">
+                <!-- 20px Search Outline SVG -->
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input type="text" id="global-search-input" placeholder="Search students by name or username" autocomplete="off" aria-label="Search students by name or username">
+            </div>
+            <!-- Search Results Dropdown -->
+            <div class="search-results-card" id="search-results-box" role="listbox"></div>
+        </div>
+
+        <div class="header-right">
+            <!-- Notifications Bell -->
+            <button class="icon-btn" id="notif-bell-btn" aria-label="Notifications" onclick="togglePopover('notif-popover')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                    <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                </svg>
+                <span class="badge-pill" id="header-notif-badge">3</span>
+            </button>
+
+            <!-- Notifications Popover Card -->
+            <div class="popover-menu notifications-popover" id="notif-popover">
+                <div class="popover-header">
+                    <h3>Notifications</h3>
+                    <button class="text-link" onclick="markAllNotificationsAsRead()">Mark all as read</button>
+                </div>
+                <div id="notif-list-container"></div>
+            </div>
+
+            <!-- Profile Avatar Button -->
+            <button class="avatar-btn" id="account-avatar-btn" aria-label="Account menu" onclick="togglePopover('account-popover')">
+                <div class="avatar sm" style="background-color: #526747;">R</div>
+            </button>
+
+            <!-- Account Menu Popover -->
+            <div class="popover-menu account-popover" id="account-popover">
+                <button class="account-menu-item" onclick="navigateTo('profile', 'rafi'); closeAllPopovers();">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    My Profile
+                </button>
+                <button class="account-menu-item" onclick="navigateTo('messages'); closeAllPopovers();">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                    Messages
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ========================================================================
+         Main Layout
+         ======================================================================== -->
+    <main class="main-layout" role="main">
+        <!-- Left Sidebar (Single White Card) -->
+        <aside class="sidebar-left" aria-label="Main Navigation">
+            <div class="sidebar-sticky">
+                <div class="card" style="padding: 16px;">
+                    <ul class="nav-list" role="list">
+                        <li>
+                            <button class="nav-item-btn" id="nav-home" onclick="navigateTo('home')" aria-current="page">
+                                <div class="nav-item-left">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                                    <span>Home</span>
+                                </div>
+                            </button>
+                        </li>
+                        <li>
+                            <button class="nav-item-btn" id="nav-messages" onclick="navigateTo('messages')">
+                                <div class="nav-item-left">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                                    <span>Messages</span>
+                                </div>
+                                <span class="nav-badge" id="nav-unread-count">1</span>
+                            </button>
+                        </li>
+                        <li>
+                            <button class="nav-item-btn" id="nav-events" onclick="navigateTo('events')">
+                                <div class="nav-item-left">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                                    <span>Events & Calendar</span>
+                                </div>
+                            </button>
+                        </li>
+                        <li>
+                            <button class="nav-item-btn" id="nav-lostfound" onclick="navigateTo('lostfound')">
+                                <div class="nav-item-left">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                                    <span>Lost & Found</span>
+                                </div>
+                            </button>
+                        </li>
+                        <li>
+                            <button class="nav-item-btn" id="nav-polls" onclick="navigateTo('polls')">
+                                <div class="nav-item-left">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"></line><line x1="18" y1="20" x2="18" y2="4"></line><line x1="6" y1="20" x2="6" y2="16"></line></svg>
+                                    <span>Polls</span>
+                                </div>
+                            </button>
+                        </li>
+                        <li>
+                            <button class="nav-item-btn" id="nav-profile" onclick="navigateTo('profile', 'rafi')">
+                                <div class="nav-item-left">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                                    <span>My Profile</span>
+                                </div>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Center Feed Container (Changes with Active Page) -->
+        <section class="center-feed" id="page-container" aria-live="polite">
+            <!-- Will be dynamically injected by JavaScript -->
+        </section>
+
+        <!-- Right Sidebar (Three White Cards) -->
+        <aside class="sidebar-right" aria-label="Campus Highlights">
+            <div class="sidebar-sticky">
+                <!-- Card 1: Upcoming Events -->
+                <div class="card">
+                    <div class="sidebar-heading-row">
+                        <h2>Upcoming events</h2>
+                        <button class="text-link" onclick="navigateTo('events')">See all</button>
+                    </div>
+                    <div class="events-list-compact" id="sidebar-upcoming-events"></div>
+                </div>
+
+                <!-- Card 2: Calendar Preview -->
+                <div class="card">
+                    <div class="sidebar-heading-row">
+                        <h2 id="sidebar-calendar-heading">October 2026</h2>
+                    </div>
+                    <div class="calendar-preview-grid" id="sidebar-calendar-grid"></div>
+                </div>
+
+                <!-- Card 3: Online Now -->
+                <div class="card">
+                    <div class="sidebar-heading-row">
+                        <h2>Online now</h2>
+                    </div>
+                    <div class="online-list" id="sidebar-online-list"></div>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <!-- ========================================================================
+         Fixed Bottom Navigation Bar (Mobile <= 820px)
+         ======================================================================== -->
+    <nav class="bottom-nav-bar" aria-label="Mobile Navigation">
+        <button class="bottom-nav-btn active" id="bnav-home" onclick="navigateTo('home')">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+            <span>Home</span>
+        </button>
+        <button class="bottom-nav-btn" id="bnav-messages" onclick="navigateTo('messages')">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+            <span>Messages</span>
+        </button>
+        <button class="bottom-nav-btn" id="bnav-events" onclick="navigateTo('events')">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            <span>Events</span>
+        </button>
+        <button class="bottom-nav-btn" id="bnav-lostfound" onclick="navigateTo('lostfound')">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            <span>Lost & Found</span>
+        </button>
+        <button class="bottom-nav-btn" id="bnav-polls" onclick="navigateTo('polls')">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"></line><line x1="18" y1="20" x2="18" y2="4"></line><line x1="6" y1="20" x2="6" y2="16"></line></svg>
+            <span>Polls</span>
+        </button>
+        <button class="bottom-nav-btn" id="bnav-profile" onclick="navigateTo('profile', 'rafi')">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            <span>Profile</span>
+        </button>
+    </nav>
+
+    <!-- ========================================================================
+         Native Dialogs (<dialog>)
+         ======================================================================== -->
+    <!-- Edit Post Dialog -->
+    <dialog id="edit-post-dialog" aria-labelledby="edit-dialog-title">
+        <div class="dialog-inner">
+            <div class="dialog-header">
+                <h3 id="edit-dialog-title">Edit post</h3>
+                <button class="icon-btn" onclick="closeDialog('edit-post-dialog')" aria-label="Close dialog">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+                <input type="text" id="edit-post-title" placeholder="Title" aria-label="Post Title">
+                <textarea id="edit-post-body" rows="4" placeholder="Body text" aria-label="Post Body"></textarea>
+                
+                <div id="edit-image-container" style="display: none;">
+                    <div style="font-size: 13px; font-weight: 600; margin-bottom: 4px;">Image attachment:</div>
+                    <img id="edit-image-preview" src="" alt="Post image preview" style="max-height: 120px; border-radius: 8px; object-fit: cover;">
+                    <div style="margin-top: 6px;">
+                        <button class="btn btn-secondary btn-sm" onclick="removeEditImage()">Remove image</button>
+                    </div>
+                </div>
+
+                <div id="edit-lf-container" class="composer-inset-panel" style="display: none;">
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <label for="edit-lf-status" style="font-size: 13px; font-weight: 600;">Status:</label>
+                        <select id="edit-lf-status" style="width: auto;">
+                            <option value="Lost">Lost</option>
+                            <option value="Found">Found</option>
+                        </select>
+                    </div>
+                    <input type="text" id="edit-lf-location" placeholder="Location">
+                    <input type="text" id="edit-lf-date" placeholder="Date (e.g. 28 Oct 2026)">
+                </div>
+
+                <div id="edit-poll-container" class="composer-inset-panel" style="display: none;">
+                    <label for="edit-poll-question" style="font-size: 13px; font-weight: 600;">Poll Question:</label>
+                    <input type="text" id="edit-poll-question">
+                    <div id="edit-poll-options-box" style="display: flex; flex-direction: column; gap: 6px;"></div>
+                </div>
+            </div>
+            <div class="dialog-footer">
+                <button class="btn btn-secondary" onclick="closeDialog('edit-post-dialog')">Cancel</button>
+                <button class="btn btn-primary" onclick="saveEditedPost()">Save changes</button>
+            </div>
+        </div>
+    </dialog>
+
+    <!-- Delete Post Confirmation Dialog -->
+    <dialog id="delete-post-dialog" aria-labelledby="delete-dialog-title">
+        <div class="dialog-inner">
+            <div class="dialog-header">
+                <h3 id="delete-dialog-title">Delete this post?</h3>
+                <button class="icon-btn" onclick="closeDialog('delete-post-dialog')" aria-label="Close dialog">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+            <p class="text-muted" style="font-size: 14px;">This will permanently remove the post and its comments. This can’t be undone.</p>
+            <div class="dialog-footer">
+                <button class="btn btn-secondary" onclick="closeDialog('delete-post-dialog')">Cancel</button>
+                <button class="btn btn-destructive" onclick="confirmDeletePost()">Delete post</button>
+            </div>
+        </div>
+    </dialog>
+
+    <!-- Create Event Dialog -->
+    <dialog id="create-event-dialog" aria-labelledby="create-event-dialog-title">
+        <div class="dialog-inner">
+            <div class="dialog-header">
+                <h3 id="create-event-dialog-title">Create event</h3>
+                <button class="icon-btn" onclick="closeDialog('create-event-dialog')" aria-label="Close dialog">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+                <input type="text" id="event-input-title" placeholder="Event Title" required>
+                <div style="display: flex; gap: 12px;">
+                    <input type="date" id="event-input-date" required>
+                    <input type="time" id="event-input-time" value="10:00">
+                </div>
+                <input type="text" id="event-input-location" placeholder="Location (e.g. Main Auditorium)">
+                <textarea id="event-input-details" rows="3" placeholder="Optional details..."></textarea>
+                <div id="event-error-msg" class="composer-error" style="display: none;">Add a title and a date.</div>
+            </div>
+            <div class="dialog-footer">
+                <button class="btn btn-secondary" onclick="closeDialog('create-event-dialog')">Cancel</button>
+                <button class="btn btn-primary" onclick="submitNewEvent()">Add event</button>
+            </div>
+        </div>
+    </dialog>
+
+    <!-- Event Details Dialog -->
+    <dialog id="event-details-dialog" aria-labelledby="event-details-dialog-title">
+        <div class="dialog-inner">
+            <div class="dialog-header">
+                <h3 id="event-details-dialog-title">Event details</h3>
+                <button class="icon-btn" onclick="closeDialog('event-details-dialog')" aria-label="Close dialog">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+            <div>
+                <h2 id="ev-detail-title" style="font-size: 18px; margin-bottom: 8px;"></h2>
+                <div style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: var(--text-secondary); margin-bottom: 14px;">
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                        <span id="ev-detail-date"></span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        <span id="ev-detail-time"></span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                        <span id="ev-detail-loc"></span>
+                    </div>
+                </div>
+                <div id="ev-detail-desc" style="font-size: 14px; line-height: 1.6;"></div>
+            </div>
+            <div class="dialog-footer">
+                <button class="btn btn-secondary" onclick="closeDialog('event-details-dialog')">Close</button>
+            </div>
+        </div>
+    </dialog>
+
+    <!-- Global Toast Notification -->
+    <div id="toast-message" class="toast" role="status" aria-live="polite"></div>
+
+    <!-- ========================================================================
+         In-Memory Sample Data & Application Logic
+         ======================================================================== -->
+    <script>
+        /* --------------------------------------------------------------------------
+           1. In-Memory Data Store (No localStorage)
+           -------------------------------------------------------------------------- */
+        const CURRENT_USER_ID = "rafi";
+        const CURRENT_DATE_STR = "2026-10-28";
+
+        const USERS = {
+            "rafi": {
+                id: "rafi",
+                name: "Rafi",
+                username: "rafi",
+                department: "CSE",
+                studentId: "24241271",
+                bio: "CSE student at BRACU. Building portfolio projects and learning something new every week.",
+                avatarColor: "#526747",
+                avatarLetter: "R",
+                online: true
+            },
+            "nusrat": {
+                id: "nusrat",
+                name: "Nusrat Jahan",
+                username: "nusrat.j",
+                department: "BBA",
+                studentId: "24101052",
+                bio: "BBA senior | Marketing enthusiast and club organizer.",
+                avatarColor: "#6A7549",
+                avatarLetter: "N",
+                online: true
+            },
+            "tanvir": {
+                id: "tanvir",
+                name: "Tanvir Ahmed",
+                username: "tanvir_eee",
+                department: "EEE",
+                studentId: "23201419",
+                bio: "EEE Junior | Circuit design & robotics lover.",
+                avatarColor: "#6B5F3A",
+                avatarLetter: "T",
+                online: false
+            },
+            "sadia": {
+                id: "sadia",
+                name: "Sadia Rahman",
+                username: "sadia.r",
+                department: "ENH",
+                studentId: "24301188",
+                bio: "Literature & creative writing enthusiast.",
+                avatarColor: "#4F6256",
+                avatarLetter: "S",
+                online: true
+            },
+            "imran": {
+                id: "imran",
+                name: "Imran Hossain",
+                username: "imran_h",
+                department: "CSE",
+                studentId: "23101290",
+                bio: "Competitive programmer & open source fan.",
+                avatarColor: "#7A5E43",
+                avatarLetter: "I",
+                online: false
+            },
+            "farhana": {
+                id: "farhana",
+                name: "Farhana Islam",
+                username: "farhana.i",
+                department: "ARC",
+                studentId: "22301015",
+                bio: "Architecture student passionate about sustainable campus spaces.",
+                avatarColor: "#44584A",
+                avatarLetter: "F",
+                online: true
+            }
+        };
+
+        let POSTS = [
+            {
+                id: "post-1",
+                authorId: "nusrat",
+                anonymous: false,
+                timestamp: "28 Oct, 11:20 AM",
+                title: "Study group for CSE330 finals",
+                body: "Hey everyone! Setting up an intensive revision group for CSE330 algorithms this week. We will go through graph theory, DP problems, and previous midterm questions. Drop a comment if you'd like to join us in UB2 library!",
+                image: null,
+                lostFound: null,
+                poll: null,
+                likes: ["tanvir", "sadia"],
+                dislikes: [],
+                comments: [
+                    { id: "c-1", authorId: "tanvir", timestamp: "28 Oct, 11:45 AM", text: "Count me in! I really need to review dynamic programming." }
+                ]
+            },
+            {
+                id: "post-2",
+                authorId: "tanvir",
+                anonymous: false,
+                timestamp: "27 Oct, 3:15 PM",
+                title: "Lost: black leather wallet",
+                body: "I seem to have misplaced my black leather wallet containing my student ID and canteen card yesterday afternoon. If anyone finds it, please let me know or leave it with security.",
+                image: null,
+                lostFound: {
+                    status: "Lost",
+                    location: "UB2 canteen",
+                    date: "27 Oct 2026",
+                    resolved: false
+                },
+                poll: null,
+                likes: ["rafi"],
+                dislikes: [],
+                comments: []
+            },
+            {
+                id: "post-3",
+                authorId: "sadia",
+                anonymous: true,
+                timestamp: "27 Oct, 1:00 PM",
+                title: null,
+                body: "Planning an informal weekend picnic at the lake park. Which day works best for everyone?",
+                image: null,
+                lostFound: null,
+                poll: {
+                    question: "Which day works best?",
+                    multiple: false,
+                    options: [
+                        { id: "opt-1", text: "Friday", votes: 12 },
+                        { id: "opt-2", text: "Saturday", votes: 18 },
+                        { id: "opt-3", text: "Sunday", votes: 6 }
+                    ],
+                    userVotedOptionIds: ["opt-2"] // current user already voted for Saturday
+                },
+                likes: ["farhana"],
+                dislikes: [],
+                comments: []
+            },
+            {
+                id: "post-4",
+                authorId: "imran",
+                anonymous: false,
+                timestamp: "26 Oct, 5:30 PM",
+                title: "Found: blue umbrella",
+                body: "Found a compact navy blue umbrella left on the bench near the bus stop in the rain. Handed it over to the information counter.",
+                image: null,
+                lostFound: {
+                    status: "Found",
+                    location: "Gate 2 bus stop",
+                    date: "26 Oct 2026",
+                    resolved: true
+                },
+                poll: null,
+                likes: ["rafi", "nusrat"],
+                dislikes: [],
+                comments: []
+            },
+            {
+                id: "post-5",
+                authorId: "rafi",
+                anonymous: false,
+                timestamp: "26 Oct, 10:15 AM",
+                title: "Looking for two teammates for the hackathon",
+                body: "We are forming a team for the upcoming BRACU Inter-University Hackathon. Looking for one frontend/UI designer and one backend developer interested in building civic-tech solutions. DM or comment below!",
+                image: null,
+                lostFound: null,
+                poll: null,
+                likes: ["imran", "nusrat", "farhana"],
+                dislikes: [],
+                comments: [
+                    { id: "c-2", authorId: "imran", timestamp: "26 Oct, 11:00 AM", text: "I can help with the backend API and database architecture!" }
+                ]
+            },
+            {
+                id: "post-6",
+                authorId: "farhana",
+                anonymous: false,
+                timestamp: "25 Oct, 2:40 PM",
+                title: "Campus study spaces survey",
+                body: "For our campus spatial study, we want to know where BRACU students feel most productive and relaxed during free hours.",
+                image: null,
+                lostFound: null,
+                poll: {
+                    question: "Favourite study spots",
+                    multiple: true,
+                    options: [
+                        { id: "opt-a", text: "Library 4th floor", votes: 24 },
+                        { id: "opt-b", text: "Rooftop garden", votes: 19 },
+                        { id: "opt-c", text: "UB1 lounge", votes: 11 },
+                        { id: "opt-d", text: "Empty classrooms", votes: 15 }
+                    ],
+                    userVotedOptionIds: [] // current user has not voted yet
+                },
+                likes: ["sadia", "tanvir"],
+                dislikes: [],
+                comments: []
+            }
+        ];
+
+        let EVENTS = [
+            {
+                id: "ev-1",
+                title: "CSE330 Review Session",
+                date: "2026-10-28",
+                time: "16:00",
+                location: "Library 3rd floor",
+                details: "Comprehensive review session covering algorithms, dynamic programming, and finals exam preparation."
+            },
+            {
+                id: "ev-2",
+                title: "Career Fair 2026",
+                date: "2026-10-29",
+                time: "10:00",
+                location: "Main Auditorium",
+                details: "Annual campus career expo featuring top tech, finance, and engineering companies for internships and full-time hiring."
+            },
+            {
+                id: "ev-3",
+                title: "Cultural Night",
+                date: "2026-10-31",
+                time: "18:30",
+                location: "Open Stage",
+                details: "Annual student cultural showcase featuring drama, acoustic music, dance performances, and poetry recitations."
+            },
+            {
+                id: "ev-4",
+                title: "Robotics Club Meetup",
+                date: "2026-11-05",
+                time: "15:00",
+                location: "Room 10F-22",
+                details: "Hands-on micro-controller workshop, line follower robot demonstrations, and new project team allocations."
+            },
+            {
+                id: "ev-5",
+                title: "Blood Donation Drive",
+                date: "2026-11-12",
+                time: "09:00",
+                location: "Student Lounge",
+                details: "BRACU Community Service Club voluntary blood donation drive organized in collaboration with Quantum Foundation."
+            }
+        ];
+
+        let NOTIFICATIONS = [
+            { id: "n-1", type: "user", authorId: "imran", text: "commented on your post", time: "2 hours ago", unread: true },
+            { id: "n-2", type: "user", authorId: "tanvir", text: "liked your post", time: "5 hours ago", unread: true },
+            { id: "n-3", type: "system", title: "Campus Notice", text: "Career Fair is tomorrow at 10:00", time: "1 day ago", unread: true },
+            { id: "n-4", type: "user", authorId: "nusrat", text: "replied to your message", time: "2 days ago", unread: false }
+        ];
+
+        let CONVERSATIONS = [
+            {
+                userId: "nusrat",
+                unread: 0,
+                messages: [
+                    { id: "m-1", senderId: "nusrat", text: "Hi Rafi! Are you joining the study group this evening?", time: "10:30 AM" },
+                    { id: "m-2", senderId: "rafi", text: "Yes! Bringing my notes for graph algorithms.", time: "10:32 AM" },
+                    { id: "m-3", senderId: "nusrat", text: "Great, see you on the 3rd floor!", time: "10:34 AM" }
+                ]
+            },
+            {
+                userId: "tanvir",
+                unread: 1,
+                messages: [
+                    { id: "m-4", senderId: "rafi", text: "Hey Tanvir, did you find your wallet yet?", time: "Yesterday" },
+                    { id: "m-5", senderId: "tanvir", text: "Not yet, checking with UB2 security today.", time: "8:15 AM" }
+                ]
+            },
+            {
+                userId: "imran",
+                unread: 0,
+                messages: [
+                    { id: "m-6", senderId: "imran", text: "Hey Rafi, let me know the tech stack for the hackathon team.", time: "26 Oct" },
+                    { id: "m-7", senderId: "rafi", text: "Thinking of building with a fast lightweight stack. Let's sync tomorrow!", time: "26 Oct" }
+                ]
+            }
+        ];
+
+        /* --------------------------------------------------------------------------
+           2. State Variables
+           -------------------------------------------------------------------------- */
+        let currentPage = 'home';
+        let currentProfileUserId = 'rafi';
+        let activeChatUserId = 'nusrat';
+        let activeLfFilter = 'all'; // 'all', 'unresolved', 'solved'
+        let calendarSelectedDate = '2026-10-28';
+        let calendarViewMode = 'month'; // 'month' or 'week'
+        let calendarNavDate = new Date(2026, 9, 28); // Oct 2026
+
+        // Temporary composer state
+        let composerState = {
+            expanded: false,
+            pollActive: false,
+            lfActive: false,
+            lfStatus: 'Lost',
+            anonymous: false,
+            image: null,
+            pollMultiple: false,
+            pollOptions: ["", ""]
+        };
+
+        // Temporary post being edited or deleted
+        let editingPostId = null;
+        let deletingPostId = null;
+
+        /* --------------------------------------------------------------------------
+           3. SVG Illustrations & Helper Icons
+           -------------------------------------------------------------------------- */
+        function getForestIllustration() {
+            return `
+            <svg width="120" height="72" viewBox="0 0 120 72" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <!-- Back hill (pale sage) -->
+                <path d="M0 48 Q45 28 90 42 Q110 46 120 52 L120 72 L0 72 Z" fill="#D5DEC8" />
+                <!-- Front hill (sage green) -->
+                <path d="M0 58 Q35 44 80 52 Q105 56 120 64 L120 72 L0 72 Z" fill="#91A77C" />
+                <!-- Four forest-green triangle trees -->
+                <polygon points="24,30 18,48 30,48" fill="#526747" />
+                <polygon points="36,24 28,45 44,45" fill="#526747" />
+                <polygon points="76,28 70,47 82,47" fill="#526747" />
+                <polygon points="90,34 84,50 96,50" fill="#526747" />
+                <!-- Warm ivory trail -->
+                <path d="M48 72 C50 64 54 58 58 52 C62 58 66 64 68 72 Z" fill="#F5F3EA" />
+            </svg>`;
+        }
+
+        function renderAvatar(user, sizeClass = '') {
+            if (!user) {
+                return `<div class="avatar ${sizeClass}" style="background-color: #59635C;">?</div>`;
+            }
+            return `<div class="avatar ${sizeClass}" style="background-color: ${user.avatarColor};">${user.avatarLetter}</div>`;
+        }
+
+        /* --------------------------------------------------------------------------
+           4. Global UI Navigation & Page Routing
+           -------------------------------------------------------------------------- */
+        function navigateTo(page, param = null) {
+            currentPage = page;
+            if (page === 'profile' && param) {
+                currentProfileUserId = param;
+            }
+            if (page === 'messages' && param) {
+                activeChatUserId = param;
+            }
+
+            // Update Left Nav active states
+            ['home', 'messages', 'events', 'lostfound', 'polls', 'profile'].forEach(id => {
+                const btn = document.getElementById(`nav-${id}`);
+                const bbtn = document.getElementById(`bnav-${id}`);
+                const isActive = (id === page) || (id === 'profile' && page === 'profile' && currentProfileUserId === CURRENT_USER_ID);
+                if (btn) {
+                    if (isActive) btn.setAttribute('aria-current', 'page');
+                    else btn.removeAttribute('aria-current');
+                }
+                if (bbtn) {
+                    if (isActive) {
+                        bbtn.setAttribute('aria-current', 'page');
+                        bbtn.classList.add('active');
+                    } else {
+                        bbtn.removeAttribute('aria-current');
+                        bbtn.classList.remove('active');
+                    }
+                }
+            });
+
+            window.scrollTo({ top: 0, behavior: 'instant' });
+            renderCurrentPage();
+            renderSidebarComponents();
+        }
+
+        function renderCurrentPage() {
+            const container = document.getElementById('page-container');
+            if (currentPage === 'home') {
+                renderHomePage(container);
+            } else if (currentPage === 'polls') {
+                renderPollsPage(container);
+            } else if (currentPage === 'lostfound') {
+                renderLostFoundPage(container);
+            } else if (currentPage === 'profile') {
+                renderProfilePage(container, currentProfileUserId);
+            } else if (currentPage === 'messages') {
+                renderMessagesPage(container);
+            } else if (currentPage === 'events') {
+                renderEventsPage(container);
+            }
+        }
+
+        /* --------------------------------------------------------------------------
+           5. Home Page & Composer Logic
+           -------------------------------------------------------------------------- */
+        let hasShownInitialSkeleton = false;
+
+        function renderHomePage(container) {
+            container.innerHTML = `
+                <div>
+                    <h1>Community Feed</h1>
+                    <div class="page-subtitle">What’s happening at BRACU today.</div>
+                </div>
+
+                <!-- Composer Card -->
+                <div class="card" id="composer-card">
+                    ${renderComposerHTML()}
+                </div>
+
+                <!-- Posts List -->
+                <div id="posts-list-container" style="display: flex; flex-direction: column; gap: 24px;">
+                    ${hasShownInitialSkeleton ? renderPostsHTML(POSTS) : renderSkeletonHTML()}
+                </div>
+            `;
+
+            if (!hasShownInitialSkeleton) {
+                setTimeout(() => {
+                    hasShownInitialSkeleton = true;
+                    const listContainer = document.getElementById('posts-list-container');
+                    if (listContainer) listContainer.innerHTML = renderPostsHTML(POSTS);
+                }, 700);
+            }
+        }
+
+        function renderSkeletonHTML() {
+            return `
+                <div class="card skeleton-card">
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                        <div class="skeleton-bar" style="width: 40px; height: 40px; border-radius: 50%;"></div>
+                        <div style="display: flex; flex-direction: column; gap: 6px;">
+                            <div class="skeleton-bar" style="width: 140px; height: 14px;"></div>
+                            <div class="skeleton-bar" style="width: 80px; height: 10px;"></div>
+                        </div>
+                    </div>
+                    <div class="skeleton-bar" style="width: 75%; height: 20px;"></div>
+                    <div class="skeleton-bar" style="width: 100%; height: 14px;"></div>
+                    <div class="skeleton-bar" style="width: 90%; height: 14px;"></div>
+                </div>
+                <div class="card skeleton-card">
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                        <div class="skeleton-bar" style="width: 40px; height: 40px; border-radius: 50%;"></div>
+                        <div style="display: flex; flex-direction: column; gap: 6px;">
+                            <div class="skeleton-bar" style="width: 120px; height: 14px;"></div>
+                            <div class="skeleton-bar" style="width: 70px; height: 10px;"></div>
+                        </div>
+                    </div>
+                    <div class="skeleton-bar" style="width: 60%; height: 20px;"></div>
+                    <div class="skeleton-bar" style="width: 95%; height: 14px;"></div>
+                </div>
+            `;
+        }
+
+        function renderComposerHTML() {
+            const me = USERS[CURRENT_USER_ID];
+            if (!composerState.expanded) {
+                return `
+                    <div class="composer-collapsed" onclick="expandComposer()">
+                        ${renderAvatar(me)}
+                        <button class="composer-fake-input" type="button">Share something with your community…</button>
+                    </div>
+                `;
+            }
+
+            return `
+                <div class="composer-expanded">
+                    <div class="composer-header-row">
+                        <div class="composer-user-info">
+                            ${renderAvatar(composerState.anonymous ? null : me)}
+                            <div>
+                                <span style="font-weight: 600;">Create a post</span>
+                                ${composerState.anonymous ? '<span class="text-muted" style="margin-left: 6px;">(Posting as Anonymous)</span>' : ''}
+                            </div>
+                        </div>
+                        <button class="icon-btn" onclick="collapseComposer()" aria-label="Close composer">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                        </button>
+                    </div>
+
+                    <!-- Title & Body -->
+                    <input type="text" id="composer-title" placeholder="Title (optional if adding poll)" aria-label="Post title">
+                    <textarea id="composer-body" rows="3" placeholder="What's on your mind?" aria-label="Post body"></textarea>
+
+                    <!-- Image Attachment Controls -->
+                    <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 8px;">
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <label class="btn btn-secondary btn-sm" style="cursor: pointer;">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                                Add image
+                                <input type="file" id="composer-image-file" accept="image/*" style="display: none;" onchange="handleComposerImageUpload(event)">
+                            </label>
+                            ${composerState.image ? `<button class="btn btn-secondary btn-sm" onclick="removeComposerImage()">Remove image</button>` : ''}
+                        </div>
+                        ${composerState.image ? `
+                            <div class="image-preview-thumbnail-wrap">
+                                <img src="${composerState.image}" alt="Preview" class="image-preview-thumbnail">
+                            </div>
+                        ` : ''}
+                    </div>
+
+                    <!-- Feature Toggles Chips -->
+                    <div class="composer-toggles-row">
+                        <button class="chip-pill ${composerState.pollActive ? 'active' : ''}" type="button" onclick="toggleComposerSection('poll')">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"></line><line x1="18" y1="20" x2="18" y2="4"></line><line x1="6" y1="20" x2="6" y2="16"></line></svg>
+                            Poll
+                        </button>
+                        <button class="chip-pill ${composerState.lfActive ? 'active' : ''}" type="button" onclick="toggleComposerSection('lf')">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                            Lost & Found
+                        </button>
+                    </div>
+
+                    <!-- Optional Lost & Found Inset Panel -->
+                    ${composerState.lfActive ? `
+                        <div class="composer-inset-panel">
+                            <div style="font-size: 13px; font-weight: 600; color: var(--text-secondary);">Lost & Found Item Details</div>
+                            <div class="segmented-controls">
+                                <button class="segment-btn ${composerState.lfStatus === 'Lost' ? 'active' : ''}" onclick="setComposerLfStatus('Lost')">Lost</button>
+                                <button class="segment-btn ${composerState.lfStatus === 'Found' ? 'active' : ''}" onclick="setComposerLfStatus('Found')">Found</button>
+                            </div>
+                            <input type="text" id="composer-lf-location" placeholder="Location (e.g. UB2 Canteen, Library 3rd floor)">
+                            <input type="text" id="composer-lf-date" placeholder="Date (e.g. 28 Oct 2026)">
+                        </div>
+                    ` : ''}
+
+                    <!-- Optional Poll Inset Panel -->
+                    ${composerState.pollActive ? `
+                        <div class="composer-inset-panel">
+                            <div style="font-size: 13px; font-weight: 600; color: var(--text-secondary);">Poll Configuration</div>
+                            <input type="text" id="composer-poll-question" placeholder="Poll question (e.g. What day works best?)">
+                            
+                            <div class="poll-options-builder" id="composer-poll-options">
+                                ${composerState.pollOptions.map((opt, idx) => `
+                                    <div class="poll-option-input-row">
+                                        <input type="text" value="${opt}" placeholder="Option ${idx + 1}" oninput="updateComposerPollOption(${idx}, this.value)">
+                                        ${composerState.pollOptions.length > 2 ? `
+                                            <button class="icon-btn" style="width: 32px; height: 32px;" onclick="removeComposerPollOption(${idx})" aria-label="Remove option">
+                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                            </button>
+                                        ` : ''}
+                                    </div>
+                                `).join('')}
+                            </div>
+                            
+                            ${composerState.pollOptions.length < 6 ? `
+                                <div>
+                                    <button class="btn btn-secondary btn-sm" type="button" onclick="addComposerPollOption()">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                        Add option
+                                    </button>
+                                </div>
+                            ` : ''}
+
+                            <div style="margin-top: 4px;">
+                                <label class="switch-wrap">
+                                    <button type="button" role="switch" class="toggle-switch ${composerState.pollMultiple ? 'active' : ''}" aria-checked="${composerState.pollMultiple}" onclick="toggleComposerPollMultiple()">
+                                        <span class="toggle-knob"></span>
+                                    </button>
+                                    <span>Allow multiple choices</span>
+                                </label>
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    <!-- Footer Row -->
+                    <div class="composer-footer-row">
+                        <label class="switch-wrap">
+                            <button type="button" role="switch" class="toggle-switch ${composerState.anonymous ? 'active' : ''}" aria-checked="${composerState.anonymous}" onclick="toggleComposerAnonymous()">
+                                <span class="toggle-knob"></span>
+                            </button>
+                            <span>Post anonymously</span>
+                        </label>
+
+                        <div class="composer-actions-right">
+                            <span id="composer-error-text" class="composer-error" role="alert"></span>
+                            <button class="btn btn-secondary" onclick="collapseComposer()">Cancel</button>
+                            <button class="btn btn-primary" id="composer-publish-btn" onclick="publishPost()">Publish</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function expandComposer(opts = {}) {
+            composerState.expanded = true;
+            if (opts.poll) composerState.pollActive = true;
+            if (opts.lostFound) composerState.lfActive = true;
+            const card = document.getElementById('composer-card');
+            if (card) card.innerHTML = renderComposerHTML();
+        }
+
+        function collapseComposer() {
+            composerState.expanded = false;
+            composerState.pollActive = false;
+            composerState.lfActive = false;
+            composerState.anonymous = false;
+            composerState.image = null;
+            composerState.pollOptions = ["", ""];
+            const card = document.getElementById('composer-card');
+            if (card) card.innerHTML = renderComposerHTML();
+        }
+
+        function toggleComposerSection(sec) {
+            if (sec === 'poll') composerState.pollActive = !composerState.pollActive;
+            if (sec === 'lf') composerState.lfActive = !composerState.lfActive;
+            const card = document.getElementById('composer-card');
+            if (card) card.innerHTML = renderComposerHTML();
+        }
+
+        function setComposerLfStatus(status) {
+            composerState.lfStatus = status;
+            const card = document.getElementById('composer-card');
+            if (card) card.innerHTML = renderComposerHTML();
+        }
+
+        function toggleComposerAnonymous() {
+            composerState.anonymous = !composerState.anonymous;
+            const card = document.getElementById('composer-card');
+            if (card) card.innerHTML = renderComposerHTML();
+        }
+
+        function toggleComposerPollMultiple() {
+            composerState.pollMultiple = !composerState.pollMultiple;
+            const card = document.getElementById('composer-card');
+            if (card) card.innerHTML = renderComposerHTML();
+        }
+
+        function addComposerPollOption() {
+            if (composerState.pollOptions.length < 6) {
+                composerState.pollOptions.push("");
+                const card = document.getElementById('composer-card');
+                if (card) card.innerHTML = renderComposerHTML();
+            }
+        }
+
+        function removeComposerPollOption(index) {
+            if (composerState.pollOptions.length > 2) {
+                composerState.pollOptions.splice(index, 1);
+                const card = document.getElementById('composer-card');
+                if (card) card.innerHTML = renderComposerHTML();
+            }
+        }
+
+        function updateComposerPollOption(index, val) {
+            composerState.pollOptions[index] = val;
+        }
+
+        function handleComposerImageUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    composerState.image = e.target.result;
+                    const card = document.getElementById('composer-card');
+                    if (card) card.innerHTML = renderComposerHTML();
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function removeComposerImage() {
+            composerState.image = null;
+            const card = document.getElementById('composer-card');
+            if (card) card.innerHTML = renderComposerHTML();
+        }
+
+        function publishPost() {
+            const titleInput = document.getElementById('composer-title');
+            const bodyInput = document.getElementById('composer-body');
+            const errorElem = document.getElementById('composer-error-text');
+            const publishBtn = document.getElementById('composer-publish-btn');
+
+            const title = titleInput ? titleInput.value.trim() : '';
+            const body = bodyInput ? bodyInput.value.trim() : '';
+
+            // Validation rules
+            if (!composerState.pollActive && !title) {
+                errorElem.textContent = "Add a title.";
+                return;
+            }
+            if (!body && !composerState.image && !composerState.pollActive) {
+                errorElem.textContent = "Add some text or an image.";
+                return;
+            }
+
+            let pollData = null;
+            if (composerState.pollActive) {
+                const qInput = document.getElementById('composer-poll-question');
+                const question = qInput ? qInput.value.trim() : '';
+                if (!question) {
+                    errorElem.textContent = "Add a poll question.";
+                    return;
+                }
+                const validOptions = composerState.pollOptions.map(o => o.trim()).filter(o => o.length > 0);
+                if (validOptions.length < 2) {
+                    errorElem.textContent = "Add at least two poll options.";
+                    return;
+                }
+                pollData = {
+                    question: question,
+                    multiple: composerState.pollMultiple,
+                    options: validOptions.map((opt, i) => ({ id: `opt-${Date.now()}-${i}`, text: opt, votes: 0 })),
+                    userVotedOptionIds: []
+                };
+            }
+
+            let lfData = null;
+            if (composerState.lfActive) {
+                const locInput = document.getElementById('composer-lf-location');
+                const dateInput = document.getElementById('composer-lf-date');
+                lfData = {
+                    status: composerState.lfStatus,
+                    location: locInput ? (locInput.value.trim() || 'Campus') : 'Campus',
+                    date: dateInput ? (dateInput.value.trim() || '28 Oct 2026') : '28 Oct 2026',
+                    resolved: false
+                };
+            }
+
+            errorElem.textContent = "";
+            publishBtn.textContent = "Publishing…";
+            publishBtn.disabled = true;
+
+            setTimeout(() => {
+                const newPost = {
+                    id: `post-${Date.now()}`,
+                    authorId: CURRENT_USER_ID,
+                    anonymous: composerState.anonymous,
+                    timestamp: "Just now",
+                    title: title || null,
+                    body: body,
+                    image: composerState.image,
+                    lostFound: lfData,
+                    poll: pollData,
+                    likes: [],
+                    dislikes: [],
+                    comments: []
+                };
+
+                POSTS.unshift(newPost);
+                collapseComposer();
+                showToast("Post published");
+                renderCurrentPage();
+            }, 600);
+        }
+
+        /* --------------------------------------------------------------------------
+           6. Post Cards Rendering & Feed Items
+           -------------------------------------------------------------------------- */
+        function renderPostsHTML(posts) {
+            if (!posts || posts.length === 0) {
+                return `
+                    <div class="card empty-state">
+                        ${getForestIllustration()}
+                        <div class="empty-state-text">No posts yet. Be the first to share something.</div>
+                    </div>
+                `;
+            }
+
+            return posts.map(post => renderSinglePostCard(post)).join('');
+        }
+
+        function renderSinglePostCard(post) {
+            const author = USERS[post.authorId];
+            const isOwner = (post.authorId === CURRENT_USER_ID);
+            const isLiked = post.likes.includes(CURRENT_USER_ID);
+            const isDisliked = post.dislikes.includes(CURRENT_USER_ID);
+
+            // Badges
+            let statusChip = '';
+            if (post.lostFound) {
+                if (post.lostFound.resolved) {
+                    statusChip = `<span class="status-badge solved">Solved</span>`;
+                } else if (post.lostFound.status === 'Lost') {
+                    statusChip = `<span class="status-badge lost">Lost</span>`;
+                } else {
+                    statusChip = `<span class="status-badge found">Found</span>`;
+                }
+            }
+
+            // Author Header display
+            let authorNameText = post.anonymous ? 'Anonymous' : (author ? author.name : 'BRACU Student');
+            let authorSubline = `${post.timestamp} · ${post.anonymous ? 'Student' : (author ? author.department : 'Campus')}`;
+            if (post.anonymous && isOwner) {
+                authorSubline += ' · only you can see this is yours';
+            }
+
+            return `
+                <article class="card post-card" id="card-${post.id}">
+                    <div class="post-header-row">
+                        <div class="post-author-wrap">
+                            <div onclick="${post.anonymous ? '' : `navigateTo('profile', '${post.authorId}')`}" style="cursor: ${post.anonymous ? 'default' : 'pointer'};">
+                                ${renderAvatar(post.anonymous ? null : author)}
+                            </div>
+                            <div class="author-text">
+                                <button class="author-name-btn" onclick="${post.anonymous ? '' : `navigateTo('profile', '${post.authorId}')`}" style="cursor: ${post.anonymous ? 'default' : 'pointer'};">
+                                    ${authorNameText}
+                                </button>
+                                <span class="post-meta-line">${authorSubline}</span>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            ${statusChip}
+                            ${isOwner ? `
+                                <div style="position: relative;">
+                                    <button class="icon-btn" onclick="togglePostMenu('${post.id}')" aria-label="Post options">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
+                                    </button>
+                                    <div class="post-menu-dropdown" id="post-menu-${post.id}">
+                                        <button class="post-menu-item" onclick="openEditPostDialog('${post.id}')">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                                            Edit post
+                                        </button>
+                                        <button class="post-menu-item danger" onclick="openDeletePostDialog('${post.id}')">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                                            Delete post
+                                        </button>
+                                    </div>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+
+                    ${post.title ? `<h3 class="post-title">${post.title}</h3>` : ''}
+                    ${post.body ? `<div class="post-body">${post.body}</div>` : ''}
+
+                    ${post.lostFound ? `
+                        <div class="post-lf-details">
+                            <span class="post-lf-item">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                                ${post.lostFound.location}
+                            </span>
+                            <span class="post-lf-item">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                ${post.lostFound.date}
+                            </span>
+                        </div>
+                    ` : ''}
+
+                    ${post.image ? `
+                        <div class="post-image-wrap">
+                            <img src="${post.image}" alt="Post image attachment">
+                        </div>
+                    ` : ''}
+
+                    ${post.poll ? renderPollBlock(post) : ''}
+
+                    <!-- Post Action Row -->
+                    <div class="post-action-row">
+                        <div class="post-actions-left">
+                            <button class="post-action-btn ${isLiked ? 'active' : ''}" onclick="toggleLikePost('${post.id}')" aria-label="Like post">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                                <span>${post.likes.length}</span>
+                                <span class="btn-text">${post.likes.length === 1 ? 'Like' : 'Likes'}</span>
+                            </button>
+                            <button class="post-action-btn ${isDisliked ? 'active' : ''}" onclick="toggleDislikePost('${post.id}')" aria-label="Dislike post">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform: rotate(180deg);"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
+                                <span>${post.dislikes.length}</span>
+                            </button>
+                            <button class="post-action-btn" onclick="toggleCommentsSection('${post.id}')" aria-label="View comments">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                                <span>${post.comments.length}</span>
+                                <span class="btn-text">Comments</span>
+                            </button>
+                        </div>
+
+                        ${isOwner && post.lostFound ? `
+                            <label class="switch-wrap">
+                                <span class="btn-text">Mark as solved</span>
+                                <button type="button" role="switch" class="toggle-switch ${post.lostFound.resolved ? 'active' : ''}" aria-checked="${post.lostFound.resolved}" onclick="togglePostSolved('${post.id}')">
+                                    <span class="toggle-knob"></span>
+                                </button>
+                            </label>
+                        ` : ''}
+                    </div>
+
+                    <!-- Comments Section -->
+                    <div class="comments-section" id="comments-${post.id}">
+                        ${post.comments.map(c => {
+                            const cAuthor = USERS[c.authorId];
+                            return `
+                                <div class="comment-item">
+                                    ${renderAvatar(cAuthor, 'sm')}
+                                    <div class="comment-bubble">
+                                        <div class="comment-author-line">
+                                            <span class="comment-author-name">${cAuthor ? cAuthor.name : 'Student'}</span>
+                                            <span class="comment-time">${c.timestamp}</span>
+                                        </div>
+                                        <div>${c.text}</div>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+
+                        <!-- Comment input row -->
+                        <div class="comment-input-row">
+                            ${renderAvatar(USERS[CURRENT_USER_ID], 'sm')}
+                            <input type="text" id="comment-input-${post.id}" placeholder="Write a comment..." onkeydown="if(event.key==='Enter') submitComment('${post.id}')">
+                            <button class="btn btn-primary btn-sm" onclick="submitComment('${post.id}')">Post</button>
+                        </div>
+                    </div>
+                </article>
+            `;
+        }
+
+        /* --------------------------------------------------------------------------
+           7. Polls Voting & Results
+           -------------------------------------------------------------------------- */
+        let pollDraftSelections = {}; // { postId: [optId, ...] } for multiple choice polls before submit
+
+        function renderPollBlock(post) {
+            const poll = post.poll;
+            const hasVoted = poll.userVotedOptionIds && poll.userVotedOptionIds.length > 0;
+            const totalVotes = poll.options.reduce((sum, o) => sum + o.votes, 0);
+
+            if (hasVoted) {
+                // Show Results View
+                return `
+                    <div class="poll-block">
+                        <div class="poll-question-title">${poll.question}</div>
+                        <div class="poll-options-list">
+                            ${poll.options.map(opt => {
+                                const isUserChoice = poll.userVotedOptionIds.includes(opt.id);
+                                const pct = totalVotes > 0 ? Math.round((opt.votes / totalVotes) * 100) : 0;
+                                return `
+                                    <div class="poll-result-row ${isUserChoice ? 'chosen' : ''}">
+                                        <div class="poll-progress-bg" style="width: ${pct}%;"></div>
+                                        <div class="poll-result-text">
+                                            ${isUserChoice ? `
+                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary);"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                            ` : ''}
+                                            <span>${opt.text}</span>
+                                        </div>
+                                        <div class="poll-result-stats">${pct}% · ${opt.votes}</div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                        <div class="poll-result-footer">
+                            You voted · ${totalVotes} ${totalVotes === 1 ? 'vote' : 'votes'}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Voting Interface
+            if (!poll.multiple) {
+                // Single Choice: Click immediately records vote
+                return `
+                    <div class="poll-block">
+                        <div class="poll-question-title">${poll.question}</div>
+                        <div class="poll-options-list">
+                            ${poll.options.map(opt => `
+                                <button class="poll-voting-option-btn" onclick="castPollVoteSingle('${post.id}', '${opt.id}')">
+                                    <span>${opt.text}</span>
+                                </button>
+                            `).join('')}
+                        </div>
+                        <div class="text-muted">Select one choice to vote.</div>
+                    </div>
+                `;
+            }
+
+            // Multiple Choice: Toggle options and submit vote
+            const currentDraft = pollDraftSelections[post.id] || [];
+            return `
+                <div class="poll-block">
+                    <div class="poll-question-title">${poll.question}</div>
+                    <div class="poll-options-list">
+                        ${poll.options.map(opt => {
+                            const isSelected = currentDraft.includes(opt.id);
+                            return `
+                                <button class="poll-voting-option-btn ${isSelected ? 'selected' : ''}" onclick="togglePollDraftOption('${post.id}', '${opt.id}')">
+                                    <span>${opt.text}</span>
+                                    ${isSelected ? `
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                    ` : ''}
+                                </button>
+                            `;
+                        }).join('')}
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 4px;">
+                        <span class="text-muted">Select multiple options</span>
+                        <button class="btn btn-primary btn-sm" onclick="submitPollVoteMultiple('${post.id}')">Submit vote</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function castPollVoteSingle(postId, optionId) {
+            const post = POSTS.find(p => p.id === postId);
+            if (!post || !post.poll) return;
+
+            const opt = post.poll.options.find(o => o.id === optionId);
+            if (opt) {
+                opt.votes += 1;
+                post.poll.userVotedOptionIds = [optionId];
+                showToast("Vote recorded");
+                renderCurrentPage();
+            }
+        }
+
+        function togglePollDraftOption(postId, optionId) {
+            if (!pollDraftSelections[postId]) pollDraftSelections[postId] = [];
+            const list = pollDraftSelections[postId];
+            const idx = list.indexOf(optionId);
+            if (idx > -1) list.splice(idx, 1);
+            else list.push(optionId);
+            renderCurrentPage();
+        }
+
+        function submitPollVoteMultiple(postId) {
+            const post = POSTS.find(p => p.id === postId);
+            if (!post || !post.poll) return;
+
+            const drafted = pollDraftSelections[postId] || [];
+            if (drafted.length === 0) {
+                showToast("Select at least one option");
+                return;
+            }
+
+            drafted.forEach(optId => {
+                const opt = post.poll.options.find(o => o.id === optId);
+                if (opt) opt.votes += 1;
+            });
+
+            post.poll.userVotedOptionIds = drafted;
+            delete pollDraftSelections[postId];
+            showToast("Vote recorded");
+            renderCurrentPage();
+        }
+
+        /* --------------------------------------------------------------------------
+           8. Interactions (Likes, Comments, Solved, Menus)
+           -------------------------------------------------------------------------- */
+        function toggleLikePost(postId) {
+            const post = POSTS.find(p => p.id === postId);
+            if (!post) return;
+
+            const lIndex = post.likes.indexOf(CURRENT_USER_ID);
+            const dIndex = post.dislikes.indexOf(CURRENT_USER_ID);
+
+            if (lIndex > -1) {
+                post.likes.splice(lIndex, 1);
+            } else {
+                post.likes.push(CURRENT_USER_ID);
+                if (dIndex > -1) post.dislikes.splice(dIndex, 1);
+            }
+            renderCurrentPage();
+        }
+
+        function toggleDislikePost(postId) {
+            const post = POSTS.find(p => p.id === postId);
+            if (!post) return;
+
+            const lIndex = post.likes.indexOf(CURRENT_USER_ID);
+            const dIndex = post.dislikes.indexOf(CURRENT_USER_ID);
+
+            if (dIndex > -1) {
+                post.dislikes.splice(dIndex, 1);
+            } else {
+                post.dislikes.push(CURRENT_USER_ID);
+                if (lIndex > -1) post.likes.splice(lIndex, 1);
+            }
+            renderCurrentPage();
+        }
+
+        function toggleCommentsSection(postId) {
+            const sec = document.getElementById(`comments-${postId}`);
+            if (sec) {
+                sec.style.display = (sec.style.display === 'none') ? 'flex' : 'none';
+            }
+        }
+
+        function submitComment(postId) {
+            const input = document.getElementById(`comment-input-${postId}`);
+            if (!input) return;
+
+            const text = input.value.trim();
+            if (!text) {
+                showToast("Write a comment first");
+                return;
+            }
+
+            const post = POSTS.find(p => p.id === postId);
+            if (post) {
+                post.comments.push({
+                    id: `c-${Date.now()}`,
+                    authorId: CURRENT_USER_ID,
+                    timestamp: "Just now",
+                    text: text
+                });
+                showToast("Comment added");
+                renderCurrentPage();
+            }
+        }
+
+        function togglePostSolved(postId) {
+            const post = POSTS.find(p => p.id === postId);
+            if (post && post.lostFound) {
+                post.lostFound.resolved = !post.lostFound.resolved;
+                if (post.lostFound.resolved) {
+                    showToast("Marked as solved");
+                } else {
+                    showToast("Reopened as unresolved");
+                }
+                renderCurrentPage();
+            }
+        }
+
+        function togglePostMenu(postId) {
+            const menu = document.getElementById(`post-menu-${postId}`);
+            if (!menu) return;
+            const isOpen = menu.classList.contains('open');
+            closeAllPostMenus();
+            if (!isOpen) menu.classList.add('open');
+        }
+
+        function closeAllPostMenus() {
+            document.querySelectorAll('.post-menu-dropdown').forEach(m => m.classList.remove('open'));
+        }
+
+        /* --------------------------------------------------------------------------
+           9. Edit & Delete Dialog Logic
+           -------------------------------------------------------------------------- */
+        function openEditPostDialog(postId) {
+            closeAllPostMenus();
+            const post = POSTS.find(p => p.id === postId);
+            if (!post) return;
+
+            editingPostId = postId;
+            document.getElementById('edit-post-title').value = post.title || '';
+            document.getElementById('edit-post-body').value = post.body || '';
+
+            const imgWrap = document.getElementById('edit-image-container');
+            const imgPreview = document.getElementById('edit-image-preview');
+            if (post.image) {
+                imgWrap.style.display = 'block';
+                imgPreview.src = post.image;
+            } else {
+                imgWrap.style.display = 'none';
+                imgPreview.src = '';
+            }
+
+            const lfWrap = document.getElementById('edit-lf-container');
+            if (post.lostFound) {
+                lfWrap.style.display = 'flex';
+                document.getElementById('edit-lf-status').value = post.lostFound.status;
+                document.getElementById('edit-lf-location').value = post.lostFound.location;
+                document.getElementById('edit-lf-date').value = post.lostFound.date;
+            } else {
+                lfWrap.style.display = 'none';
+            }
+
+            const pollWrap = document.getElementById('edit-poll-container');
+            if (post.poll) {
+                pollWrap.style.display = 'flex';
+                document.getElementById('edit-poll-question').value = post.poll.question;
+                const optsBox = document.getElementById('edit-poll-options-box');
+                optsBox.innerHTML = post.poll.options.map((opt, i) => `
+                    <input type="text" class="edit-poll-opt-input" data-opt-id="${opt.id}" value="${opt.text}" placeholder="Option ${i + 1}">
+                `).join('');
+            } else {
+                pollWrap.style.display = 'none';
+            }
+
+            document.getElementById('edit-post-dialog').showModal();
+        }
+
+        function removeEditImage() {
+            const post = POSTS.find(p => p.id === editingPostId);
+            if (post) post.image = null;
+            document.getElementById('edit-image-container').style.display = 'none';
+        }
+
+        function saveEditedPost() {
+            const post = POSTS.find(p => p.id === editingPostId);
+            if (!post) return;
+
+            post.title = document.getElementById('edit-post-title').value.trim() || null;
+            post.body = document.getElementById('edit-post-body').value.trim();
+
+            if (post.lostFound) {
+                post.lostFound.status = document.getElementById('edit-lf-status').value;
+                post.lostFound.location = document.getElementById('edit-lf-location').value.trim() || post.lostFound.location;
+                post.lostFound.date = document.getElementById('edit-lf-date').value.trim() || post.lostFound.date;
+            }
+
+            if (post.poll) {
+                post.poll.question = document.getElementById('edit-poll-question').value.trim() || post.poll.question;
+                document.querySelectorAll('.edit-poll-opt-input').forEach(input => {
+                    const optId = input.getAttribute('data-opt-id');
+                    const opt = post.poll.options.find(o => o.id === optId);
+                    if (opt) opt.text = input.value.trim() || opt.text;
+                });
+            }
+
+            closeDialog('edit-post-dialog');
+            showToast("Post updated");
+            renderCurrentPage();
+        }
+
+        function openDeletePostDialog(postId) {
+            closeAllPostMenus();
+            deletingPostId = postId;
+            document.getElementById('delete-post-dialog').showModal();
+        }
+
+        function confirmDeletePost() {
+            if (deletingPostId) {
+                POSTS = POSTS.filter(p => p.id !== deletingPostId);
+                deletingPostId = null;
+                closeDialog('delete-post-dialog');
+                showToast("Post deleted");
+                renderCurrentPage();
+            }
+        }
+
+        function closeDialog(dialogId) {
+            const d = document.getElementById(dialogId);
+            if (d && d.close) d.close();
+        }
+
+        /* --------------------------------------------------------------------------
+           10. Polls Page
+           -------------------------------------------------------------------------- */
+        function renderPollsPage(container) {
+            const pollPosts = POSTS.filter(p => p.poll !== null);
+            container.innerHTML = `
+                <div style="display: flex; align-items: flex-start; justify-content: space-between;">
+                    <div>
+                        <h1>Polls</h1>
+                        <div class="page-subtitle">Vote and see what students think.</div>
+                    </div>
+                    <button class="btn btn-primary" onclick="openCreatePollInFeed()">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        Create poll
+                    </button>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 24px;">
+                    ${pollPosts.length > 0 ? pollPosts.map(p => renderSinglePostCard(p)).join('') : `
+                        <div class="card empty-state">
+                            ${getForestIllustration()}
+                            <div class="empty-state-text">No polls yet. Create one to ask the community.</div>
+                        </div>
+                    `}
+                </div>
+            `;
+        }
+
+        function openCreatePollInFeed() {
+            navigateTo('home');
+            setTimeout(() => {
+                expandComposer({ poll: true });
+            }, 50);
+        }
+
+        /* --------------------------------------------------------------------------
+           11. Lost & Found Page
+           -------------------------------------------------------------------------- */
+        function renderLostFoundPage(container) {
+            const allLfPosts = POSTS.filter(p => p.lostFound !== null);
+            const unresolvedCount = allLfPosts.filter(p => !p.lostFound.resolved).length;
+            const solvedCount = allLfPosts.filter(p => p.lostFound.resolved).length;
+
+            let filtered = allLfPosts;
+            if (activeLfFilter === 'unresolved') {
+                filtered = allLfPosts.filter(p => !p.lostFound.resolved);
+            } else if (activeLfFilter === 'solved') {
+                filtered = allLfPosts.filter(p => p.lostFound.resolved);
+            }
+
+            container.innerHTML = `
+                <div style="display: flex; align-items: flex-start; justify-content: space-between;">
+                    <div>
+                        <h1>Lost & Found</h1>
+                        <div class="page-subtitle">Help items find their way back to their owners.</div>
+                    </div>
+                    <button class="btn btn-primary" onclick="openReportItemInFeed()">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                        Report an item
+                    </button>
+                </div>
+
+                <!-- Segment Filter Pills -->
+                <div style="display: flex; gap: 8px; margin-bottom: 4px;">
+                    <button class="chip-pill ${activeLfFilter === 'all' ? 'active' : ''}" onclick="setLfFilter('all')">
+                        All (${allLfPosts.length})
+                    </button>
+                    <button class="chip-pill ${activeLfFilter === 'unresolved' ? 'active' : ''}" onclick="setLfFilter('unresolved')">
+                        Unresolved (${unresolvedCount})
+                    </button>
+                    <button class="chip-pill ${activeLfFilter === 'solved' ? 'active' : ''}" onclick="setLfFilter('solved')">
+                        Solved (${solvedCount})
+                    </button>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 24px;">
+                    ${filtered.length > 0 ? filtered.map(p => renderSinglePostCard(p)).join('') : `
+                        <div class="card empty-state">
+                            ${getForestIllustration()}
+                            <div class="empty-state-text">Nothing here yet. Items you report will appear in this list.</div>
+                        </div>
+                    `}
+                </div>
+            `;
+        }
+
+        function setLfFilter(filter) {
+            activeLfFilter = filter;
+            renderCurrentPage();
+        }
+
+        function openReportItemInFeed() {
+            navigateTo('home');
+            setTimeout(() => {
+                expandComposer({ lostFound: true });
+            }, 50);
+        }
+
+        /* --------------------------------------------------------------------------
+           12. User Profile Page
+           -------------------------------------------------------------------------- */
+        function renderProfilePage(container, userId) {
+            const user = USERS[userId] || USERS[CURRENT_USER_ID];
+            const isMe = (user.id === CURRENT_USER_ID);
+
+            // Filter user non-anonymous posts
+            const userPosts = POSTS.filter(p => p.authorId === user.id && !p.anonymous);
+
+            container.innerHTML = `
+                <!-- Profile Header Card -->
+                <div class="card">
+                    <div class="profile-card-header">
+                        ${renderAvatar(user, 'lg')}
+                        <div class="profile-card-details">
+                            <div class="profile-display-name">
+                                ${user.name}
+                                ${isMe ? '<span class="text-muted" style="font-size: 16px; font-weight: 400;">(you)</span>' : ''}
+                            </div>
+                            <div class="profile-meta-line">
+                                @${user.username} · ${user.department} · ID ${user.studentId}
+                            </div>
+                            <div class="profile-bio">${user.bio}</div>
+                            ${!isMe ? `
+                                <button class="btn btn-primary" onclick="openChatWithUser('${user.id}')">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                                    Message
+                                </button>
+                            ` : ''}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- User Posts Section -->
+                <div>
+                    <h2>${isMe ? 'Your posts' : `${user.name}’s posts`}</h2>
+                    <div class="page-subtitle">Public contributions and announcements.</div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 24px;">
+                    ${userPosts.length > 0 ? userPosts.map(p => renderSinglePostCard(p)).join('') : `
+                        <div class="card empty-state">
+                            ${getForestIllustration()}
+                            <div class="empty-state-text">No public posts yet.</div>
+                        </div>
+                    `}
+                </div>
+            `;
+        }
+
+        /* --------------------------------------------------------------------------
+           13. Messages / Chat Page (Two-pane desktop, adaptive mobile)
+           -------------------------------------------------------------------------- */
+        let mobileChatThreadVisible = false;
+
+        function renderMessagesPage(container) {
+            const activeUser = USERS[activeChatUserId] || USERS['nusrat'];
+            const activeConv = CONVERSATIONS.find(c => c.userId === activeUser.id);
+            const messages = activeConv ? activeConv.messages : [];
+
+            container.innerHTML = `
+                <div>
+                    <h1>Messages</h1>
+                    <div class="page-subtitle">Chat with other students.</div>
+                </div>
+
+                <div class="card chat-container-card">
+                    <!-- Left Pane: Conversation List (300px) -->
+                    <div class="chat-left-pane ${mobileChatThreadVisible ? 'mobile-hidden' : ''}">
+                        <div class="chat-left-header">Conversations</div>
+                        <ul class="conversation-list" role="list">
+                            ${CONVERSATIONS.map(conv => {
+                                const u = USERS[conv.userId];
+                                if (!u) return '';
+                                const lastMsg = conv.messages[conv.messages.length - 1];
+                                const isSelected = (conv.userId === activeUser.id);
+                                return `
+                                    <li class="conversation-row ${isSelected ? 'active' : ''}" onclick="selectConversation('${conv.userId}')">
+                                        ${renderAvatar(u, 'sm')}
+                                        <div class="conversation-details">
+                                            <div class="conversation-name-row">
+                                                <span class="conversation-name">${u.name}</span>
+                                                <span class="conversation-time">${lastMsg ? lastMsg.time : ''}</span>
+                                            </div>
+                                            <div class="conversation-preview">${lastMsg ? lastMsg.text : 'Say hello.'}</div>
+                                        </div>
+                                        ${conv.unread > 0 ? `<span class="nav-badge">${conv.unread}</span>` : ''}
+                                    </li>
+                                `;
+                            }).join('')}
+                        </ul>
+                    </div>
+
+                    <!-- Right Pane: Thread View -->
+                    <div class="chat-right-pane ${!mobileChatThreadVisible ? 'mobile-hidden' : ''}">
+                        <div class="chat-thread-header">
+                            <div class="thread-user-info">
+                                <button class="icon-btn mobile-back-chat-btn" style="display: none; width: 32px; height: 32px;" onclick="closeMobileChatThread()" aria-label="Back to conversations">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                                </button>
+                                ${renderAvatar(activeUser, 'sm')}
+                                <div>
+                                    <div style="font-weight: 600; font-size: 15px;">${activeUser.name}</div>
+                                    <div class="thread-status ${activeUser.online ? 'online' : ''}">${activeUser.online ? 'Online' : 'Offline'}</div>
+                                </div>
+                            </div>
+                            <button class="btn btn-secondary btn-sm" onclick="navigateTo('profile', '${activeUser.id}')">View profile</button>
+                        </div>
+
+                        <!-- Thread Messages -->
+                        <div class="chat-messages-area" id="chat-messages-scroll">
+                            ${messages.length === 0 ? `
+                                <div class="empty-state" style="margin: auto;">
+                                    ${getForestIllustration()}
+                                    <div class="empty-state-text">No messages yet. Say hello.</div>
+                                </div>
+                            ` : messages.map(m => {
+                                const isMine = (m.senderId === CURRENT_USER_ID);
+                                return `
+                                    <div class="message-bubble-row ${isMine ? 'sent' : 'received'}">
+                                        <div class="msg-bubble">${m.text}</div>
+                                        <span class="msg-time">${m.time}</span>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+
+                        <!-- Footer Input -->
+                        <div class="chat-input-bar">
+                            <input type="text" id="chat-send-input" placeholder="Type a message..." onkeydown="if(event.key==='Enter') sendChatMessage()">
+                            <button class="btn btn-primary" onclick="sendChatMessage()" aria-label="Send message">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                                <span class="btn-text">Send</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Scroll to bottom of message thread
+            const scrollArea = document.getElementById('chat-messages-scroll');
+            if (scrollArea) scrollArea.scrollTop = scrollArea.scrollHeight;
+        }
+
+        function selectConversation(userId) {
+            activeChatUserId = userId;
+            mobileChatThreadVisible = true;
+
+            const conv = CONVERSATIONS.find(c => c.userId === userId);
+            if (conv && conv.unread > 0) {
+                conv.unread = 0;
+                updateHeaderBadges();
+            }
+
+            renderCurrentPage();
+        }
+
+        function closeMobileChatThread() {
+            mobileChatThreadVisible = false;
+            renderCurrentPage();
+        }
+
+        function openChatWithUser(userId) {
+            let conv = CONVERSATIONS.find(c => c.userId === userId);
+            if (!conv) {
+                conv = {
+                    userId: userId,
+                    unread: 0,
+                    messages: []
+                };
+                CONVERSATIONS.unshift(conv);
+            }
+            activeChatUserId = userId;
+            mobileChatThreadVisible = true;
+            navigateTo('messages');
+        }
+
+        function sendChatMessage() {
+            const input = document.getElementById('chat-send-input');
+            if (!input) return;
+
+            const text = input.value.trim();
+            if (!text) return;
+            input.value = '';
+
+            let conv = CONVERSATIONS.find(c => c.userId === activeChatUserId);
+            if (!conv) {
+                conv = { userId: activeChatUserId, unread: 0, messages: [] };
+                CONVERSATIONS.unshift(conv);
+            }
+
+            // Move to top of conversations list
+            const convIdx = CONVERSATIONS.indexOf(conv);
+            if (convIdx > 0) {
+                CONVERSATIONS.splice(convIdx, 1);
+                CONVERSATIONS.unshift(conv);
+            }
+
+            conv.messages.push({
+                id: `m-${Date.now()}`,
+                senderId: CURRENT_USER_ID,
+                text: text,
+                time: "Just now"
+            });
+
+            renderCurrentPage();
+
+            // Simulated response from peer student after ~1.4 seconds
+            const peerId = activeChatUserId;
+            setTimeout(() => {
+                const replies = [
+                    "Sounds great! Thanks for letting me know.",
+                    "Got it! Let's follow up on that tomorrow.",
+                    "Understood. See you around campus!",
+                    "Appreciate the update! Let's stay in touch."
+                ];
+                const replyText = replies[Math.floor(Math.random() * replies.length)];
+
+                const targetConv = CONVERSATIONS.find(c => c.userId === peerId);
+                if (targetConv) {
+                    targetConv.messages.push({
+                        id: `m-${Date.now()}`,
+                        senderId: peerId,
+                        text: replyText,
+                        time: "Just now"
+                    });
+
+                    // If not currently viewing that thread, increment unread badge
+                    if (currentPage !== 'messages' || activeChatUserId !== peerId) {
+                        targetConv.unread += 1;
+                        showToast(`New message from ${USERS[peerId].name}`);
+                        
+                        // Add notification
+                        NOTIFICATIONS.unshift({
+                            id: `n-${Date.now()}`,
+                            type: "user",
+                            authorId: peerId,
+                            text: "sent you a message",
+                            time: "Just now",
+                            unread: true
+                        });
+                        updateHeaderBadges();
+                    }
+
+                    if (currentPage === 'messages') {
+                        renderCurrentPage();
+                    }
+                }
+            }, 1400);
+        }
+
+        /* --------------------------------------------------------------------------
+           14. Events & Calendar Page
+           -------------------------------------------------------------------------- */
+        function renderEventsPage(container) {
+            const curMonth = calendarNavDate.toLocaleString('default', { month: 'long', year: 'numeric' });
+
+            container.innerHTML = `
+                <div class="events-page-header">
+                    <div>
+                        <h1>Events & Calendar</h1>
+                        <div class="page-subtitle">Plan ahead with the campus event board.</div>
+                    </div>
+                    <button class="btn btn-primary" onclick="openCreateEventDialog()">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        Create event
+                    </button>
+                </div>
+
+                <!-- Calendar Card -->
+                <div class="card">
+                    <div class="calendar-nav-bar">
+                        <div class="cal-nav-left">
+                            <h2 style="font-size: 18px;">${calendarViewMode === 'month' ? curMonth : 'Week View'}</h2>
+                            <div class="segmented-controls">
+                                <button class="segment-btn ${calendarViewMode === 'month' ? 'active' : ''}" onclick="setCalendarView('month')">Month</button>
+                                <button class="segment-btn ${calendarViewMode === 'week' ? 'active' : ''}" onclick="setCalendarView('week')">Week</button>
+                            </div>
+                        </div>
+                        <div class="cal-nav-controls">
+                            <button class="icon-btn" onclick="navCalendarPrev()" aria-label="Previous">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                            </button>
+                            <button class="btn btn-secondary btn-sm" onclick="navCalendarToday()">Today</button>
+                            <button class="icon-btn" onclick="navCalendarNext()" aria-label="Next">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    ${calendarViewMode === 'month' ? renderMonthGridHTML() : renderWeekGridHTML()}
+                </div>
+
+                <!-- Upcoming Events Card -->
+                <div class="card">
+                    <h2 style="margin-bottom: 16px;">All upcoming events</h2>
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        ${EVENTS.length > 0 ? EVENTS.map(ev => {
+                            const d = new Date(ev.date + 'T00:00:00');
+                            const dayNum = d.getDate();
+                            const monthAbbr = d.toLocaleString('default', { month: 'short' });
+                            return `
+                                <div class="event-row-compact" onclick="openEventDetails('${ev.id}')">
+                                    <div class="date-block-48">
+                                        <span class="day-num">${dayNum}</span>
+                                        <span class="month-abbr">${monthAbbr}</span>
+                                    </div>
+                                    <div class="event-compact-info">
+                                        <div class="event-compact-title">${ev.title}</div>
+                                        <div class="text-muted">${ev.time} · ${ev.location}</div>
+                                    </div>
+                                    <span class="text-muted">${ev.date}</span>
+                                </div>
+                            `;
+                        }).join('') : `
+                            <div class="empty-state">
+                                ${getForestIllustration()}
+                                <div class="empty-state-text">No upcoming events. Create one to get started.</div>
+                            </div>
+                        `}
+                    </div>
+                </div>
+            `;
+        }
+
+        function setCalendarView(mode) {
+            calendarViewMode = mode;
+            renderCurrentPage();
+        }
+
+        function navCalendarPrev() {
+            if (calendarViewMode === 'month') {
+                calendarNavDate.setMonth(calendarNavDate.getMonth() - 1);
+            } else {
+                calendarNavDate.setDate(calendarNavDate.getDate() - 7);
+            }
+            renderCurrentPage();
+        }
+
+        function navCalendarNext() {
+            if (calendarViewMode === 'month') {
+                calendarNavDate.setMonth(calendarNavDate.getMonth() + 1);
+            } else {
+                calendarNavDate.setDate(calendarNavDate.getDate() + 7);
+            }
+            renderCurrentPage();
+        }
+
+        function navCalendarToday() {
+            calendarNavDate = new Date(2026, 9, 28);
+            calendarSelectedDate = '2026-10-28';
+            renderCurrentPage();
+        }
+
+        function renderMonthGridHTML() {
+            const year = calendarNavDate.getFullYear();
+            const month = calendarNavDate.getMonth();
+            const firstDay = new Date(year, month, 1);
+            const startWeekday = (firstDay.getDay() + 6) % 7; // Mon = 0
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+            const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+            let html = `<div class="calendar-month-grid">`;
+            weekdays.forEach(wd => {
+                html += `<div class="cal-header-cell">${wd}</div>`;
+            });
+
+            // Blank cells for days before month starts
+            for (let i = 0; i < startWeekday; i++) {
+                html += `<div class="cal-day-cell other-month"></div>`;
+            }
+
+            // Days of the month
+            for (let d = 1; d <= daysInMonth; d++) {
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+                const isToday = (dateStr === CURRENT_DATE_STR);
+                const isSelected = (dateStr === calendarSelectedDate);
+
+                // Find events on this day
+                const dayEvents = EVENTS.filter(e => e.date === dateStr);
+
+                html += `
+                    <div class="cal-day-cell ${isToday ? 'today' : ''} ${isSelected ? 'selected' : ''}" onclick="handleCalendarDateClick('${dateStr}')">
+                        <div class="cal-day-cell-top">
+                            <span class="cal-day-number">${d}</span>
+                        </div>
+                        ${dayEvents.map(ev => `
+                            <div class="cal-event-chip" onclick="event.stopPropagation(); openEventDetails('${ev.id}')" title="${ev.title}">
+                                ${ev.title}
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            // Fill tail cells to keep clean grid
+            const totalCells = startWeekday + daysInMonth;
+            const remaining = (7 - (totalCells % 7)) % 7;
+            for (let i = 0; i < remaining; i++) {
+                html += `<div class="cal-day-cell other-month"></div>`;
+            }
+
+            html += `</div>`;
+            return html;
+        }
+
+        function renderWeekGridHTML() {
+            // Find Monday of the current week
+            const curr = new Date(calendarNavDate);
+            const day = (curr.getDay() + 6) % 7;
+            const monday = new Date(curr);
+            monday.setDate(curr.getDate() - day);
+
+            const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+            let html = `<div class="calendar-week-grid">`;
+
+            for (let i = 0; i < 7; i++) {
+                const d = new Date(monday);
+                d.setDate(monday.getDate() + i);
+                const dateStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+                const isToday = (dateStr === CURRENT_DATE_STR);
+                const dayEvents = EVENTS.filter(e => e.date === dateStr);
+
+                html += `
+                    <div class="cal-week-col">
+                        <div class="cal-week-col-header ${isToday ? 'today' : ''}">
+                            <div class="weekday-label">${weekdays[i]}</div>
+                            <div style="font-weight: 700; ${isToday ? 'color: var(--primary);' : ''}">${d.getDate()}</div>
+                        </div>
+                        <div class="cal-week-col-body" onclick="handleCalendarDateClick('${dateStr}')">
+                            ${dayEvents.map(ev => `
+                                <div class="cal-event-chip" onclick="event.stopPropagation(); openEventDetails('${ev.id}')">
+                                    <strong>${ev.time}</strong> ${ev.title}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            html += `</div>`;
+            return html;
+        }
+
+        function handleCalendarDateClick(dateStr) {
+            calendarSelectedDate = dateStr;
+            openCreateEventDialog(dateStr);
+        }
+
+        function openCreateEventDialog(prefilledDate = null) {
+            document.getElementById('event-input-title').value = '';
+            document.getElementById('event-input-date').value = prefilledDate || calendarSelectedDate || CURRENT_DATE_STR;
+            document.getElementById('event-input-time').value = '10:00';
+            document.getElementById('event-input-location').value = '';
+            document.getElementById('event-input-details').value = '';
+            document.getElementById('event-error-msg').style.display = 'none';
+            document.getElementById('create-event-dialog').showModal();
+        }
+
+        function submitNewEvent() {
+            const title = document.getElementById('event-input-title').value.trim();
+            const date = document.getElementById('event-input-date').value;
+            const time = document.getElementById('event-input-time').value || '10:00';
+            const location = document.getElementById('event-input-location').value.trim() || 'Campus';
+            const details = document.getElementById('event-input-details').value.trim();
+
+            if (!title || !date) {
+                document.getElementById('event-error-msg').style.display = 'block';
+                return;
+            }
+
+            EVENTS.push({
+                id: `ev-${Date.now()}`,
+                title: title,
+                date: date,
+                time: time,
+                location: location,
+                details: details || "No further details yet."
+            });
+
+            // Sort events by date
+            EVENTS.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+            closeDialog('create-event-dialog');
+            showToast("Event added");
+            renderCurrentPage();
+            renderSidebarComponents();
+        }
+
+        function openEventDetails(eventId) {
+            const ev = EVENTS.find(e => e.id === eventId);
+            if (!ev) return;
+
+            document.getElementById('ev-detail-title').textContent = ev.title;
+            document.getElementById('ev-detail-date').textContent = ev.date;
+            document.getElementById('ev-detail-time').textContent = ev.time;
+            document.getElementById('ev-detail-loc').textContent = ev.location;
+            document.getElementById('ev-detail-desc').textContent = ev.details || "No further details yet.";
+
+            document.getElementById('event-details-dialog').showModal();
+        }
+
+        /* --------------------------------------------------------------------------
+           15. Right Sidebar Components
+           -------------------------------------------------------------------------- */
+        function renderSidebarComponents() {
+            // 1. Upcoming Events (Next 3 events from today onward)
+            const upcomingContainer = document.getElementById('sidebar-upcoming-events');
+            if (upcomingContainer) {
+                const upcoming = EVENTS.filter(e => e.date >= CURRENT_DATE_STR).slice(0, 3);
+                if (upcoming.length === 0) {
+                    upcomingContainer.innerHTML = `<div class="text-muted" style="padding: 12px 0;">No upcoming events.</div>`;
+                } else {
+                    upcomingContainer.innerHTML = upcoming.map(ev => {
+                        const d = new Date(ev.date + 'T00:00:00');
+                        return `
+                            <div class="event-row-compact" onclick="openEventDetails('${ev.id}')">
+                                <div class="date-block-48">
+                                    <span class="day-num">${d.getDate()}</span>
+                                    <span class="month-abbr">${d.toLocaleString('default', { month: 'short' })}</span>
+                                </div>
+                                <div class="event-compact-info">
+                                    <div class="event-compact-title">${ev.title}</div>
+                                    <div class="text-muted">${ev.time} · ${ev.location}</div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                }
+            }
+
+            // 2. Compact Calendar Preview
+            const calGrid = document.getElementById('sidebar-calendar-grid');
+            if (calGrid) {
+                const year = 2026;
+                const month = 9; // Oct
+                const firstDay = new Date(year, month, 1);
+                const startWeekday = (firstDay.getDay() + 6) % 7;
+                const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+                const headers = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+                let html = headers.map(h => `<div class="cal-preview-day-header">${h}</div>`).join('');
+
+                for (let i = 0; i < startWeekday; i++) {
+                    html += `<div class="cal-preview-cell empty"></div>`;
+                }
+
+                for (let d = 1; d <= daysInMonth; d++) {
+                    const dateStr = `2026-10-${String(d).padStart(2, '0')}`;
+                    const hasEv = EVENTS.some(e => e.date === dateStr);
+                    const isToday = (dateStr === CURRENT_DATE_STR);
+
+                    html += `
+                        <div class="cal-preview-cell ${hasEv ? 'has-event' : ''} ${isToday ? 'today' : ''}" onclick="navigateTo('events'); calendarSelectedDate='${dateStr}';">
+                            ${d}
+                        </div>
+                    `;
+                }
+                calGrid.innerHTML = html;
+            }
+
+            // 3. Online Now List
+            const onlineContainer = document.getElementById('sidebar-online-list');
+            if (onlineContainer) {
+                const onlineUsers = Object.values(USERS).filter(u => u.online && u.id !== CURRENT_USER_ID);
+                onlineContainer.innerHTML = onlineUsers.map(u => `
+                    <div class="online-row" onclick="openChatWithUser('${u.id}')">
+                        <div class="online-row-left">
+                            ${renderAvatar(u, 'sm')}
+                            <span class="online-name">${u.name}</span>
+                        </div>
+                        <div class="online-dot" aria-label="Online"></div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        /* --------------------------------------------------------------------------
+           16. Header Search & Popovers
+           -------------------------------------------------------------------------- */
+        const searchInput = document.getElementById('global-search-input');
+        const searchResultsBox = document.getElementById('search-results-box');
+
+        if (searchInput) {
+            searchInput.addEventListener('input', function(e) {
+                const query = e.target.value.trim().toLowerCase().replace(/^@/, '');
+                if (!query) {
+                    searchResultsBox.style.display = 'none';
+                    return;
+                }
+
+                const matches = Object.values(USERS).filter(u => {
+                    return u.name.toLowerCase().includes(query) || u.username.toLowerCase().includes(query);
+                });
+
+                if (matches.length === 0) {
+                    searchResultsBox.innerHTML = `<div style="padding: 14px; text-align: center;" class="text-muted">No students match your search.</div>`;
+                } else {
+                    searchResultsBox.innerHTML = matches.map(u => `
+                        <div class="search-result-row" onclick="navigateTo('profile', '${u.id}'); closeSearchResults();">
+                            ${renderAvatar(u, 'sm')}
+                            <div>
+                                <div style="font-weight: 600; font-size: 14px;">${u.name}</div>
+                                <div class="text-muted">@${u.username} · ${u.department}</div>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+                searchResultsBox.style.display = 'block';
+            });
+
+            searchInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    const firstMatch = searchResultsBox.querySelector('.search-result-row');
+                    if (firstMatch) firstMatch.click();
+                }
+            });
+        }
+
+        function closeSearchResults() {
+            if (searchResultsBox) {
+                searchResultsBox.style.display = 'none';
+                if (searchInput) searchInput.value = '';
+            }
+        }
+
+        // Popovers
+        function togglePopover(popoverId) {
+            const p = document.getElementById(popoverId);
+            if (!p) return;
+            const isOpen = p.classList.contains('open');
+            closeAllPopovers();
+            if (!isOpen) {
+                p.classList.add('open');
+                if (popoverId === 'notif-popover') renderNotificationsList();
+            }
+        }
+
+        function closeAllPopovers() {
+            document.querySelectorAll('.popover-menu').forEach(m => m.classList.remove('open'));
+        }
+
+        function renderNotificationsList() {
+            const box = document.getElementById('notif-list-container');
+            if (!box) return;
+
+            if (NOTIFICATIONS.length === 0) {
+                box.innerHTML = `<div class="empty-state" style="padding: 24px;"><div class="empty-state-text">No notifications yet.</div></div>`;
+                return;
+            }
+
+            box.innerHTML = NOTIFICATIONS.map(n => {
+                const author = USERS[n.authorId];
+                return `
+                    <div class="notification-item ${n.unread ? 'unread' : ''}" onclick="markNotificationRead('${n.id}')">
+                        ${n.unread ? '<div class="unread-dot"></div>' : ''}
+                        ${n.type === 'system' ? `
+                            <div class="avatar sm" style="background-color: var(--primary);">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                            </div>
+                        ` : renderAvatar(author, 'sm')}
+                        <div class="notification-content">
+                            <div><strong>${n.type === 'system' ? n.title : (author ? author.name : 'Someone')}</strong> ${n.text}</div>
+                            <div class="text-muted" style="margin-top: 2px;">${n.time}</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function markNotificationRead(notifId) {
+            const n = NOTIFICATIONS.find(item => item.id === notifId);
+            if (n) {
+                n.unread = false;
+                updateHeaderBadges();
+                renderNotificationsList();
+            }
+        }
+
+        function markAllNotificationsAsRead() {
+            NOTIFICATIONS.forEach(n => n.unread = false);
+            updateHeaderBadges();
+            renderNotificationsList();
+        }
+
+        function updateHeaderBadges() {
+            const unreadNotifs = NOTIFICATIONS.filter(n => n.unread).length;
+            const notifBadge = document.getElementById('header-notif-badge');
+            if (notifBadge) {
+                notifBadge.textContent = unreadNotifs;
+                notifBadge.style.display = unreadNotifs > 0 ? 'flex' : 'none';
+            }
+
+            const totalUnreadMessages = CONVERSATIONS.reduce((sum, c) => sum + (c.unread || 0), 0);
+            const msgNavBadge = document.getElementById('nav-unread-count');
+            if (msgNavBadge) {
+                msgNavBadge.textContent = totalUnreadMessages;
+                msgNavBadge.style.display = totalUnreadMessages > 0 ? 'inline-block' : 'none';
+            }
+        }
+
+        /* --------------------------------------------------------------------------
+           17. Toast Component & Global Click Listeners
+           -------------------------------------------------------------------------- */
+        let toastTimeout = null;
+
+        function showToast(message) {
+            const toast = document.getElementById('toast-message');
+            if (!toast) return;
+
+            toast.textContent = message;
+            toast.style.display = 'block';
+
+            if (toastTimeout) clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.style.display = 'none';
+            }, 2400);
+        }
+
+        // Close popovers, search dropdowns, post menus when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.header-search')) {
+                closeSearchResults();
+            }
+            if (!e.target.closest('.header-right')) {
+                closeAllPopovers();
+            }
+            if (!e.target.closest('.post-menu-dropdown') && !e.target.closest('[aria-label="Post options"]')) {
+                closeAllPostMenus();
+            }
+        });
+
+        // Initialize application on load
+        window.addEventListener('DOMContentLoaded', () => {
+            updateHeaderBadges();
+            renderCurrentPage();
+            renderSidebarComponents();
+        });
+    </script>
+</body>
+</html>

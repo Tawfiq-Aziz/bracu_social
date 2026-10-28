@@ -2,353 +2,231 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="C:\Program Files\php\bracu_social\resources\css\app.css">
-    <title>SIGN Up - COSMO CONNECT</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Register - BRACU Social</title>
+    <!-- Nunito Sans: one font family only across the entire site -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,400;0,6..12,600;0,6..12,700;1,6..12,400;1,6..12,600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-page: #F5F3EA;
+            --surface-card: #FFFFFF;
+            --text-primary: #30352D;
+            --text-secondary: #646A60;
+            --border: #E5E5DA;
+            --bg-hover: #F5F3EA;
+            --header-bg: #91A77C;
+            --primary: #526747;
+            --primary-hover: #435639;
+            --radius-card: 10px;
+            --radius-ctrl: 8px;
+            --shadow-card: 0 1px 2px rgba(48,53,45,.06);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-page: #1A1D17;
+                --surface-card: #23271F;
+                --text-primary: #E8E8DD;
+                --text-secondary: #A4A99A;
+                --border: #34382E;
+                --bg-hover: #2C3025;
+                --header-bg: #3A4A33;
+                --primary: #91A77C;
+                --primary-hover: #A0B68B;
+                --shadow-card: none;
+            }
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: none !important;
+            animation: none !important;
+        }
+
+        body {
+            font-family: 'Nunito Sans', system-ui, Arial, sans-serif;
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--bg-page);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 24px 16px;
+        }
+
+        .auth-container {
+            width: 100%;
+            max-width: 440px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .auth-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 8px;
+        }
+
+        .logo-box {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background-color: var(--primary);
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 4px;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .auth-subtitle {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .auth-card {
+            background-color: var(--surface-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-card);
+            box-shadow: var(--shadow-card);
+            padding: 32px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        input {
+            font-family: 'Nunito Sans', system-ui, Arial, sans-serif;
+            font-size: 15px;
+            color: var(--text-primary);
+            background-color: var(--surface-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-ctrl);
+            padding: 10px 14px;
+            width: 100%;
+        }
+
+        input:focus {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+            border-color: var(--primary);
+        }
+
+        .btn-submit {
+            font-family: 'Nunito Sans', system-ui, Arial, sans-serif;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 16px;
+            border-radius: var(--radius-ctrl);
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            background-color: var(--primary);
+            color: #FFFFFF;
+            border: 1px solid transparent;
+            width: 100%;
+            margin-top: 8px;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .auth-footer {
+            text-align: center;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .auth-footer a {
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .auth-footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
-<style>
-:root {
-    --primary-color: #6366f1;
-    --primary-dark: #4f46e5;
-    --secondary-color: #8b5cf6;
-    --accent-color: #06b6d4;
-    --success-color: #10b981;
-    --warning-color: #f59e0b;
-    --danger-color: #ef4444;
-    --text-primary: #ffffff;
-    --text-secondary: #e2e8f0;
-    --text-muted: #94a3b8;
-    --bg-primary: rgba(15, 23, 42, 0.95);
-    --bg-secondary: rgba(30, 41, 59, 0.8);
-    --bg-card: rgba(51, 65, 85, 0.6);
-    --border-color: rgba(148, 163, 184, 0.2);
-    --shadow-light: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    --shadow-medium: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-    --shadow-heavy: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-    --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    --gradient-space: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-}
-
-/* Reset and Base Styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: var(--bg-primary);
-    color: var(--text-primary);
-    line-height: 1.6;
-    overflow-x: hidden;
-    position: relative;
-    max-width: 100vw;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    padding: 20px;
-}
-
-/* Stunning Space Background */
-body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: 
-        radial-gradient(2px 2px at 20px 30px, #eee, transparent),
-        radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
-        radial-gradient(1px 1px at 90px 40px, #fff, transparent),
-        radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.6), transparent),
-        radial-gradient(2px 2px at 160px 30px, #ddd, transparent),
-        linear-gradient(45deg, #0f172a 0%, #1e293b 25%, #334155 50%, #475569 75%, #64748b 100%);
-    background-size: 200px 200px, 300px 300px, 150px 150px, 250px 250px, 180px 180px, 100% 100%;
-    animation: space-float 20s ease-in-out infinite;
-    z-index: -1;
-}
-
-/* Floating Particles */
-body::after {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: 
-        radial-gradient(1px 1px at 25% 25%, rgba(255,255,255,0.8), transparent),
-        radial-gradient(1px 1px at 75% 75%, rgba(255,255,255,0.6), transparent),
-        radial-gradient(1px 1px at 50% 10%, rgba(255,255,255,0.4), transparent),
-        radial-gradient(1px 1px at 10% 50%, rgba(255,255,255,0.3), transparent),
-        radial-gradient(1px 1px at 90% 20%, rgba(255,255,255,0.5), transparent);
-    background-size: 400px 400px, 300px 300px, 500px 500px, 600px 600px, 350px 350px;
-    animation: particle-float 30s linear infinite;
-    z-index: -1;
-    opacity: 0.6;
-}
-
-@keyframes particle-float {
-    0% { transform: translateY(0px) rotate(0deg); }
-    100% { transform: translateY(-100px) rotate(360deg); }
-}
-
-@keyframes space-float {
-    0%, 100% { transform: translateY(0px) rotate(0deg); }
-    50% { transform: translateY(-20px) rotate(1deg); }
-}
-
-/* Main Title */
-h1 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 3rem;
-    font-weight: 800;
-    background: var(--gradient-space);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-shadow: 0 0 30px rgba(99, 102, 241, 0.5);
-    letter-spacing: -0.02em;
-    position: relative;
-    animation: titleGlow 3s ease-in-out infinite alternate;
-    margin-bottom: 10px;
-    text-align: center;
-}
-
-@keyframes titleGlow {
-    0% {
-        filter: drop-shadow(0 0 20px rgba(99, 102, 241, 0.3));
-    }
-    100% {
-        filter: drop-shadow(0 0 30px rgba(99, 102, 241, 0.6));
-    }
-}
-
-h2 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: var(--text-secondary);
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-/* Register Form */
-.register-form {
-    background: var(--bg-card);
-    backdrop-filter: blur(20px);
-    border: 1px solid var(--border-color);
-    border-radius: 20px;
-    padding: 30px;
-    width: 100%;
-    max-width: 400px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    box-shadow: var(--shadow-medium);
-    position: relative;
-    overflow: hidden;
-    transition: all 0.3s ease;
-}
-
-.register-form:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-heavy);
-    border-color: rgba(99, 102, 241, 0.4);
-}
-
-.register-form::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: var(--gradient-primary);
-}
-
-.register-form input {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    padding: 15px 20px;
-    color: var(--text-primary);
-    font-size: 1rem;
-    width: 100%;
-    box-sizing: border-box;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
-}
-
-.register-form input::placeholder {
-    color: var(--text-muted);
-}
-
-.register-form input:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-    background: rgba(255, 255, 255, 0.15);
-    transform: translateY(-1px);
-}
-
-.register-form button {
-    background: var(--gradient-primary);
-    color: var(--text-primary);
-    border: none;
-    padding: 15px 20px;
-    border-radius: 12px;
-    cursor: pointer;
-    font-size: 1rem;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    box-shadow: var(--shadow-light);
-}
-
-.register-form button:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-medium);
-}
-
-.register-form button::before {
-    content: '🚀';
-    font-size: 1.1em;
-}
-
-.login-link {
-    margin-top: 25px;
-    text-align: center;
-    background: var(--bg-card);
-    backdrop-filter: blur(20px);
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
-    padding: 20px;
-    box-shadow: var(--shadow-light);
-}
-
-.login-link p {
-    margin: 0;
-    font-size: 1rem;
-    color: var(--text-secondary);
-}
-
-.login-link a {
-    color: var(--primary-color);
-    text-decoration: none;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    position: relative;
-}
-
-.login-link a::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: -2px;
-    left: 0;
-    background: var(--gradient-primary);
-    transition: width 0.3s ease;
-}
-
-.login-link a:hover::after {
-    width: 100%;
-}
-
-.login-link a:hover {
-    color: var(--text-primary);
-    transform: translateY(-1px);
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    body {
-        padding: 15px;
-    }
-    
-    h1 {
-        font-size: 2.5rem;
-    }
-    
-    .register-form {
-        padding: 25px;
-        max-width: 100%;
-    }
-}
-
-@media (max-width: 480px) {
-    h1 {
-        font-size: 2rem;
-    }
-    
-    .register-form {
-        padding: 20px;
-    }
-}
-
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-    width: 8px;
-}
-
-::-webkit-scrollbar-track {
-    background: var(--bg-primary);
-}
-
-::-webkit-scrollbar-thumb {
-    background: var(--primary-color);
-    border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: var(--primary-dark);
-}
-
-/* Focus States for Accessibility */
-button:focus,
-input:focus {
-    outline: 2px solid var(--primary-color);
-    outline-offset: 2px;
-}
-
-/* Selection Styling */
-::selection {
-    background: var(--primary-color);
-    color: white;
-}
-
-::-moz-selection {
-    background: var(--primary-color);
-    color: white;
-}
-</style>
 <body>
-    <h1>COSMO CONNECT</h1>
-    <h2>Register</h2>
-    <form action="/register" method="POST" class="register-form">
-        @csrf
-        <input type="text" name="name" placeholder="Name" required>
-        <input type="email" name="email" placeholder="Email" required>
-        <input type="text" name="department" placeholder="Department (Minimum length 3)" required>
-        
-        <input type="text" name="student_id" placeholder="Student ID (Minimum length 8)" required>
-        <input type="password" name="password" placeholder="Password (Minimum length 5)" required>
+    <div class="auth-container">
+        <div class="auth-header">
+            <div class="logo-box">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+            </div>
+            <h1>BRACU Social</h1>
+            <div class="auth-subtitle">Join your university community today.</div>
+        </div>
 
-        <button type="submit">Register</button>
-    </form>
-    
-    <div class="login-link">
-        <p>Already have an account? <a href="/login">Login here</a></p>
+        <div class="auth-card">
+            <h2 style="font-size: 18px; font-weight: 600;">Create an account</h2>
+
+            <form action="/register" method="POST" style="display: flex; flex-direction: column; gap: 16px;">
+                @csrf
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" name="name" id="name" placeholder="e.g. Rafi Ahmed" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">G.Suite / Campus Email</label>
+                    <input type="email" name="email" id="email" placeholder="name@g.bracu.ac.bd" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="department">Department</label>
+                    <input type="text" name="department" id="department" placeholder="e.g. CSE, BBA, EEE, ARC" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="student_id">Student ID</label>
+                    <input type="text" name="student_id" id="student_id" placeholder="8-digit student ID" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" placeholder="Minimum 5 characters" required>
+                </div>
+
+                <button type="submit" class="btn-submit">Register</button>
+            </form>
+        </div>
+
+        <div class="auth-footer">
+            Already have an account? <a href="/login">Login here</a>
+        </div>
     </div>
 </body>
 </html>
