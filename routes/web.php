@@ -8,6 +8,7 @@ use App\Http\Controllers\InteractionController;
 use App\Http\Controllers\PollController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\SocialAuthController;
 
 Route::get('/', function () {
     return view('home');
@@ -36,6 +37,10 @@ Route::get('/dashboard', function () {
 });
 
 
+
+// Google OAuth routes
+Route::get('/auth/google', [SocialAuthController::class, 'redirectToGoogle']);
+Route::get('/auth/google/callback', [SocialAuthController::class, 'handleGoogleCallback']);
 
 Route::get('/logout', function () {
     auth()->logout();
